@@ -80,3 +80,9 @@ __recovery/
 
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
 modules/
+
+MCSDLUI.dbg
+
+backup/
+
+lib/x86_64-win64/
