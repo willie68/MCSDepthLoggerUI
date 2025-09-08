@@ -11,6 +11,8 @@
       <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True"/>
+        <TextName Value="MCS.MCSDepthLogger.UI"/>
+        <TextDesc Value="THis is the application for managing the mcs depth hardware logger "/>
       </XPManifest>
       <Icon Value="0"/>
     </General>
@@ -53,6 +55,7 @@
         <Filename Value="main.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
