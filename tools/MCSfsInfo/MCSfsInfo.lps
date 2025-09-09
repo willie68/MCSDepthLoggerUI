@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units Count="2">
+      <Unit0>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="15"/>
+        <CursorPos Y="36"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="C:\e-platte\sprachen\lazarus\fpc\3.2.2\source\packages\winunits-base\src\activex.pp"/>
+        <UnitName Value="ActiveX"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="3279"/>
+        <CursorPos X="17" Y="3301"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit1>
+    </Units>
+    <JumpHistory Count="10" HistoryIndex="9">
+      <Position1>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret TopLine="43"/>
+      </Position1>
+      <Position2>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="75" Column="39" TopLine="54"/>
+      </Position2>
+      <Position3>
+        <Filename Value="C:\e-platte\sprachen\lazarus\fpc\3.2.2\source\packages\winunits-base\src\activex.pp"/>
+        <Caret Line="3301" Column="17" TopLine="3279"/>
+      </Position3>
+      <Position4>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="75" Column="37" TopLine="54"/>
+      </Position4>
+      <Position5>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="54" Column="18" TopLine="62"/>
+      </Position5>
+      <Position6>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="76" Column="42" TopLine="47"/>
+      </Position6>
+      <Position7>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="54" Column="20" TopLine="41"/>
+      </Position7>
+      <Position8>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="72" Column="27" TopLine="48"/>
+      </Position8>
+      <Position9>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="34" Column="22" TopLine="57"/>
+      </Position9>
+      <Position10>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="78" Column="39" TopLine="56"/>
+      </Position10>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode="default"/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

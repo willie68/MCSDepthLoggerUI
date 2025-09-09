@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="1">
+      <Unit0>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="MCSfsInfo"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="65"/>
+        <CursorPos X="9" Y="89"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="8" HistoryIndex="7">
+      <Position1>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="36" Column="3" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="58" Column="1" TopLine="36"/>
+      </Position2>
+      <Position3>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="81" Column="7" TopLine="55"/>
+      </Position3>
+      <Position4>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="29" Column="1" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="9" Column="30" TopLine="6"/>
+      </Position5>
+      <Position6>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="76" Column="39" TopLine="45"/>
+      </Position6>
+      <Position7>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="80" Column="51" TopLine="51"/>
+      </Position7>
+      <Position8>
+        <Filename Value="MCSfsInfo.lpr"/>
+        <Caret Line="85" Column="1" TopLine="71"/>
+      </Position8>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

@@ -43,6 +43,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="lazMapViewerPkg"/>
+      </Item>
+      <Item>
         <PackageName Value="LCL"/>
       </Item>
     </RequiredPackages>
@@ -57,6 +60,21 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="upreferences.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmPreferences"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uPreferences"/>
+      </Unit>
+      <Unit>
+        <Filename Value="unit1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form2"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit1"/>
       </Unit>
     </Units>
   </ProjectOptions>

@@ -10,7 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, main;
+  Forms, main, uPreferences;
 
 {$R *.res}
 
@@ -22,6 +22,7 @@ begin
   {$POP}
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfrmPreferences, frmPreferences);
   Application.Run;
 end.
 

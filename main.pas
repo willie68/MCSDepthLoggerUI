@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
-  ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons,
+  ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons,  mvMapViewer,
   Grids;
 
 type
@@ -36,6 +36,7 @@ type
     cbAutoAnalyse: TCheckBox;
     cbRootDrives: TComboBox;
     actExit: TFileExit;
+    cbProvider: TComboBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     actHelp: THelpAction;
@@ -78,6 +79,7 @@ type
     Timer1: TTimer;
     ToolBar1: TToolBar;
     ToolBar2: TToolBar;
+    ToolBar3: TToolBar;
     ToolButton1: TToolButton;
     ToolButton10: TToolButton;
     ToolButton11: TToolButton;
@@ -97,6 +99,8 @@ type
     ToolButton24: TToolButton;
     ToolButton25: TToolButton;
     ToolButton26: TToolButton;
+    tbtnZoomIn: TToolButton;
+    tbtnZoomOut: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
     ToolButton6: TToolButton;
@@ -105,13 +109,20 @@ type
     ToolButton9: TToolButton;
     TrayIcon1: TTrayIcon;
     TreeView1: TTreeView;
+    procedure actPreferencesExecute(Sender: TObject);
+    procedure cbProviderChange(Sender: TObject);
     procedure cbRootDrivesGetItems(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actHelpExecute(Sender: TObject);
+    procedure JSONPropStorage1RestoringProperties(Sender: TObject);
+    procedure JSONPropStorage1SavingProperties(Sender: TObject);
+    procedure tbtnZoomOutClick(Sender: TObject);
     procedure ToolBar1Resize(Sender: TObject);
     procedure ToolBar2Resize(Sender: TObject);
+    procedure tbtnZoomInClick(Sender: TObject);
   private
-
+    MapViewer1 : TMapView;
   public
 
   end;
@@ -121,7 +132,7 @@ var
 
 implementation
 
-uses fileinfo;
+uses fileinfo, uPreferences;
   {$R *.lfm}
 
   { TForm1 }
@@ -131,6 +142,9 @@ var
   configDir: string;
   Title: string;
   FileVerInfo: TFileVersionInfo;
+  Map : string;
+  provider : TStringList;
+  i : integer;
 begin
   configDir := GetAppConfigDir(False);
   if not DirectoryExists(configDir) then
@@ -147,6 +161,20 @@ begin
   finally
     FileVerInfo.Free;
   end;
+
+  MapViewer1 := TMapView.Create(Panel3);
+  MapViewer1.Parent :=Panel3;
+  MapViewer1.Align:=alClient;
+  provider := TStringList.Create();
+  MapViewer1.GetMapProviders(provider);
+  cbProvider.Items.Clear();
+  for i := 0 to provider.Count-1 do begin
+    cbProvider.Items.Add(provider.Strings[i]);
+  end;
+  map := provider.Strings[0];
+
+  MapViewer1.MapProvider:=map;
+  provider.Free();
 end;
 
 procedure TForm1.cbRootDrivesGetItems(Sender: TObject);
@@ -165,9 +193,46 @@ begin
   end;
 end;
 
+procedure TForm1.FormActivate(Sender: TObject);
+begin
+  MapViewer1.Active := true;
+end;
+
+procedure TForm1.cbProviderChange(Sender: TObject);
+begin
+  MapViewer1.MapProvider := cbProvider.Text;
+  MapViewer1.Active:= true;
+end;
+
+procedure TForm1.actPreferencesExecute(Sender: TObject);
+var appData : string;
+  mr : integer;
+begin
+  appData := GetAppConfigDir(True);
+  frmPreferences.AppData := JSONPropStorage1.ReadString('trackstorepath', appData);
+
+  mr := frmPreferences.ShowModal();
+  if mr = mrOK then begin
+    JSONPropStorage1.WriteString('trackstorepath', frmPreferences.AppData);
+  end;
+end;
+
 procedure TForm1.actHelpExecute(Sender: TObject);
 begin
   ShowMessage('Keine Hilfe vorhanden');
+end;
+
+procedure TForm1.JSONPropStorage1RestoringProperties(Sender: TObject);
+var mapProvider : string;
+begin
+  mapProvider:= JSONPropStorage1.DoReadString('map', 'mapprovider', '');;
+  MapViewer1.MapProvider := mapProvider;
+  cbProvider.Text:=  mapProvider;
+end;
+
+procedure TForm1.JSONPropStorage1SavingProperties(Sender: TObject);
+begin
+  JSONPropStorage1.DoWriteString('map', 'mapprovider', MapViewer1.MapProvider);
 end;
 
 procedure TForm1.ToolBar1Resize(Sender: TObject);
@@ -191,6 +256,17 @@ begin
   end;
   Panel6.Width:= w;
 end;
+
+procedure TForm1.tbtnZoomInClick(Sender: TObject);
+begin
+  MapViewer1.Zoom := MapViewer1.Zoom + 1;
+end;
+
+procedure TForm1.tbtnZoomOutClick(Sender: TObject);
+begin
+  MapViewer1.Zoom := MapViewer1.Zoom - 1;
+end;
+
 
 
 end.
