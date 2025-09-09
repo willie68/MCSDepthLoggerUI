@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
-  ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons,  mvMapViewer,
+  ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
   Grids;
 
 type
@@ -122,7 +122,7 @@ type
     procedure ToolBar2Resize(Sender: TObject);
     procedure tbtnZoomInClick(Sender: TObject);
   private
-    MapViewer1 : TMapView;
+    MapViewer1: TMapView;
   public
 
   end;
@@ -142,9 +142,9 @@ var
   configDir: string;
   Title: string;
   FileVerInfo: TFileVersionInfo;
-  Map : string;
-  provider : TStringList;
-  i : integer;
+  Map: string;
+  provider: TStringList;
+  i: integer;
 begin
   configDir := GetAppConfigDir(False);
   if not DirectoryExists(configDir) then
@@ -163,18 +163,19 @@ begin
   end;
 
   MapViewer1 := TMapView.Create(Panel3);
-  MapViewer1.Parent :=Panel3;
-  MapViewer1.Align:=alClient;
+  MapViewer1.Parent := Panel3;
+  MapViewer1.Align := alClient;
   provider := TStringList.Create();
   MapViewer1.GetMapProviders(provider);
   cbProvider.Items.Clear();
-  for i := 0 to provider.Count-1 do begin
-    cbProvider.Items.Add(provider.Strings[i]);
+  for i := 0 to Provider.Count - 1 do
+  begin
+    cbProvider.Items.Add(Provider.Strings[i]);
   end;
-  map := provider.Strings[0];
+  map := Provider.Strings[0];
 
-  MapViewer1.MapProvider:=map;
-  provider.Free();
+  MapViewer1.MapProvider := map;
+  Provider.Free();
 end;
 
 procedure TForm1.cbRootDrivesGetItems(Sender: TObject);
@@ -195,25 +196,35 @@ end;
 
 procedure TForm1.FormActivate(Sender: TObject);
 begin
-  MapViewer1.Active := true;
+  MapViewer1.Active := True;
 end;
 
 procedure TForm1.cbProviderChange(Sender: TObject);
 begin
   MapViewer1.MapProvider := cbProvider.Text;
-  MapViewer1.Active:= true;
+  MapViewer1.Active := True;
 end;
 
 procedure TForm1.actPreferencesExecute(Sender: TObject);
-var appData : string;
-  mr : integer;
+var
+  appData: string;
+  mr: integer;
 begin
   appData := GetAppConfigDir(True);
-  frmPreferences.AppData := JSONPropStorage1.ReadString('trackstorepath', appData);
+  frmPreferences.AppData := JSONPropStorage1.ReadString('track.storepath', appData);
+  frmPreferences.URL := JSONPropStorage1.ReadString('upload.url', '');
+  frmPreferences.Username := JSONPropStorage1.ReadString('upload.username', '');
+  frmPreferences.Password := JSONPropStorage1.ReadString('upload.password', '');
+  frmPreferences.Bootloader := JSONPropStorage1.ReadInteger('logger.bootloader', 1);
 
   mr := frmPreferences.ShowModal();
-  if mr = mrOK then begin
-    JSONPropStorage1.WriteString('trackstorepath', frmPreferences.AppData);
+  if mr = mrOk then
+  begin
+    JSONPropStorage1.WriteString('track.storepath', frmPreferences.AppData);
+    JSONPropStorage1.WriteString('upload.url', frmPreferences.URL);
+    JSONPropStorage1.WriteString('upload.username', frmPreferences.Username);
+    JSONPropStorage1.WriteString('upload.password', frmPreferences.Password);
+    JSONPropStorage1.WriteInteger('logger.bootloader', frmPreferences.Bootloader);
   end;
 end;
 
@@ -223,38 +234,43 @@ begin
 end;
 
 procedure TForm1.JSONPropStorage1RestoringProperties(Sender: TObject);
-var mapProvider : string;
+var
+  mapProvider: string;
 begin
-  mapProvider:= JSONPropStorage1.DoReadString('map', 'mapprovider', '');;
+  mapProvider := JSONPropStorage1.ReadString('map.mapprovider', '');
   MapViewer1.MapProvider := mapProvider;
-  cbProvider.Text:=  mapProvider;
+  cbProvider.Text := mapProvider;
 end;
 
 procedure TForm1.JSONPropStorage1SavingProperties(Sender: TObject);
 begin
-  JSONPropStorage1.DoWriteString('map', 'mapprovider', MapViewer1.MapProvider);
+  JSONPropStorage1.WriteString('map.mapprovider', MapViewer1.MapProvider);
 end;
 
 procedure TForm1.ToolBar1Resize(Sender: TObject);
-var w : longint;
-    i : integer;
+var
+  w: longint;
+  i: integer;
 begin
   w := ToolBar1.ClientWidth - 1;
-  for i := 0 to ToolBar1.ButtonCount -1 do begin
-      w := w - ToolBar1.Buttons[i].Width;
+  for i := 0 to ToolBar1.ButtonCount - 1 do
+  begin
+    w := w - ToolBar1.Buttons[i].Width;
   end;
-  Panel7.Width:= w;
+  Panel7.Width := w;
 end;
 
 procedure TForm1.ToolBar2Resize(Sender: TObject);
-var w : longint;
-    i : integer;
+var
+  w: longint;
+  i: integer;
 begin
   w := ToolBar2.ClientWidth - Label3.Width - 1;
-  for i := 0 to ToolBar2.ButtonCount -1 do begin
-      w := w - ToolBar2.Buttons[i].Width;
+  for i := 0 to ToolBar2.ButtonCount - 1 do
+  begin
+    w := w - ToolBar2.Buttons[i].Width;
   end;
-  Panel6.Width:= w;
+  Panel6.Width := w;
 end;
 
 procedure TForm1.tbtnZoomInClick(Sender: TObject);
