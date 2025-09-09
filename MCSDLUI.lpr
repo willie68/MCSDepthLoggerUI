@@ -10,7 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, lazcontrols, main, uPreferences, ulogger, uloggerconfig;
+  Forms, lazcontrols, main, uPreferences, ulogger, uloggerconfig, MCSAbout;
 
 {$R *.res}
 
@@ -21,9 +21,13 @@ begin
   Application.MainFormOnTaskbar:=True;
   {$POP}
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmPreferences, frmPreferences);
   Application.CreateForm(TfrmLoggerConfig, frmLoggerConfig);
+  Infobox.AppTitel:= 'MCS Depth Logger UI';
+  Infobox.AppID:= 64;
+  Infobox.CopyRight:= '(C) MCS 2025';
+
   Application.Run;
 end.
 

@@ -11,15 +11,17 @@ uses
 
 type
 
-  { TForm1 }
+  { TfrmMain }
 
-  TForm1 = class(TForm)
+  TfrmMain = class(TForm)
     actAnalyse: TAction;
     actConfig: TAction;
     actImport: TAction;
     actAdd2Track: TAction;
     actExport: TAction;
     actAbout: TAction;
+    acZoomIn: TAction;
+    acZoomOut: TAction;
     actTrackEdit: TAction;
     actTrackDelete: TAction;
     actTracksReload: TAction;
@@ -46,6 +48,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     MainMenu1: TMainMenu;
+    MapView1: TMapView;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
@@ -54,6 +57,8 @@ type
     MenuItem14: TMenuItem;
     MenuItem15: TMenuItem;
     MenuItem16: TMenuItem;
+    MenuItem17: TMenuItem;
+    MenuItem18: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -63,23 +68,25 @@ type
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
     Panel1: TPanel;
-    Panel2: TPanel;
-    Panel3: TPanel;
-    Panel4: TPanel;
-    Panel5: TPanel;
+    pCenter: TPanel;
+    pLeft: TPanel;
+    pRight: TPanel;
+    pTop: TPanel;
+    pBottom: TPanel;
     Panel6: TPanel;
     Panel7: TPanel;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
-    Splitter1: TSplitter;
-    Splitter2: TSplitter;
-    Splitter3: TSplitter;
-    StatusBar1: TStatusBar;
+    Separator3: TMenuItem;
+    spLEft: TSplitter;
+    spRight: TSplitter;
+    spHorizontal: TSplitter;
+    StatusBar: TStatusBar;
     StringGrid1: TStringGrid;
     Timer1: TTimer;
-    ToolBar1: TToolBar;
-    ToolBar2: TToolBar;
-    ToolBar3: TToolBar;
+    tbMain: TToolBar;
+    tbTracks: TToolBar;
+    tbMap: TToolBar;
     ToolButton1: TToolButton;
     ToolButton10: TToolButton;
     ToolButton11: TToolButton;
@@ -111,7 +118,8 @@ type
     TreeView1: TTreeView;
     procedure actConfigExecute(Sender: TObject);
     procedure actPreferencesExecute(Sender: TObject);
-    procedure actUpdateExecute(Sender: TObject);
+    procedure acZoomInExecute(Sender: TObject);
+    procedure acZoomOutExecute(Sender: TObject);
     procedure cbProviderChange(Sender: TObject);
     procedure cbRootDrivesGetItems(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -119,27 +127,26 @@ type
     procedure actHelpExecute(Sender: TObject);
     procedure JSONPropStorage1RestoringProperties(Sender: TObject);
     procedure JSONPropStorage1SavingProperties(Sender: TObject);
-    procedure tbtnZoomOutClick(Sender: TObject);
-    procedure ToolBar1Resize(Sender: TObject);
-    procedure ToolBar2Resize(Sender: TObject);
-    procedure tbtnZoomInClick(Sender: TObject);
+    procedure tbMainResize(Sender: TObject);
+    procedure tbMapResize(Sender: TObject);
+    procedure tbTracksResize(Sender: TObject);
   private
-    MapViewer1: TMapView;
+    //MapView1: TMapView;
   public
 
   end;
 
 var
-  Form1: TForm1;
+  frmMain: TfrmMain;
 
 implementation
 
-uses fileinfo, uPreferences, ulogger, uloggerconfig;
+uses fileinfo, uPreferences, ulogger, uloggerconfig, MCSAbout;
   {$R *.lfm}
 
-  { TForm1 }
+  { TfrmMain }
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TfrmMain.FormCreate(Sender: TObject);
 var
   configDir: string;
   Title: string;
@@ -159,16 +166,16 @@ begin
   try
     FileVerInfo.ReadFileInfo;
     Title := 'MCS Logger UI V' + FileVerInfo.VersionStrings.Values['FileVersion'];
-    form1.Caption := Title;
+    frmMain.Caption := Title;
   finally
     FileVerInfo.Free;
   end;
 
-  MapViewer1 := TMapView.Create(Panel3);
-  MapViewer1.Parent := Panel3;
-  MapViewer1.Align := alClient;
+  //  MapView1 := TMapView.Create(pRight);
+  //  MapView1.Parent := pRight;
+  MapView1.Align := alClient;
   provider := TStringList.Create();
-  MapViewer1.GetMapProviders(provider);
+  MapView1.GetMapProviders(provider);
   cbProvider.Items.Clear();
   for i := 0 to Provider.Count - 1 do
   begin
@@ -176,11 +183,11 @@ begin
   end;
   map := Provider.Strings[0];
 
-  MapViewer1.MapProvider := map;
+  MapView1.MapProvider := map;
   Provider.Free();
 end;
 
-procedure TForm1.cbRootDrivesGetItems(Sender: TObject);
+procedure TfrmMain.cbRootDrivesGetItems(Sender: TObject);
 var
   i: integer;
   driveRoot: string;
@@ -196,18 +203,21 @@ begin
   end;
 end;
 
-procedure TForm1.FormActivate(Sender: TObject);
+procedure TfrmMain.FormActivate(Sender: TObject);
 begin
-  MapViewer1.Active := True;
+  MapView1.MapProvider := cbProvider.Text;
+  if not (cbProvider.Text = '') then
+    MapView1.Active := True;
 end;
 
-procedure TForm1.cbProviderChange(Sender: TObject);
+procedure TfrmMain.cbProviderChange(Sender: TObject);
 begin
-  MapViewer1.MapProvider := cbProvider.Text;
-  MapViewer1.Active := True;
+  MapView1.MapProvider := cbProvider.Text;
+  if not (cbProvider.Text = '') then
+    MapView1.Active := True;
 end;
 
-procedure TForm1.actPreferencesExecute(Sender: TObject);
+procedure TfrmMain.actPreferencesExecute(Sender: TObject);
 var
   appData: string;
   mr: integer;
@@ -230,88 +240,95 @@ begin
   end;
 end;
 
-procedure TForm1.actConfigExecute(Sender: TObject);
-var lgConfig : TLoggerConfig;
-  cfg : TLoggerParameter;
+procedure TfrmMain.actConfigExecute(Sender: TObject);
+var
+  lgConfig: TLoggerConfig;
+  cfg: TLoggerParameter;
   mr: integer;
 begin
   mr := frmLoggerConfig.ShowModal();
 
-  lgConfig:= TLoggerConfig.Create();
+  lgConfig := TLoggerConfig.Create();
   try
-     cfg.VesselID:= 1234;
-     cfg.WriteGyro:= true;
-     cfg.WriteSupply:= false;
-     cfg.baudA:= ConvertBaudrate('2400');
-     cfg.baudB:= ConvertBaudrate('4800');
-     cfg.SeaTalk:= true;
-     lgConfig.Config := cfg;
-     lgConfig.Write('H:\privat\git-sourcen\MCSDepthLoggerUI\testdata\config.dat');
+    cfg.VesselID := 1234;
+    cfg.WriteGyro := True;
+    cfg.WriteSupply := False;
+    cfg.baudA := ConvertBaudrate('2400');
+    cfg.baudB := ConvertBaudrate('4800');
+    cfg.SeaTalk := True;
+    lgConfig.Config := cfg;
+    lgConfig.Write('H:\privat\git-sourcen\MCSDepthLoggerUI\testdata\config.dat');
   finally
     lgConfig.Free;
   end;
 end;
 
-procedure TForm1.actUpdateExecute(Sender: TObject);
+procedure TfrmMain.acZoomInExecute(Sender: TObject);
 begin
-
+  MapView1.Zoom := MapView1.Zoom + 1;
 end;
 
-procedure TForm1.actHelpExecute(Sender: TObject);
+procedure TfrmMain.acZoomOutExecute(Sender: TObject);
+begin
+  MapView1.Zoom := MapView1.Zoom - 1;
+end;
+
+procedure TfrmMain.actHelpExecute(Sender: TObject);
 begin
   ShowMessage('Keine Hilfe vorhanden');
 end;
 
-procedure TForm1.JSONPropStorage1RestoringProperties(Sender: TObject);
+procedure TfrmMain.JSONPropStorage1RestoringProperties(Sender: TObject);
 var
   mapProvider: string;
 begin
   mapProvider := JSONPropStorage1.ReadString('map.mapprovider', '');
-  MapViewer1.MapProvider := mapProvider;
+  MapView1.MapProvider := mapProvider;
   cbProvider.Text := mapProvider;
 end;
 
-procedure TForm1.JSONPropStorage1SavingProperties(Sender: TObject);
+procedure TfrmMain.JSONPropStorage1SavingProperties(Sender: TObject);
 begin
-  JSONPropStorage1.WriteString('map.mapprovider', MapViewer1.MapProvider);
+  JSONPropStorage1.WriteString('map.mapprovider', MapView1.MapProvider);
 end;
 
-procedure TForm1.ToolBar1Resize(Sender: TObject);
+procedure TfrmMain.tbMainResize(Sender: TObject);
 var
   w: longint;
   i: integer;
 begin
-  w := ToolBar1.ClientWidth - 1;
-  for i := 0 to ToolBar1.ButtonCount - 1 do
+  w := tbMain.ClientWidth - 1;
+  for i := 0 to tbMain.ButtonCount - 1 do
   begin
-    w := w - ToolBar1.Buttons[i].Width;
+    w := w - tbMain.Buttons[i].Width;
   end;
   Panel7.Width := w;
 end;
 
-procedure TForm1.ToolBar2Resize(Sender: TObject);
+procedure TfrmMain.tbMapResize(Sender: TObject);
 var
   w: longint;
   i: integer;
 begin
-  w := ToolBar2.ClientWidth - Label3.Width - 1;
-  for i := 0 to ToolBar2.ButtonCount - 1 do
+  w := tbMap.ClientWidth - cbProvider.ClientWidth - 16;
+  for i := 0 to tbMap.ButtonCount - 1 do
   begin
-    w := w - ToolBar2.Buttons[i].Width;
+    w := w - tbMap.Buttons[i].Width;
+  end;
+  Panel1.Width := w;
+end;
+
+procedure TfrmMain.tbTracksResize(Sender: TObject);
+var
+  w: longint;
+  i: integer;
+begin
+  w := tbTracks.ClientWidth - Label3.Width - 16;
+  for i := 0 to tbTracks.ButtonCount - 1 do
+  begin
+    w := w - tbTracks.Buttons[i].Width;
   end;
   Panel6.Width := w;
 end;
-
-procedure TForm1.tbtnZoomInClick(Sender: TObject);
-begin
-  MapViewer1.Zoom := MapViewer1.Zoom + 1;
-end;
-
-procedure TForm1.tbtnZoomOutClick(Sender: TObject);
-begin
-  MapViewer1.Zoom := MapViewer1.Zoom - 1;
-end;
-
-
 
 end.

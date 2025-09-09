@@ -1,30 +1,30 @@
 object frmPreferences: TfrmPreferences
   Left = 604
-  Height = 712
+  Height = 407
   Top = 42
-  Width = 883
+  Width = 505
   Caption = 'Einstellungen'
-  ClientHeight = 712
-  ClientWidth = 883
-  DesignTimePPI = 168
+  ClientHeight = 407
+  ClientWidth = 505
   Position = poMainFormCenter
   OnHide = FormHide
   OnShow = FormShow
   object Panel1: TPanel
     Left = 0
-    Height = 256
+    Height = 146
     Top = 0
-    Width = 883
+    Width = 505
     Align = alTop
     Caption = 'Panel1'
-    ClientHeight = 256
-    ClientWidth = 883
+    ClientHeight = 146
+    ClientWidth = 505
     TabOrder = 0
     object Image1: TImage
-      Left = 8
-      Height = 240
-      Top = 8
-      Width = 320
+      Left = 5
+      Height = 131
+      Top = 5
+      Width = 179
+      Anchors = [akTop, akLeft, akRight, akBottom]
       AutoSize = True
       Picture.Data = {
         07544269746D617036840300424D368403000000000036000000280000004001
@@ -7231,32 +7231,33 @@ object frmPreferences: TfrmPreferences
         7DCC957DCC957DCC957DCB8671BD7A60B8694FAE5B34A5431A8E2E0A882C0A6D
         260C
       }
+      Proportional = True
     end
     object Label2: TLabel
-      Left = 344
-      Height = 30
-      Top = 8
-      Width = 221
+      Left = 195
+      Height = 15
+      Top = 5
+      Width = 128
       Anchors = [akTop, akRight]
-      BorderSpacing.Around = 4
-      BorderSpacing.InnerBorder = 4
+      BorderSpacing.Around = 2
+      BorderSpacing.InnerBorder = 2
       Caption = 'Programmeinstellungen'
     end
   end
   object Panel2: TPanel
     Left = 0
-    Height = 88
-    Top = 624
-    Width = 883
+    Height = 50
+    Top = 357
+    Width = 505
     Align = alBottom
-    ClientHeight = 88
-    ClientWidth = 883
+    ClientHeight = 50
+    ClientWidth = 505
     TabOrder = 1
     object BitBtn1: TBitBtn
-      Left = 556
-      Height = 53
-      Top = 16
-      Width = 150
+      Left = 318
+      Height = 30
+      Top = 9
+      Width = 86
       Anchors = [akTop, akRight]
       Default = True
       DefaultCaption = True
@@ -7265,10 +7266,10 @@ object frmPreferences: TfrmPreferences
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 714
-      Height = 53
-      Top = 16
-      Width = 150
+      Left = 408
+      Height = 30
+      Top = 9
+      Width = 86
       Anchors = [akTop, akRight]
       Cancel = True
       Caption = 'Abbrechen'
@@ -7279,87 +7280,87 @@ object frmPreferences: TfrmPreferences
   end
   object PageControl1: TPageControl
     Left = 0
-    Height = 368
-    Top = 256
-    Width = 883
-    ActivePage = TabSheet3
+    Height = 211
+    Top = 146
+    Width = 505
+    ActivePage = TabSheet1
     Align = alClient
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Allgemein'
-      ClientHeight = 325
-      ClientWidth = 875
+      ClientHeight = 183
+      ClientWidth = 497
       object deDatafolder: TDirectoryEdit
-        Left = 208
-        Height = 38
-        Top = 30
-        Width = 650
+        Left = 116
+        Height = 23
+        Top = 17
+        Width = 371
         ShowHidden = False
-        ButtonWidth = 40
+        ButtonWidth = 23
         NumGlyphs = 1
         Anchors = [akTop, akRight]
         MaxLength = 0
         TabOrder = 0
       end
       object Label1: TLabel
-        Left = 16
-        Height = 30
-        Top = 32
-        Width = 172
+        Left = 9
+        Height = 15
+        Top = 18
+        Width = 97
         Caption = 'Datenverzeichniss:'
         FocusControl = deDatafolder
       end
     end
     object TabSheet2: TTabSheet
       Caption = 'Upload'
-      ClientHeight = 325
-      ClientWidth = 875
+      ClientHeight = 183
+      ClientWidth = 497
       object Label3: TLabel
-        Left = 16
-        Height = 30
-        Top = 16
-        Width = 109
+        Left = 9
+        Height = 15
+        Top = 9
+        Width = 62
         Caption = 'Upload URL'
         FocusControl = edtURL
       end
       object Label4: TLabel
-        Left = 16
-        Height = 30
-        Top = 66
-        Width = 134
+        Left = 9
+        Height = 15
+        Top = 38
+        Width = 76
         Caption = 'Benutzername'
         FocusControl = edtUsername
       end
       object Label5: TLabel
-        Left = 16
-        Height = 30
-        Top = 116
-        Width = 81
+        Left = 9
+        Height = 15
+        Top = 66
+        Width = 47
         Caption = 'Passwort'
       end
       object edtURL: TEdit
-        Left = 180
-        Height = 38
-        Top = 16
-        Width = 600
+        Left = 103
+        Height = 23
+        Top = 9
+        Width = 340
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 0
       end
       object edtUsername: TEdit
-        Left = 180
-        Height = 38
-        Top = 64
-        Width = 600
+        Left = 103
+        Height = 23
+        Top = 37
+        Width = 340
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 1
       end
       object edtPassword: TEditButton
-        Left = 180
-        Height = 38
-        Top = 116
-        Width = 600
-        ButtonWidth = 40
+        Left = 103
+        Height = 23
+        Top = 66
+        Width = 343
+        ButtonWidth = 23
         EchoMode = emPassword
         Images = Form1.ImageList
         ImageIndex = 49
@@ -7372,13 +7373,13 @@ object frmPreferences: TfrmPreferences
     end
     object TabSheet3: TTabSheet
       Caption = 'Logger'
-      ClientHeight = 325
-      ClientWidth = 875
+      ClientHeight = 183
+      ClientWidth = 497
       object rgBootloader: TRadioGroup
-        Left = 16
-        Height = 112
-        Top = 16
-        Width = 448
+        Left = 9
+        Height = 64
+        Top = 9
+        Width = 256
         AutoFill = True
         Caption = 'Bootloader'
         ChildSizing.LeftRightSpacing = 6
@@ -7388,8 +7389,8 @@ object frmPreferences: TfrmPreferences
         ChildSizing.ShrinkVertical = crsScaleChilds
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 1
-        ClientHeight = 77
-        ClientWidth = 444
+        ClientHeight = 44
+        ClientWidth = 252
         Items.Strings = (
           'Version 1 (nur FAT16)'
           'Version 2 (FAT16, FAT32)'
@@ -7399,7 +7400,7 @@ object frmPreferences: TfrmPreferences
     end
   end
   object ImageList1: TImageList
-    Left = 448
-    Top = 96
+    Left = 256
+    Top = 55
   end
 end
