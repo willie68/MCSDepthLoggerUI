@@ -109,7 +109,9 @@ type
     ToolButton9: TToolButton;
     TrayIcon1: TTrayIcon;
     TreeView1: TTreeView;
+    procedure actConfigExecute(Sender: TObject);
     procedure actPreferencesExecute(Sender: TObject);
+    procedure actUpdateExecute(Sender: TObject);
     procedure cbProviderChange(Sender: TObject);
     procedure cbRootDrivesGetItems(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -132,7 +134,7 @@ var
 
 implementation
 
-uses fileinfo, uPreferences;
+uses fileinfo, uPreferences, ulogger, uloggerconfig;
   {$R *.lfm}
 
   { TForm1 }
@@ -226,6 +228,33 @@ begin
     JSONPropStorage1.WriteString('upload.password', frmPreferences.Password);
     JSONPropStorage1.WriteInteger('logger.bootloader', frmPreferences.Bootloader);
   end;
+end;
+
+procedure TForm1.actConfigExecute(Sender: TObject);
+var lgConfig : TLoggerConfig;
+  cfg : TLoggerParameter;
+  mr: integer;
+begin
+  mr := frmLoggerConfig.ShowModal();
+
+  lgConfig:= TLoggerConfig.Create();
+  try
+     cfg.VesselID:= 1234;
+     cfg.WriteGyro:= true;
+     cfg.WriteSupply:= false;
+     cfg.baudA:= ConvertBaudrate('2400');
+     cfg.baudB:= ConvertBaudrate('4800');
+     cfg.SeaTalk:= true;
+     lgConfig.Config := cfg;
+     lgConfig.Write('H:\privat\git-sourcen\MCSDepthLoggerUI\testdata\config.dat');
+  finally
+    lgConfig.Free;
+  end;
+end;
+
+procedure TForm1.actUpdateExecute(Sender: TObject);
+begin
+
 end;
 
 procedure TForm1.actHelpExecute(Sender: TObject);

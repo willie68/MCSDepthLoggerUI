@@ -583,12 +583,14 @@ object Form1: TForm1
       Caption = 'Konfiguration'
       Hint = 'Konfiguration des Hardwareloggers'
       ImageIndex = 103
+      OnExecute = actConfigExecute
     end
     object actUpdate: TAction
       Category = 'Datei'
       Caption = 'Update'
       Hint = 'Update der Loggerfirmware'
       ImageIndex = 76
+      OnExecute = actUpdateExecute
     end
     object actImport: TAction
       Category = 'Datei'

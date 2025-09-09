@@ -43,6 +43,12 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="LazControls"/>
+      </Item>
+      <Item>
+        <PackageName Value="LazControlDsgn"/>
+      </Item>
+      <Item>
         <PackageName Value="lazMapViewerPkg"/>
       </Item>
       <Item>
@@ -75,6 +81,16 @@
         <ComponentName Value="Form2"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+      </Unit>
+      <Unit>
+        <Filename Value="images\ulogger.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uloggerconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmLoggerConfig"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
   </ProjectOptions>

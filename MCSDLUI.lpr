@@ -10,7 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, main, uPreferences;
+  Forms, lazcontrols, main, uPreferences, ulogger, uloggerconfig;
 
 {$R *.res}
 
@@ -23,6 +23,7 @@ begin
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TfrmPreferences, frmPreferences);
+  Application.CreateForm(TfrmLoggerConfig, frmLoggerConfig);
   Application.Run;
 end.
 
