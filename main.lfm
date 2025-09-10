@@ -1,11 +1,12 @@
 object frmMain: TfrmMain
   Left = 605
-  Height = 518
+  Height = 906
   Top = 179
-  Width = 1009
+  Width = 1766
   Caption = 'MCS Depth Logger UI'
-  ClientHeight = 518
-  ClientWidth = 1009
+  ClientHeight = 906
+  ClientWidth = 1766
+  DesignTimePPI = 168
   Menu = MainMenu1
   SessionProperties = 'cbAutoAnalyse.Checked;Height;Left;Top;Width;pLeft.Width;pRight.Width;pBottom.Height'
   ShowHint = True
@@ -13,38 +14,38 @@ object frmMain: TfrmMain
   OnCreate = FormCreate
   object StatusBar: TStatusBar
     Left = 0
-    Height = 23
-    Top = 495
-    Width = 1009
+    Height = 43
+    Top = 863
+    Width = 1766
     Panels = <>
   end
   object pCenter: TPanel
-    Left = 176
-    Height = 463
-    Top = 32
-    Width = 484
+    Left = 308
+    Height = 807
+    Top = 56
+    Width = 848
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pCenter'
-    ClientHeight = 463
-    ClientWidth = 484
+    ClientHeight = 807
+    ClientWidth = 848
     TabOrder = 1
     object pTop: TPanel
       Left = 0
-      Height = 210
+      Height = 368
       Top = 0
-      Width = 484
+      Width = 848
       Align = alTop
       BevelOuter = bvNone
       Caption = 'pTop'
-      ClientHeight = 210
-      ClientWidth = 484
+      ClientHeight = 368
+      ClientWidth = 848
       TabOrder = 0
       object Label2: TLabel
         Left = 0
-        Height = 15
+        Height = 30
         Top = 0
-        Width = 484
+        Width = 848
         Align = alTop
         Caption = 'Loggerdaten auf der SD Karte'
         Font.Style = [fsBold]
@@ -52,9 +53,9 @@ object frmMain: TfrmMain
       end
       object StringGrid1: TStringGrid
         Left = 0
-        Height = 195
-        Top = 15
-        Width = 484
+        Height = 338
+        Top = 30
+        Width = 848
         Align = alClient
         AutoEdit = False
         ColCount = 3
@@ -62,7 +63,7 @@ object frmMain: TfrmMain
         Columns = <        
           item
             Title.Caption = 'Name'
-            Width = 171
+            Width = 299
           end        
           item
             SizePriority = 0
@@ -79,77 +80,77 @@ object frmMain: TfrmMain
     end
     object pBottom: TPanel
       Left = 0
-      Height = 247
-      Top = 216
-      Width = 484
+      Height = 429
+      Top = 378
+      Width = 848
       Align = alClient
       BevelOuter = bvNone
       Caption = 'pBottom'
-      ClientHeight = 247
-      ClientWidth = 484
+      ClientHeight = 429
+      ClientWidth = 848
       TabOrder = 1
       object tbTracks: TToolBar
         Left = 0
-        Height = 30
+        Height = 52
         Top = 0
-        Width = 484
-        ButtonHeight = 24
-        ButtonWidth = 24
+        Width = 848
+        ButtonHeight = 42
+        ButtonWidth = 42
         Images = ImageList
         TabOrder = 0
         OnResize = tbTracksResize
         object Label3: TLabel
           Left = 1
-          Height = 24
+          Height = 42
           Top = 2
-          Width = 47
+          Width = 82
           AutoSize = False
           Caption = 'Tracks'
-          Font.Height = 17
+          Font.Height = 30
           Font.Style = [fsBold]
           ParentFont = False
         end
         object ToolButton19: TToolButton
-          Left = 147
+          Left = 190
           Top = 2
           Action = actTracksReload
         end
         object ToolButton21: TToolButton
-          Left = 175
+          Left = 232
           Top = 2
           Action = actAdd2Track
         end
         object ToolButton22: TToolButton
-          Left = 203
+          Left = 274
           Top = 2
           Action = actTrackDelete
         end
         object ToolButton23: TToolButton
-          Left = 231
+          Left = 316
           Top = 2
           Action = actTrackEdit
         end
         object ToolButton24: TToolButton
-          Left = 259
-          Height = 24
+          Left = 358
+          Height = 42
           Top = 2
           Caption = 'ToolButton24'
           Style = tbsSeparator
         end
         object ToolButton25: TToolButton
-          Left = 267
+          Left = 366
           Top = 2
           Action = actExport
         end
         object ToolButton26: TToolButton
-          Left = 295
+          Left = 408
           Top = 2
           Action = actUpload
         end
         object Panel6: TPanel
-          Left = 61
+          Left = 104
           Height = 22
-          Top = 2
+          Top = 16
           Width = 86
           Align = alClient
           Anchors = [akTop, akLeft, akBottom]
@@ -157,16 +158,16 @@ object frmMain: TfrmMain
           TabOrder = 0
         end
         object ToolButton20: TToolButton
-          Left = 323
+          Left = 450
           Top = 2
           Action = actMap
         end
       end
       object TreeView1: TTreeView
         Left = 0
-        Height = 217
-        Top = 30
-        Width = 484
+        Height = 377
+        Top = 52
+        Width = 848
         Align = alClient
         TabOrder = 1
       end
@@ -174,29 +175,29 @@ object frmMain: TfrmMain
     object spHorizontal: TSplitter
       Cursor = crVSplit
       Left = 0
-      Height = 6
-      Top = 210
-      Width = 484
+      Height = 10
+      Top = 368
+      Width = 848
       Align = alTop
       ResizeAnchor = akTop
     end
   end
   object pLeft: TPanel
     Left = 0
-    Height = 463
-    Top = 32
-    Width = 170
+    Height = 807
+    Top = 56
+    Width = 298
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 463
-    ClientWidth = 170
-    Constraints.MinWidth = 80
+    ClientHeight = 807
+    ClientWidth = 298
+    Constraints.MinWidth = 140
     TabOrder = 2
     object GroupBox1: TGroupBox
-      Left = 8
-      Height = 105
-      Top = 55
-      Width = 156
+      Left = 14
+      Height = 184
+      Top = 96
+      Width = 274
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Karteninformation'
       Font.Style = [fsUnderline]
@@ -204,10 +205,10 @@ object frmMain: TfrmMain
       TabOrder = 0
     end
     object GroupBox2: TGroupBox
-      Left = 8
-      Height = 105
-      Top = 167
-      Width = 156
+      Left = 14
+      Height = 184
+      Top = 292
+      Width = 274
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Dateiinformation'
       Font.Style = [fsUnderline]
@@ -215,10 +216,10 @@ object frmMain: TfrmMain
       TabOrder = 1
     end
     object btnAnalyse: TBitBtn
-      Left = 8
-      Height = 30
-      Top = 279
-      Width = 156
+      Left = 14
+      Height = 52
+      Top = 488
+      Width = 274
       Action = actAnalyse
       Anchors = [akTop, akLeft, akRight]
       Images = ImageList
@@ -226,108 +227,99 @@ object frmMain: TfrmMain
       TabOrder = 2
     end
     object cbAutoAnalyse: TCheckBox
-      Left = 8
-      Height = 19
-      Top = 319
-      Width = 156
+      Left = 14
+      Height = 33
+      Top = 558
+      Width = 274
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       Caption = 'automatische  Analyse'
       TabOrder = 3
     end
     object cbRootDrives: TComboBox
-      Left = 8
-      Height = 23
-      Top = 23
-      Width = 138
+      Left = 14
+      Height = 38
+      Top = 40
+      Width = 274
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 15
+      ItemHeight = 30
       Style = csDropDownList
       TabOrder = 4
+      OnChange = cbRootDrivesChange
       OnGetItems = cbRootDrivesGetItems
     end
-    object BitBtn1: TBitBtn
-      Left = 146
-      Height = 22
-      Top = 23
-      Width = 22
-      Anchors = [akTop, akRight]
-      Images = ImageList
-      ImageIndex = 264
-      TabOrder = 5
-    end
     object Label1: TLabel
-      Left = 8
-      Height = 15
+      Left = 14
+      Height = 30
       Top = 0
-      Width = 96
+      Width = 170
       Caption = 'SD Kartenlaufwerk'
       Font.Style = [fsUnderline]
       ParentFont = False
     end
   end
   object spLEft: TSplitter
-    Left = 170
-    Height = 463
-    Top = 32
-    Width = 6
+    Left = 298
+    Height = 807
+    Top = 56
+    Width = 10
   end
   object pRight: TPanel
-    Left = 666
-    Height = 463
-    Top = 32
-    Width = 343
+    Left = 1166
+    Height = 807
+    Top = 56
+    Width = 600
     Align = alRight
     BevelOuter = bvNone
     Caption = 'pRight'
-    ClientHeight = 463
-    ClientWidth = 343
-    Constraints.MinWidth = 10
+    ClientHeight = 807
+    ClientWidth = 600
+    Constraints.MinWidth = 18
     TabOrder = 4
     object tbMap: TToolBar
-      Left = 1
-      Height = 30
-      Top = 1
-      Width = 341
-      BorderSpacing.Around = 1
+      Left = 2
+      Height = 52
+      Top = 2
+      Width = 596
+      BorderSpacing.Around = 2
       Caption = 'tbMap'
       Images = ImageList
       TabOrder = 0
       OnResize = tbMapResize
       object cbProvider: TComboBox
         Left = 1
-        Height = 23
+        Height = 38
         Top = 2
-        Width = 173
-        ItemHeight = 15
+        Width = 303
+        ItemHeight = 30
         Style = csDropDownList
         TabOrder = 0
         OnChange = cbProviderChange
       end
       object tbtnZoomOut: TToolButton
-        Left = 273
+        Left = 468
         Top = 2
         Action = acZoomOut
       end
       object tbtnZoomIn: TToolButton
-        Left = 245
+        Left = 428
         Top = 2
         Action = acZoomIn
       end
       object Panel1: TPanel
-        Left = 174
-        Height = 22
+        Left = 304
+        Height = 39
         Top = 2
-        Width = 71
+        Width = 124
         BevelOuter = bvNone
         TabOrder = 1
       end
     end
     object MapView1: TMapView
       Left = 0
-      Height = 431
-      Top = 32
-      Width = 343
+      Height = 751
+      Top = 56
+      Width = 600
       Align = alClient
       DownloadEngine = MapView1.BuiltInDLE
       DrawingEngine = MapView1.BuiltInDE
@@ -337,36 +329,36 @@ object frmMain: TfrmMain
     end
   end
   object spRight: TSplitter
-    Left = 660
-    Height = 463
-    Top = 32
-    Width = 6
+    Left = 1156
+    Height = 807
+    Top = 56
+    Width = 10
     Align = alRight
     ResizeAnchor = akRight
   end
   object tbMain: TToolBar
-    Left = 1
-    Height = 30
-    Top = 1
-    Width = 1007
-    BorderSpacing.Around = 1
-    ButtonHeight = 24
-    ButtonWidth = 24
+    Left = 2
+    Height = 52
+    Top = 2
+    Width = 1762
+    BorderSpacing.Around = 2
+    ButtonHeight = 42
+    ButtonWidth = 42
     Images = ImageList
     TabOrder = 6
     OnResize = tbMainResize
     object ToolButton1: TToolButton
-      Left = 503
+      Left = 785
       Top = 2
       Action = actExit
     end
     object ToolButton2: TToolButton
-      Left = 559
+      Left = 869
       Top = 2
       Action = actHelp
     end
     object ToolButton4: TToolButton
-      Left = 531
+      Left = 827
       Top = 2
       Action = actAbout
     end
@@ -376,82 +368,82 @@ object frmMain: TfrmMain
       Action = actUpload
     end
     object ToolButton6: TToolButton
-      Left = 29
+      Left = 43
       Top = 2
       Action = actConfig
     end
     object ToolButton7: TToolButton
-      Left = 57
+      Left = 85
       Top = 2
       Action = actUpdate
     end
     object ToolButton8: TToolButton
-      Left = 85
+      Left = 127
       Top = 2
       Action = actSDManagement
     end
     object ToolButton9: TToolButton
-      Left = 113
+      Left = 169
       Top = 2
       Action = actMap
     end
     object ToolButton10: TToolButton
-      Left = 141
-      Height = 24
+      Left = 211
+      Height = 42
       Top = 2
       Caption = 'ToolButton10'
       Style = tbsSeparator
     end
     object ToolButton11: TToolButton
-      Left = 149
+      Left = 219
       Top = 2
       Action = actTimestamp
     end
     object ToolButton12: TToolButton
-      Left = 177
+      Left = 261
       Top = 2
       Action = actImport
     end
     object ToolButton13: TToolButton
-      Left = 205
+      Left = 303
       Top = 2
       Action = actExport
     end
     object ToolButton14: TToolButton
-      Left = 233
-      Height = 24
+      Left = 345
+      Height = 42
       Top = 2
       Caption = 'ToolButton14'
       Style = tbsSeparator
     end
     object ToolButton15: TToolButton
-      Left = 241
+      Left = 353
       Top = 2
       Action = actNewTrack
     end
     object ToolButton16: TToolButton
-      Left = 269
+      Left = 395
       Top = 2
       Action = actAdd2Track
     end
     object ToolButton17: TToolButton
-      Left = 305
+      Left = 445
       Top = 2
       Action = actPreferences
     end
     object ToolButton18: TToolButton
-      Left = 297
-      Height = 24
+      Left = 437
+      Height = 42
       Top = 2
       Caption = 'ToolButton18'
       Style = tbsSeparator
     end
     object Panel7: TPanel
-      Left = 333
-      Height = 24
+      Left = 487
+      Height = 42
       Top = 2
-      Width = 170
-      BorderSpacing.Around = 1
+      Width = 298
+      BorderSpacing.Around = 2
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 0
@@ -459,8 +451,8 @@ object frmMain: TfrmMain
   end
   object MainMenu1: TMainMenu
     Images = ImageList
-    Left = 863
-    Top = 453
+    Left = 1510
+    Top = 793
     object MenuItem1: TMenuItem
       Caption = '&Datei'
       object MenuItem13: TMenuItem
@@ -492,13 +484,25 @@ object frmMain: TfrmMain
       end
     end
     object MenuItem5: TMenuItem
-      Caption = 'Tracks'
+      Caption = '&Tracks'
       object MenuItem9: TMenuItem
         Action = actAdd2Track
       end
+      object MenuItem20: TMenuItem
+        Action = actNewTrack
+      end
+      object MenuItem21: TMenuItem
+        Action = actTracksReload
+      end
+      object MenuItem22: TMenuItem
+        Action = actTrackDelete
+      end
+      object MenuItem19: TMenuItem
+        Action = actUpload
+      end
     end
     object MenuItem6: TMenuItem
-      Caption = 'Karte'
+      Caption = '&Karte'
       object MenuItem14: TMenuItem
         Action = actMap
       end
@@ -573,8 +577,8 @@ object frmMain: TfrmMain
       0000000000000FFFF000187E18001042080010420800107E080018FF18001FFF
       F800100008000000000007FFE000000000000000000080000100
     }
-    Left = 895
-    Top = 453
+    Left = 1566
+    Top = 793
   end
   object JSONPropStorage1: TJSONPropStorage
     StoredValues = <    
@@ -586,13 +590,13 @@ object frmMain: TfrmMain
     Formatted = False
     OnSavingProperties = JSONPropStorage1SavingProperties
     OnRestoringProperties = JSONPropStorage1RestoringProperties
-    Left = 927
-    Top = 453
+    Left = 1622
+    Top = 793
   end
   object ActionList1: TActionList
     Images = ImageList
-    Left = 805
-    Top = 453
+    Left = 1409
+    Top = 793
     object actHelp: THelpAction
       Category = 'Hilfe'
       Caption = 'Hilfe'
@@ -649,7 +653,7 @@ object frmMain: TfrmMain
     end
     object actAdd2Track: TAction
       Category = 'Tracks'
-      Caption = 'zu Track hinzufügen'
+      Caption = 'hinzufügen'
       Hint = 'ordnet die gewählten Dateien einem Track zu'
       ImageIndex = 120
     end
@@ -669,6 +673,7 @@ object frmMain: TfrmMain
       Category = 'Hilfe'
       Caption = 'Über....'
       ImageIndex = 297
+      OnExecute = actAboutExecute
     end
     object actTimestamp: TAction
       Category = 'Tools'
@@ -678,17 +683,17 @@ object frmMain: TfrmMain
     end
     object actNewTrack: TAction
       Category = 'Tracks'
-      Caption = 'new'
+      Caption = 'Neu'
       ImageIndex = 249
     end
     object actTracksReload: TAction
       Category = 'Tracks'
-      Caption = 'actTracksReload'
+      Caption = 'neu laden'
       ImageIndex = 264
     end
     object actTrackDelete: TAction
       Category = 'Tracks'
-      Caption = 'Track löschen'
+      Caption = 'löschen'
       ImageIndex = 121
     end
     object actTrackEdit: TAction
@@ -710,14 +715,14 @@ object frmMain: TfrmMain
     end
   end
   object Timer1: TTimer
-    Left = 955
-    Top = 453
+    Left = 1671
+    Top = 793
   end
   object ImageList: TImageList
     Height = 24
     Width = 24
-    Left = 832
-    Top = 453
+    Left = 1456
+    Top = 793
     Bitmap = {
       4C7A7601000018000000180000003E8201000000000078DAEC5D07981445D3DE
       03EE0847CEE18E74C4E3242382800411252A9EA0A82828888220E15331002A8A

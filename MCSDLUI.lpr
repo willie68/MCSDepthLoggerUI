@@ -10,7 +10,8 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, lazcontrols, main, uPreferences, ulogger, uloggerconfig, MCSAbout;
+  Forms, lazcontrols, main, uPreferences, ulogger, uloggerconfig, MCSAbout,
+  ufsinfo;
 
 {$R *.res}
 

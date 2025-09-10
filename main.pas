@@ -33,7 +33,6 @@ type
     actUpdate: TAction;
     actUpload: TAction;
     ActionList1: TActionList;
-    BitBtn1: TBitBtn;
     btnAnalyse: TBitBtn;
     cbAutoAnalyse: TCheckBox;
     cbRootDrives: TComboBox;
@@ -59,7 +58,11 @@ type
     MenuItem16: TMenuItem;
     MenuItem17: TMenuItem;
     MenuItem18: TMenuItem;
+    MenuItem19: TMenuItem;
     MenuItem2: TMenuItem;
+    MenuItem20: TMenuItem;
+    MenuItem21: TMenuItem;
+    MenuItem22: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
@@ -116,11 +119,13 @@ type
     ToolButton9: TToolButton;
     TrayIcon1: TTrayIcon;
     TreeView1: TTreeView;
+    procedure actAboutExecute(Sender: TObject);
     procedure actConfigExecute(Sender: TObject);
     procedure actPreferencesExecute(Sender: TObject);
     procedure acZoomInExecute(Sender: TObject);
     procedure acZoomOutExecute(Sender: TObject);
     procedure cbProviderChange(Sender: TObject);
+    procedure cbRootDrivesChange(Sender: TObject);
     procedure cbRootDrivesGetItems(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -141,7 +146,7 @@ var
 
 implementation
 
-uses fileinfo, uPreferences, ulogger, uloggerconfig, MCSAbout;
+uses fileinfo, uPreferences, ulogger, uloggerconfig, MCSAbout, ufsinfo;
   {$R *.lfm}
 
   { TfrmMain }
@@ -189,17 +194,20 @@ end;
 
 procedure TfrmMain.cbRootDrivesGetItems(Sender: TObject);
 var
-  i: integer;
-  driveRoot: string;
+  fileCollector: TFileSystemInfoCollector;
+  fsInfo: TFileSystemInfo;
 begin
-  cbRootDrives.Items.Clear;
-  for i := 0 to 25 do
-  begin
-    driveRoot := chr(Ord('A') + i) + ':\';
-    if DirectoryExists(driveRoot) then
+  fileCollector := TFileSystemInfoCollector.Create();
+  try
+    fileCollector.Refresh;
+    cbRootDrives.Items.Clear;
+    for fsInfo in fileCollector.FileInfos do
     begin
-      cbRootDrives.Items.Add(driveRoot);
+      if fsInfo.DriveType = 2 then
+        cbRootDrives.AddItem(fsInfo.DeviceID + ' (' + fsInfo.Name + ') ', fsInfo);
     end;
+  finally
+    fileCollector.Free;
   end;
 end;
 
@@ -215,6 +223,15 @@ begin
   MapView1.MapProvider := cbProvider.Text;
   if not (cbProvider.Text = '') then
     MapView1.Active := True;
+end;
+
+procedure TfrmMain.cbRootDrivesChange(Sender: TObject);
+var fsInfo : TFileSystemInfo;
+begin
+  if cbRootDrives.ItemIndex>= 0 then
+    begin
+      fsInfo := cbRootDrives.Items.Objects[cbRootDrives.ItemIndex] as TFileSystemInfo;
+    end;
 end;
 
 procedure TfrmMain.actPreferencesExecute(Sender: TObject);
@@ -261,6 +278,11 @@ begin
   finally
     lgConfig.Free;
   end;
+end;
+
+procedure TfrmMain.actAboutExecute(Sender: TObject);
+begin
+  Infobox.ShowModal;
 end;
 
 procedure TfrmMain.acZoomInExecute(Sender: TObject);
