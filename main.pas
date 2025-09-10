@@ -226,12 +226,14 @@ begin
 end;
 
 procedure TfrmMain.cbRootDrivesChange(Sender: TObject);
-var fsInfo : TFileSystemInfo;
+var
+  fsInfo: TFileSystemInfo;
 begin
-  if cbRootDrives.ItemIndex>= 0 then
-    begin
-      fsInfo := cbRootDrives.Items.Objects[cbRootDrives.ItemIndex] as TFileSystemInfo;
-    end;
+  if cbRootDrives.ItemIndex >= 0 then
+  begin
+    fsInfo := cbRootDrives.Items.Objects[cbRootDrives.ItemIndex] as TFileSystemInfo;
+  end;
+
 end;
 
 procedure TfrmMain.actPreferencesExecute(Sender: TObject);
