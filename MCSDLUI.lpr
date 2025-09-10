@@ -11,7 +11,7 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, lazcontrols, main, uPreferences, ulogger, uloggerconfig, MCSAbout,
-  ufsinfo;
+  ufsinfo, mcslogger;
 
 {$R *.res}
 

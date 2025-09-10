@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
-  Grids;
+  Grids, mcslogger;
 
 type
 
@@ -136,7 +136,7 @@ type
     procedure tbMapResize(Sender: TObject);
     procedure tbTracksResize(Sender: TObject);
   private
-    //MapView1: TMapView;
+    Logger : TMCSLogger;
   public
 
   end;
@@ -189,7 +189,8 @@ begin
   map := Provider.Strings[0];
 
   MapView1.MapProvider := map;
-  Provider.Free();
+  provider.Free();
+  Logger := TMCSLogger.Create();
 end;
 
 procedure TfrmMain.cbRootDrivesGetItems(Sender: TObject);
@@ -228,10 +229,13 @@ end;
 procedure TfrmMain.cbRootDrivesChange(Sender: TObject);
 var
   fsInfo: TFileSystemInfo;
+  datFile :string;
 begin
   if cbRootDrives.ItemIndex >= 0 then
   begin
     fsInfo := cbRootDrives.Items.Objects[cbRootDrives.ItemIndex] as TFileSystemInfo;
+    Logger.SDRoot := fsInfo.DeviceID;
+    Logger.Config();
   end;
 
 end;
@@ -284,6 +288,7 @@ end;
 
 procedure TfrmMain.actAboutExecute(Sender: TObject);
 begin
+  Infobox.Label10.Caption:= 'osml: ' + Logger.Version();
   Infobox.ShowModal;
 end;
 

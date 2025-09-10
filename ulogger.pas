@@ -22,7 +22,7 @@ type
   end;
 
   { TLoggerConfig }
-
+  { This encapsulate the logger config }
   TLoggerConfig = class
   private
     mconfig: TLoggerParameter;
