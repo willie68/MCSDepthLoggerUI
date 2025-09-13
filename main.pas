@@ -157,7 +157,6 @@ type
     procedure Timer1Timer(Sender: TObject);
   private
     init: boolean;
-    Logger: TMCSLogger;
     procedure SetMapProvider();
     procedure RefreshRootDrives();
     procedure PopulateFilesGrid();
@@ -172,7 +171,7 @@ var
 implementation
 
 uses fileinfo, uPreferences, uloggerconfig, MCSAbout, ufsinfo,
-  LazStringUtils, mvTypes, mvGPSObj, mvEngine;
+  LazStringUtils, mvTypes, mvGPSObj, mvEngine, uconst, usdcardimages, uwait;
   {$R *.lfm}
 
   { TfrmMain }
@@ -219,6 +218,7 @@ begin
   MapView1.MapProvider := map;
   Provider.Free();
 
+  CreateMCSLogger();
 end;
 
 procedure TfrmMain.cbRootDrivesGetItems(Sender: TObject);
@@ -291,8 +291,8 @@ var
   df: TLoggerDataFile;
 begin
   sgFiles.Clean;
-  sgFiles.RowCount := Logger.DataFileCount + 1;
-  dfa := Logger.DataFiles;
+  sgFiles.RowCount := HWLogger.DataFileCount + 1;
+  dfa := HWLogger.DataFiles;
   for i := 1 to length(dfa) do
   begin
     df := dfa[i - 1];
@@ -307,7 +307,7 @@ var
   res: TLoggerCheckResult;
   pc: double;
 begin
-  res := logger.Check(filename);
+  res := HWLogger.Check(filename);
   if res.DatagrammCount > 0 then
     pc := res.ErrorCount / res.DatagrammCount * 100.0;
 
@@ -327,12 +327,12 @@ begin
   if cbRootDrives.ItemIndex >= 0 then
   begin
     fsInfo := cbRootDrives.Items.Objects[cbRootDrives.ItemIndex] as TFileSystemInfo;
-    Logger.SDRoot := fsInfo.DeviceID;
+    HWLogger.SDRoot := fsInfo.DeviceID;
     lblCardInfo.Caption := 'Name: ' + cbRootDrives.Text + LineEnding +
       'Gesamtspeicher: ' + FormatBytes(fsInfo.Size) + LineEnding +
       'Freier Speicher: ' + FormatBytes(fsInfo.FreeSpace) + LineEnding +
       'Dateisystem: ' + fsInfo.FileSystem + LineEnding +
-      'Anzahl der Datendateien: ' + IntToStr(Logger.DataFileCount);
+      'Anzahl der Datendateien: ' + IntToStr(HWLogger.DataFileCount);
     PopulateFilesGrid();
   end;
 end;
@@ -342,8 +342,7 @@ var
   appData: string;
   mr: integer;
 begin
-  appData := GetAppConfigDir(True);
-  frmPreferences.AppData := JSONPropStorage1.ReadString('track.storepath', appData);
+  frmPreferences.AppData := ConfigPathes.Appdata;
   frmPreferences.URL := JSONPropStorage1.ReadString('upload.url', '');
   frmPreferences.Username := JSONPropStorage1.ReadString('upload.username', '');
   frmPreferences.Password := JSONPropStorage1.ReadString('upload.password', '');
@@ -353,6 +352,7 @@ begin
   if mr = mrOk then
   begin
     JSONPropStorage1.WriteString('track.storepath', frmPreferences.AppData);
+    ConfigPathes.SetRoot(frmPreferences.AppData);
     JSONPropStorage1.WriteString('upload.url', frmPreferences.URL);
     JSONPropStorage1.WriteString('upload.username', frmPreferences.Username);
     JSONPropStorage1.WriteString('upload.password', frmPreferences.Password);
@@ -363,7 +363,7 @@ end;
 
 procedure TfrmMain.actSDManagementExecute(Sender: TObject);
 begin
-  ShowMessage('Nicht implementiert!');
+  frmSDCard.ShowModal;
 end;
 
 procedure TfrmMain.actTimestampExecute(Sender: TObject);
@@ -400,12 +400,12 @@ procedure TfrmMain.actConfigExecute(Sender: TObject);
 var
   mr: integer;
 begin
-  frmLoggerConfig.SetLoggerCFG(Logger.LoggerCFG());
+  frmLoggerConfig.SetLoggerCFG(HWLogger.LoggerCFG());
   mr := frmLoggerConfig.ShowModal();
   if mr = mrOk then
   begin
-    Logger.SetLoggerCFG(frmLoggerConfig.LoggerCFG());
-    Logger.Write();
+    HWLogger.SetLoggerCFG(frmLoggerConfig.LoggerCFG());
+    HWLogger.Write();
   end;
 end;
 
@@ -450,6 +450,7 @@ begin
   end;
 end;
 
+
 procedure TfrmMain.acZoomInExecute(Sender: TObject);
 begin
   MapView1.Zoom := MapView1.Zoom + 1;
@@ -462,13 +463,14 @@ end;
 
 procedure TfrmMain.actHelpExecute(Sender: TObject);
 begin
+  frmWait.Show;
   ShowMessage('Keine Hilfe vorhanden');
+  frmWait.Hide;
 end;
 
 procedure TfrmMain.JSONPropStorage1RestoringProperties(Sender: TObject);
 var
   appData: string;
-  cacheTilesPath: string;
   mapProvider: string;
   i: integer;
 begin
@@ -480,12 +482,11 @@ begin
   mapProvider := JSONPropStorage1.ReadString('map.mapprovider', '');
   MapView1.MapProvider := mapProvider;
   cbProvider.Text := mapProvider;
-  appData := GetAppConfigDir(True);
-  appData := JSONPropStorage1.ReadString('track.storepath', appData);
-  cacheTilesPath := ConcatPaths([appData, 'tilescache']);
-  ForceDirectories(cacheTilesPath);
+  CreateConfigPathes(JSONPropStorage1.ReadString('track.storepath',
+    GetAppConfigDir(True)));
+
   MapView1.CacheLocation := clCustom;
-  MapView1.CachePath := cacheTilesPath;
+  MapView1.CachePath := ConfigPathes.Tilescache;
   MapView1.CacheOnDisk := True;
   SetMapProvider();
 end;
@@ -549,14 +550,9 @@ begin
 end;
 
 procedure TfrmMain.Timer1Timer(Sender: TObject);
-var
-  provider: TStringList;
-  i: integer;
-  map, mapName: string;
 begin
   if not init then
   begin
-    Logger := TMCSLogger.Create();
     RefreshRootDrives();
     if (cbRootDrives.Items.Count > 0) and (cbRootDrives.ItemIndex < 0) then
     begin

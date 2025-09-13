@@ -5,7 +5,7 @@ unit mcslogger;
 interface
 
 uses
-  Classes, Process, SysUtils;
+  Classes, Process, SysUtils, Forms;
 
 type
   TProcessStringArray = array of TProcessString;
@@ -41,13 +41,14 @@ type
 
   TMCSLogger = class
   private
+    FLoggerCard: boolean;
     FDataFileCount: integer;
     FDataFiles: array of TLoggerDataFile;
     FRootpath: string;
     FCfg: TLoggerConfig;
-    procedure AddParam(var params: TProcessStringArray; Value: string);
     procedure InitCard(root: string);
     procedure ScanFolder();
+    procedure HasCfg();
   public
     function Version(): string;
     procedure Read();
@@ -55,19 +56,50 @@ type
     function LoggerCFG(): TLoggerConfig;
     procedure SetLoggerCFG(newcfg: TLoggerConfig);
     function Check(filename: string): TLoggerCheckResult;
+    procedure Backup(backupFolder: string);
+    procedure Restore(filename: string);
   published
+    property IsLoggerCard: boolean read FLoggerCard;
     property SDRoot: string read FRootpath write InitCard;
     property DataFileCount: integer read FDataFileCount;
     property DataFiles: TLoggerDataFileArray read FDataFiles;
   end;
 
 function ParseTimestamp(const S: string): TDateTime;
+procedure AddParam(var params: TProcessStringArray; Value: string);
+
+procedure CreateMCSLogger();
+
+type
+
+  { TExecThread }
+
+  TExecThread = class(TThread)
+  private
+    FParams: TProcessStringArray;
+    FOutput: string;
+    FOk: boolean;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(params: TProcessStringArray);
+    property Output: string read FOutput;
+    property OK: boolean read FOk;
+  end;
+
+var
+  HWLogger: TMCSLogger;
 
 implementation
 
 { TMCSLogger }
 uses
   LCLProc, Dialogs, fpjson, jsonparser, FileUtil, DateUtils, LazFileUtils;
+
+procedure CreateMCSLogger();
+begin
+  HWLogger := TMCSLogger.Create();
+end;
 
 { getting the version of the osml tool }
 function TMCSLogger.Version(): string;
@@ -87,28 +119,31 @@ var
   Data: TJSONData;
   Obj: TJSONObject;
 begin
-  if RunCommand('osml', ['logger', 'read', '-s', FRootpath, '--json'],
-    Output, [poNoConsole]) then
+  if FLoggerCard then
   begin
-    Data := GetJSON(Output);
-    try
-      if Data.JSONType = jtObject then
-      begin
-        Obj := TJSONObject(Data);
-        FCfg.baudA := Obj.Get('baudA', 0);
-        FCfg.baudB := Obj.Get('baudB', 0);
-        FCfg.SeaTalk := Obj.Get('seatalk', False);
-        FCfg.Gyro := Obj.Get('gyro', False);
-        FCfg.Supply := Obj.Get('supply', False);
-        FCfg.VesselID := Obj.Get('vesselID', 0);
+    if RunCommand('osml', ['logger', 'read', '-s', FRootpath, '--json'],
+      Output, [poNoConsole]) then
+    begin
+      Data := GetJSON(Output);
+      try
+        if Data.JSONType = jtObject then
+        begin
+          Obj := TJSONObject(Data);
+          FCfg.baudA := Obj.Get('baudA', 0);
+          FCfg.baudB := Obj.Get('baudB', 0);
+          FCfg.SeaTalk := Obj.Get('seatalk', False);
+          FCfg.Gyro := Obj.Get('gyro', False);
+          FCfg.Supply := Obj.Get('supply', False);
+          FCfg.VesselID := Obj.Get('vesselID', 0);
+        end;
+      finally
+        Data.Free;
       end;
-    finally
-      Data.Free;
-    end;
-  end
-  else
-    MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak + sLineBreak + Output,
-      mtError, [mbOK], 0);
+    end
+    else
+      MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak + sLineBreak + Output,
+        mtError, [mbOK], 0);
+  end;
 end;
 
 {Writing the actual configuration to the sd card }
@@ -161,7 +196,7 @@ begin
       mtError, [mbOK], 0);
 end;
 
-procedure TMCSLogger.AddParam(var params: TProcessStringArray; Value: string);
+procedure AddParam(var params: TProcessStringArray; Value: string);
 var
   pos: integer;
 begin
@@ -173,6 +208,7 @@ end;
 procedure TMCSLogger.InitCard(root: string);
 begin
   FRootpath := root;
+  HasCfg();
   ScanFolder();
   Read();
 end;
@@ -202,6 +238,17 @@ begin
   finally
     FilteredFiles.Free;
   end;
+end;
+
+procedure TMCSLogger.HasCfg();
+var
+  lgConfig: string;
+  FilteredFiles: TStringList;
+  i, Count: integer;
+  ldf: TLoggerDataFile;
+begin
+  lgConfig := ConcatPaths([FRootpath, 'config.dat']);
+  FLoggerCard := FileExists(lgConfig);
 end;
 
 function TMCSLogger.LoggerCFG(): TLoggerConfig;
@@ -264,6 +311,109 @@ begin
   else
     MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak + sLineBreak + Output,
       mtError, [mbOK], 0);
+end;
+
+procedure TMCSLogger.Backup(backupFolder: string);
+var
+  Data: TJSONData;
+  Obj: TJSONObject;
+  filename: string;
+  exec: TExecThread;
+begin
+  if FLoggerCard then
+  begin
+    exec := TExecThread.Create(['backup', '-s', FRootpath, '-o', backupFolder]);
+    try
+      while not exec.Finished do
+      begin
+        Application.ProcessMessages();
+      end;
+      if exec.Ok then
+      begin
+        try
+          try
+            Data := GetJSON(exec.Output);
+            if Data.JSONType = jtObject then
+            begin
+              Obj := TJSONObject(Data);
+              filename := Obj.Get('filename', '');
+            end;
+          except
+            on e: Exception do
+              MessageDlg('Fehler beim Parsen der osml Antwort.' +
+                sLineBreak + exec.Output + sLineBreak + e.Message, mtError, [mbOK], 0);
+          end;
+        finally
+          Data.Free;
+        end;
+        MessageDlg('Backup erfolgreich' + sLineBreak + sLineBreak + filename,
+          mtInformation, [mbOK], 0);
+      end
+      else
+        MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+          sLineBreak + exec.Output, mtError, [mbOK], 0);
+    finally
+      exec.Free();
+    end;
+  end;
+end;
+
+procedure TMCSLogger.Restore(filename: string);
+var
+  Data: TJSONData;
+  Obj: TJSONObject;
+  exec: TExecThread;
+begin
+  exec := TExecThread.Create(['restore', '-s', FRootpath, '-z', filename]);
+  try
+    while not exec.Finished do
+    begin
+      Application.ProcessMessages();
+    end;
+    if exec.Ok then
+    begin
+      try
+        try
+          Data := GetJSON(exec.Output);
+          if Data.JSONType = jtObject then
+          begin
+            Obj := TJSONObject(Data);
+            filename := Obj.Get('filename', '');
+          end;
+        except
+          on e: Exception do
+            MessageDlg('Fehler beim Parsen der osml Antwort.' +
+              sLineBreak + exec.Output + sLineBreak + e.Message, mtError, [mbOK], 0);
+        end;
+      finally
+        Data.Free;
+      end;
+      MessageDlg('Restore erfolgreich' + sLineBreak + sLineBreak + filename,
+        mtInformation, [mbOK], 0);
+    end
+    else
+      MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+        sLineBreak + exec.Output,
+        mtError, [mbOK], 0);
+  finally
+    exec.Free;
+  end;
+end;
+
+{ TExecThread }
+
+procedure TExecThread.Execute;
+begin
+  AddParam(FParams, '--json');
+  FOK := RunCommand('osml', FParams, FOutput, [poNoConsole]);
+end;
+
+constructor TExecThread.Create(params: TProcessStringArray);
+begin
+  inherited Create(True);
+  FParams := params;
+  FOK := False;
+  Start();
 end;
 
 function ParseTimestamp(const S: string): TDateTime;

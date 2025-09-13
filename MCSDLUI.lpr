@@ -11,7 +11,7 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, lazcontrols, main, uPreferences, uloggerconfig, MCSAbout,
-  ufsinfo, mcslogger;
+  ufsinfo, mcslogger, uconst, usdcardimages, uwait;
 
 {$R *.res}
 
@@ -28,7 +28,8 @@ begin
   Infobox.AppTitel:= 'MCS Depth Logger UI';
   Infobox.AppID:= 64;
   Infobox.CopyRight:= '(C) MCS 2025';
-
+  Application.CreateForm(TfrmSDCard, frmSDCard);
+  Application.CreateForm(TfrmWait, frmWait);
   Application.Run;
 end.
 
