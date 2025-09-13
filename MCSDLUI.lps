@@ -515,6 +515,10 @@
         <Filename Value="usdcardimages.pas"/>
         <Caret Line="112" Column="34" TopLine="65"/>
       </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="499" Column="19" TopLine="535"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
