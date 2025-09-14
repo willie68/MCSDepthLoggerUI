@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos Y="18"/>
-        <UsageCount Value="173"/>
+        <UsageCount Value="176"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -20,10 +20,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="482"/>
-        <CursorPos X="77" Y="494"/>
+        <TopLine Value="494"/>
+        <CursorPos X="43" Y="516"/>
         <FoldState Value=" T3mD03013 Pi2i10+"/>
-        <UsageCount Value="173"/>
+        <UsageCount Value="176"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -36,7 +36,7 @@
         <UnitName Value="uPreferences"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30" Y="9"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="164"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.pas"/>
@@ -45,14 +45,14 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="156"/>
+        <UsageCount Value="159"/>
       </Unit>
       <Unit>
         <Filename Value="images\ulogger.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="15" Y="9"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="uloggerconfig.pas"/>
@@ -62,7 +62,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="6"/>
         <CursorPos Y="10"/>
-        <UsageCount Value="152"/>
+        <UsageCount Value="155"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -72,7 +72,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="100"/>
         <CursorPos X="21" Y="128"/>
-        <UsageCount Value="147"/>
+        <UsageCount Value="150"/>
       </Unit>
       <Unit>
         <Filename Value="mcslogger.pas"/>
@@ -80,8 +80,7 @@
         <EditorIndex Value="5"/>
         <TopLine Value="296"/>
         <CursorPos X="85" Y="320"/>
-        <FoldState Value=" TCCI72 PCHN T3jC033 pj0jE07524 PjYmH0 T6lR01{"/>
-        <UsageCount Value="135"/>
+        <UsageCount Value="138"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -90,7 +89,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="39"/>
         <CursorPos X="29" Y="61"/>
-        <UsageCount Value="68"/>
+        <UsageCount Value="71"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -102,8 +101,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="65"/>
         <CursorPos Y="98"/>
-        <FoldState Value=" T3iR0P1 PPR0N"/>
-        <UsageCount Value="66"/>
+        <UsageCount Value="69"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -115,8 +113,8 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="3"/>
         <TopLine Value="5"/>
-        <CursorPos X="76" Y="17"/>
-        <UsageCount Value="65"/>
+        <CursorPos X="10" Y="17"/>
+        <UsageCount Value="68"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>

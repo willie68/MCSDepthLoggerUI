@@ -148,12 +148,12 @@ object frmMain: TfrmMain
           Style = tbsSeparator
         end
         object ToolButton25: TToolButton
-          Left = 260
+          Left = 262
           Top = 2
           Action = actExport
         end
         object ToolButton26: TToolButton
-          Left = 288
+          Left = 290
           Top = 2
           Action = actUpload
         end
@@ -168,7 +168,7 @@ object frmMain: TfrmMain
           TabOrder = 0
         end
         object ToolButton20: TToolButton
-          Left = 316
+          Left = 318
           Top = 2
           Action = actMap
         end
@@ -191,6 +191,7 @@ object frmMain: TfrmMain
         Width = 302
         Align = alClient
         Color = clDefault
+        Mask = '*.zip'
         TabOrder = 2
         ShellTreeView = stvTracks
       end
@@ -429,17 +430,17 @@ object frmMain: TfrmMain
     TabOrder = 6
     OnResize = tbMainResize
     object ToolButton1: TToolButton
-      Left = 497
+      Left = 503
       Top = 2
       Action = actExit
     end
     object ToolButton2: TToolButton
-      Left = 553
+      Left = 559
       Top = 2
       Action = actHelp
     end
     object ToolButton4: TToolButton
-      Left = 525
+      Left = 531
       Top = 2
       Action = actAbout
     end
@@ -476,51 +477,51 @@ object frmMain: TfrmMain
       Style = tbsSeparator
     end
     object ToolButton11: TToolButton
-      Left = 147
+      Left = 149
       Top = 2
       Action = actTimestamp
     end
     object ToolButton12: TToolButton
-      Left = 175
+      Left = 177
       Top = 2
       Action = actImport
     end
     object ToolButton13: TToolButton
-      Left = 203
+      Left = 205
       Top = 2
       Action = actExport
     end
     object ToolButton14: TToolButton
-      Left = 231
+      Left = 233
       Height = 24
       Top = 2
       Caption = 'ToolButton14'
       Style = tbsSeparator
     end
     object ToolButton15: TToolButton
-      Left = 237
+      Left = 241
       Top = 2
       Action = actNewTrack
     end
     object ToolButton16: TToolButton
-      Left = 265
+      Left = 269
       Top = 2
       Action = actAdd2Track
     end
     object ToolButton17: TToolButton
-      Left = 299
+      Left = 305
       Top = 2
       Action = actPreferences
     end
     object ToolButton18: TToolButton
-      Left = 293
+      Left = 297
       Height = 24
       Top = 2
       Caption = 'ToolButton18'
       Style = tbsSeparator
     end
     object Panel7: TPanel
-      Left = 327
+      Left = 333
       Height = 24
       Top = 2
       Width = 170

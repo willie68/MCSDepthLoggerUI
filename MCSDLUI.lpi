@@ -27,9 +27,11 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
+      <MinorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
       <Language Value="0407"/>
-      <Attributes pvaDebug="True"/>
+      <Attributes pvaDebug="True" pvaPreRelease="True"/>
+      <StringTable CompanyName="MCS Music" InternalName="MCSDLUI" ProductName="MCS Depth Logger" ProductVersion="0.1.0"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>
