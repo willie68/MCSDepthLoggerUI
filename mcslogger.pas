@@ -72,9 +72,9 @@ procedure CreateMCSLogger();
 
 type
 
-  { TExecThread }
+  { TExecOSMLThread }
 
-  TExecThread = class(TThread)
+  TExecOSMLThread = class(TThread)
   private
     FParams: TProcessStringArray;
     FOutput: string;
@@ -318,11 +318,11 @@ var
   Data: TJSONData;
   Obj: TJSONObject;
   filename: string;
-  exec: TExecThread;
+  exec: TExecOSMLThread;
 begin
   if FLoggerCard then
   begin
-    exec := TExecThread.Create(['backup', '-s', FRootpath, '-o', backupFolder]);
+    exec := TExecOSMLThread.Create(['backup', '-s', FRootpath, '-o', backupFolder]);
     try
       while not exec.Finished do
       begin
@@ -362,9 +362,9 @@ procedure TMCSLogger.Restore(filename: string);
 var
   Data: TJSONData;
   Obj: TJSONObject;
-  exec: TExecThread;
+  exec: TExecOSMLThread;
 begin
-  exec := TExecThread.Create(['restore', '-s', FRootpath, '-z', filename]);
+  exec := TExecOSMLThread.Create(['restore', '-s', FRootpath, '-z', filename]);
   try
     while not exec.Finished do
     begin
@@ -400,15 +400,15 @@ begin
   end;
 end;
 
-{ TExecThread }
+{ TExecOSMLThread }
 
-procedure TExecThread.Execute;
+procedure TExecOSMLThread.Execute;
 begin
   AddParam(FParams, '--json');
   FOK := RunCommand('osml', FParams, FOutput, [poNoConsole]);
 end;
 
-constructor TExecThread.Create(params: TProcessStringArray);
+constructor TExecOSMLThread.Create(params: TProcessStringArray);
 begin
   inherited Create(True);
   FParams := params;

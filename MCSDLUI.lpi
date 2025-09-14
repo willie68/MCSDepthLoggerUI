@@ -109,12 +109,14 @@
         <Filename Value="usdcardimages.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmSDCard"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="uwait.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmWait"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
