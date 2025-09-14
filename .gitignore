@@ -90,3 +90,5 @@ lib/x86_64-win64/
 tools/MCSfsInfo/lib/
 
 *.dbg
+
+dist/

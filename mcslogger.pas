@@ -5,7 +5,7 @@ unit mcslogger;
 interface
 
 uses
-  Classes, Process, SysUtils, Forms;
+  Classes, Process, SysUtils, fpjson, jsonparser, Forms;
 
 type
   TProcessStringArray = array of TProcessString;
@@ -32,9 +32,54 @@ type
     Size: int64;
     DatagrammCount: integer;
     ErrorCount: integer;
+    ErrorA, ErrorB, ErrorI:integer;
     Version: string;
     FirstTimeStamp: TDateTime;
     LastTimeStamp: TDateTime;
+  end;
+
+  TThreeCoord = record
+    X, Y, Z: int64;
+  end;
+
+  TLoggerWaypoint = record
+    Active: boolean;
+    Name: string;
+    Latitude: double;
+    Longitude: double;
+    Time: TDateTime;
+    Speed: double;
+    Elevation: double;
+    Depth: double;
+    Acceleration: TThreeCoord;
+    GyroLocation: TThreeCoord;
+    Supply: integer;
+ {
+  Name         string       `json:"name,omitempty"`
+  Lat          float64      `json:"latitude,omitempty"`
+  Lon          float64      `json:"longitude,omitempty"`
+  Time         time.Time    `json:"time,omitempty"`
+  Speed        float64      `json:"speed,omitempty"`
+  Ele          float64      `json:"elevation,omitempty"`
+  Depth        float64      `json:"depth,omitempty"`
+  Acceleration *ThreePoints `json:"acc,omitempty"`
+  GyroLocation *ThreePoints `json:"gyro,omitempty"`
+  Supply       int64        `json:"supply,omitempty"`
+}
+  end;
+
+  TLoggerTrack = record
+    Name: string;
+    Waypoints: array of TLoggerWaypoint;
+    Start: TLoggerWaypoint;
+    Finish: TLoggerWaypoint;
+    {
+  Name      string      `json:"name,omitempty"`
+  Waypoints []*Waypoint `json:"waypoints,omitempty"`
+  Start     *Waypoint   `json:"start,omitempty"`
+  End       *Waypoint   `json:"end,omitempty"`
+  LogLines  []*LogLine  `json:"log_lines,omitempty"`
+}
   end;
 
   { TMCSLogger }
@@ -56,6 +101,7 @@ type
     function LoggerCFG(): TLoggerConfig;
     procedure SetLoggerCFG(newcfg: TLoggerConfig);
     function Check(filename: string): TLoggerCheckResult;
+    function Convert(filename: string): TLoggerTrack;
     procedure Backup(backupFolder: string);
     procedure Restore(filename: string);
   published
@@ -67,6 +113,7 @@ type
 
 function ParseTimestamp(const S: string): TDateTime;
 procedure AddParam(var params: TProcessStringArray; Value: string);
+function ConvertWaypoint(way: TJSONObject): TLoggerWaypoint;
 
 procedure CreateMCSLogger();
 
@@ -94,7 +141,7 @@ implementation
 
 { TMCSLogger }
 uses
-  LCLProc, Dialogs, fpjson, jsonparser, FileUtil, DateUtils, LazFileUtils;
+  LCLProc, Dialogs, FileUtil, DateUtils, LazFileUtils;
 
 procedure CreateMCSLogger();
 begin
@@ -194,15 +241,6 @@ begin
   else
     MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak + sLineBreak + Output,
       mtError, [mbOK], 0);
-end;
-
-procedure AddParam(var params: TProcessStringArray; Value: string);
-var
-  pos: integer;
-begin
-  pos := length(params);
-  SetLength(params, pos + 1);
-  params[pos] := Value;
 end;
 
 procedure TMCSLogger.InitCard(root: string);
@@ -305,6 +343,9 @@ begin
               Result.FirstTimeStamp := ParseTimestamp(v);
               v := jo.Get('lastTimestamp', '');
               Result.LastTimeStamp := ParseTimestamp(v);
+              Result.ErrorA:= jo.Get('errorA', 0);
+              Result.ErrorB:= jo.Get('errorB', 0);
+              Result.ErrorI:= jo.Get('errorI', 0);
             end;
           except
             on e: Exception do
@@ -317,11 +358,91 @@ begin
         end;
       end
       else
-        MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak + sLineBreak + exec.Output,
+        MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+          sLineBreak + exec.Output,
           mtError, [mbOK], 0);
     finally
       exec.Free();
     end;
+  end;
+end;
+
+function TMCSLogger.Convert(filename: string): TLoggerTrack;
+var
+  Data: TJSONData;
+  Obj, way: TJSONObject;
+  exec: TExecOSMLThread;
+  dt: TJSONData;
+  arr: TJSONArray;
+  i: integer;
+begin
+  if FLoggerCard then
+  begin
+    exec := TExecOSMLThread.Create(['convert', '-s', filename]);
+    try
+      while not exec.Finished do
+      begin
+        Application.ProcessMessages();
+      end;
+      if exec.Ok then
+      begin
+        try
+          try
+            Result.Start.Active:=False;
+            Result.Finish.Active:=False;
+            Data := GetJSON(exec.Output);
+            if Data.JSONType = jtObject then
+            begin
+              Obj := TJSONObject(Data);
+              Result.Name := Obj.Get('name', '');
+              if Obj.Find('start') <> nil then
+                Result.Start := ConvertWaypoint(Obj.Get('start', TJSONObject.Create()));
+              if Obj.FInd('end') <> nil then
+                Result.Finish := ConvertWaypoint(Obj.Get('end', TJSONObject.Create()));
+              if Obj.Find('waypoints', jtArray) <> nil then
+              begin
+                arr := TJsonArray(Obj.Find('waypoints', jtArray));
+                SetLength(Result.Waypoints, arr.Count);
+                for i := 0 to arr.Count - 1 do
+                  if arr.Items[i].JSONType = jtObject then
+                  begin
+                    way := TJSONObject(arr.Items[i]);
+                    Result.WayPoints[i] := ConvertWaypoint(way);
+                  end;
+              end;
+            end;
+          except
+            on e: Exception do
+              MessageDlg('Fehler beim Parsen der osml Antwort.' +
+                sLineBreak + exec.Output + sLineBreak + e.Message, mtError, [mbOK], 0);
+          end;
+        finally
+          Data.Free;
+        end;
+      end
+      else
+        MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+          sLineBreak + exec.Output, mtError, [mbOK], 0);
+    finally
+      exec.Free();
+    end;
+  end;
+end;
+
+function ConvertWaypoint(way: TJSONObject): TLoggerWaypoint;
+begin
+  Result.Active := False;
+  if way <> nil then
+  begin
+    Result.Active := True;
+    Result.Name := way.Get('name', '');
+    Result.Latitude := way.Get('latitude', 0.0);
+    Result.Longitude := way.Get('longitude', 0.0);
+    Result.Speed := way.Get('speed', 0.0);
+    Result.Elevation := way.Get('elevation', 0.0);
+    Result.Depth := way.Get('depth', 0.0);
+    Result.Supply := way.Get('supply', 0);
+    Result.Time := ParseTimestamp(way.Get('time', '1970-01-01T00:00:00.000Z'));
   end;
 end;
 
@@ -452,6 +573,15 @@ begin
 
   DT := ScanDateTime('YYYY-MM-DD"T"hh:nn:ss', BasePart);
   Result := RecodeMilliSecond(DT, Millis);
+end;
+
+procedure AddParam(var params: TProcessStringArray; Value: string);
+var
+  pos: integer;
+begin
+  pos := length(params);
+  SetLength(params, pos + 1);
+  params[pos] := Value;
 end;
 
 end.

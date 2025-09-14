@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
-  mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, mcslogger;
+  mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, CheckLst, TASources,
+  TAGraph, mcslogger;
 
 type
 
@@ -38,6 +39,7 @@ type
     cbRootDrives: TComboBox;
     actExit: TFileExit;
     cbProvider: TComboBox;
+    Chart1: TChart;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     actHelp: THelpAction;
@@ -48,6 +50,7 @@ type
     Label3: TLabel;
     lblCardInfo: TLabel;
     lblFileInfo: TLabel;
+    ListChartSource1: TListChartSource;
     MainMenu1: TMainMenu;
     MapView1: TMapView;
     MenuItem1: TMenuItem;
@@ -156,16 +159,20 @@ type
     procedure JSONPropStorage1RestoringProperties(Sender: TObject);
     procedure JSONPropStorage1SavingProperties(Sender: TObject);
     procedure sgFilesSelection(Sender: TObject; aCol, aRow: integer);
+    procedure slvTracksSelectItem(Sender: TObject; Item: TListItem;
+      Selected: boolean);
     procedure tbMainResize(Sender: TObject);
     procedure tbMapResize(Sender: TObject);
     procedure tbTracksResize(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
     init: boolean;
+    trackSelected: boolean;
     procedure SetMapProvider();
     procedure RefreshRootDrives();
     procedure PopulateFilesGrid();
     procedure AnalyseFile(filename: string);
+    procedure ShowTrackOnMap(ltrack: TLoggerTrack);
   public
 
   end;
@@ -224,6 +231,7 @@ begin
   Provider.Free();
 
   CreateMCSLogger();
+  trackSelected := False;
 end;
 
 procedure TfrmMain.cbRootDrivesGetItems(Sender: TObject);
@@ -319,10 +327,49 @@ begin
   lblFileInfo.Caption := 'Dateiname: ' + res.Filename + LineEnding +
     'Dateigröße: ' + FormatBytes(res.Size) + LineEnding + 'Datagramme: ' +
     IntToStr(res.DatagrammCount) + LineEnding + 'Fehler: ' +
-    IntToStr(res.ErrorCount) + ' (' + Format('%.1f', [pc]) + '%)' +
-    LineEnding + 'Version: ' + res.Version + LineEnding + 'Zeitstempel' +
-    LineEnding + 'von: ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', res.FirstTimeStamp) +
+    IntToStr(res.ErrorCount) + ' (' + Format('%.1f', [pc]) + '% A:' +
+    IntToStr(res.ErrorA) + ', B:' + IntToStr(res.ErrorB) + ', I:' +
+    IntToStr(res.ErrorI) + ')' + LineEnding + 'Version: ' + res.Version +
+    LineEnding + 'Zeitstempel' + LineEnding + 'von: ' +
+    FormatDateTime('yyyy-mm-dd hh:mm:ss', res.FirstTimeStamp) +
     LineEnding + 'bis: ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', res.LastTimeStamp);
+end;
+
+procedure TfrmMain.ShowTrackOnMap(ltrack: TLoggerTrack);
+var
+  track: TGPSTrack;
+  area: TRealArea;
+  gpsPt: TGpsPoint;
+  i: integer;
+begin
+  track := TGPSTrack.Create;
+
+  MapView1.GPSItems.ClearAll;
+  if ltrack.Start.Active then
+  begin
+    gpsPt := TGpsPoint.Create(ltrack.Start.Longitude, ltrack.Start.Latitude,
+      ltrack.Start.Elevation, ltrack.Start.Time);
+    gpsPt.Name := ltrack.Start.Name;
+    Mapview1.GPSItems.Add(gpsPt, 0);
+  end;
+
+  if ltrack.Finish.Active then
+  begin
+    gpsPt := TGpsPoint.Create(ltrack.Finish.Longitude, ltrack.Finish.Latitude,
+      ltrack.Finish.Elevation, ltrack.Finish.Time);
+    gpsPt.Name := ltrack.Finish.Name;
+    Mapview1.GPSItems.Add(gpsPt, 1);
+  end;
+
+  for i := 0 to length(ltrack.Waypoints) - 1 do
+    if ltrack.Waypoints[i].Active then
+      track.Points.Add(TGPSPoint.Create(ltrack.Waypoints[i].Longitude,
+        ltrack.Waypoints[i].Latitude, ltrack.Waypoints[i].Elevation,
+        ltrack.Waypoints[i].Time));
+  track.LineWidth := 0.5;
+  MapView1.GPSItems.Add(track, 2);
+  track.GetArea(area);
+  MapView1.ZoomOnArea(area);
 end;
 
 procedure TfrmMain.cbRootDrivesChange(Sender: TObject);
@@ -425,8 +472,34 @@ begin
 end;
 
 procedure TfrmMain.actMapExecute(Sender: TObject);
+var
+  track: TLoggerTrack;
+  fn: string;
 begin
-  ShowMessage('Nicht implementiert!');
+  if trackSelected then
+    ShowMessage('Nicht implementiert!')
+  else
+  begin
+    if sgFiles.Row >= 1 then
+    begin
+      frmWait.Show();
+      try
+        fn := sgFiles.Cells[0, sgFiles.Row];
+        track := HWLogger.Convert(fn);
+        if length(track.Waypoints) > 0 then
+          ShowTrackOnMap(track)
+        else
+        begin
+          frmWait.Hide();
+          MessageDlg('Information',
+            'Keine kartenrelevanten Daten in der Datei gefunden.',
+            mtWarning, [mbOK], 0);
+        end;
+      finally
+        frmWait.Hide();
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMain.actNewTrackExecute(Sender: TObject);
@@ -494,7 +567,7 @@ begin
   MapView1.CachePath := ConfigPathes.Tilescache;
   MapView1.CacheOnDisk := True;
 
-  stvTracks.Root:= ConfigPathes.Trackspath +'\';
+  stvTracks.Root := ConfigPathes.Trackspath + '\';
   SetMapProvider();
 end;
 
@@ -512,9 +585,16 @@ end;
 
 procedure TfrmMain.sgFilesSelection(Sender: TObject; aCol, aRow: integer);
 begin
+  trackSelected := False;
   if cbAutoAnalyse.Checked then
     AnalyseFile(sgFiles.Cells[0, sgFiles.Row]);
   actAnalyse.Enabled := True;
+end;
+
+procedure TfrmMain.slvTracksSelectItem(Sender: TObject; Item: TListItem;
+  Selected: boolean);
+begin
+  trackSelected := True;
 end;
 
 procedure TfrmMain.tbMainResize(Sender: TObject);
