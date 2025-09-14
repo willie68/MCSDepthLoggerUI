@@ -270,6 +270,7 @@ var
   jo: TJSONObject;
   Name, v: string;
   fs: TFormatSettings;
+  exec: TExecOSMLThread;
 begin
   Result.Filename := filename;
   Result.DatagrammCount := -1;
@@ -278,39 +279,50 @@ begin
   Result.Version := 'n.N.';
   Result.ErrorCount := -1;
 
-  if RunCommand('osml', ['check', '-s', filename, '--json'], Output,
-    [poNoConsole]) then
+  if FLoggerCard then
   begin
-
-    Data := GetJSON(Output);
-    Name := ExtractFileName(filename);
+    exec := TExecOSMLThread.Create(['check', '-s', filename]);
     try
-      try
-        if Data.JSONType = jtObject then
-        begin
-          Obj := TJSONObject(Data);
-          jo := Obj.Get('files', jo);
-          jo := jo.Get(Name, jo);
-          Result.ErrorCount := jo.Get('errorCount', -1);
-          Result.DatagrammCount := jo.Get('datagramCount', -1);
-          Result.Version := jo.Get('version', 'n.N.');
-          v := jo.Get('firstTimestamp', '');
-          Result.FirstTimeStamp := ParseTimestamp(v);
-          v := jo.Get('lastTimestamp', '');
-          Result.LastTimeStamp := ParseTimestamp(v);
-        end;
-      except
-        on e: Exception do
-          MessageDlg('Fehler beim Parsen der osml Antwort.' +
-            sLineBreak + sLineBreak + e.Message, mtError, [mbOK], 0);
+      while not exec.Finished do
+      begin
+        Application.ProcessMessages();
       end;
+      if exec.Ok then
+      begin
+        Data := GetJSON(exec.Output);
+        Name := ExtractFileName(filename);
+        try
+          try
+            if Data.JSONType = jtObject then
+            begin
+              Obj := TJSONObject(Data);
+              jo := Obj.Get('files', jo);
+              jo := jo.Get(Name, jo);
+              Result.ErrorCount := jo.Get('errorCount', -1);
+              Result.DatagrammCount := jo.Get('datagramCount', -1);
+              Result.Version := jo.Get('version', 'n.N.');
+              v := jo.Get('firstTimestamp', '');
+              Result.FirstTimeStamp := ParseTimestamp(v);
+              v := jo.Get('lastTimestamp', '');
+              Result.LastTimeStamp := ParseTimestamp(v);
+            end;
+          except
+            on e: Exception do
+              MessageDlg('Fehler beim Parsen der osml Antwort.' +
+                sLineBreak + sLineBreak + e.Message + sLineBreak +
+                exec.Output, mtError, [mbOK], 0);
+          end;
+        finally
+          Data.Free;
+        end;
+      end
+      else
+        MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak + sLineBreak + exec.Output,
+          mtError, [mbOK], 0);
     finally
-      Data.Free;
+      exec.Free();
     end;
-  end
-  else
-    MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak + sLineBreak + Output,
-      mtError, [mbOK], 0);
+  end;
 end;
 
 procedure TMCSLogger.Backup(backupFolder: string);

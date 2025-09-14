@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
-  mvPluginCommon, mvGeoNames, mvPlugins, Grids, mcslogger;
+  mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, mcslogger;
 
 type
 
@@ -76,6 +76,8 @@ type
     MvPluginManager1: TMvPluginManager;
     MvPluginManager1LegalNoticePlugin1: TLegalNoticePlugin;
     Panel1: TPanel;
+    pMapBottom: TPanel;
+    pMapClient: TPanel;
     pCenter: TPanel;
     pLeft: TPanel;
     pRight: TPanel;
@@ -86,6 +88,10 @@ type
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Separator3: TMenuItem;
+    slvTracks: TShellListView;
+    Splitter1: TSplitter;
+    stvTracks: TShellTreeView;
+    spHorizontal1: TSplitter;
     spLEft: TSplitter;
     spRight: TSplitter;
     spHorizontal: TSplitter;
@@ -123,7 +129,6 @@ type
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
     TrayIcon1: TTrayIcon;
-    TreeView1: TTreeView;
     procedure actAboutExecute(Sender: TObject);
     procedure actAdd2TrackExecute(Sender: TObject);
     procedure actAnalyseExecute(Sender: TObject);
@@ -488,6 +493,8 @@ begin
   MapView1.CacheLocation := clCustom;
   MapView1.CachePath := ConfigPathes.Tilescache;
   MapView1.CacheOnDisk := True;
+
+  stvTracks.Root:= ConfigPathes.Trackspath +'\';
   SetMapProvider();
 end;
 
@@ -541,7 +548,7 @@ var
   w: longint;
   i: integer;
 begin
-  w := tbTracks.ClientWidth - Label3.Width - 16;
+  w := tbTracks.ClientWidth - Label3.Width - 24;
   for i := 0 to tbTracks.ButtonCount - 1 do
   begin
     w := w - tbTracks.Buttons[i].Width;
