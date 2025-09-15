@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
   mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, CheckLst, TASources,
-  TAGraph, mcslogger, mvTypes, mvGPSObj, mvEngine;
+  TAGraph, TASeries, TAIntervalSources, mcslogger, mvTypes, mvGPSObj, mvEngine;
 
 type
 
@@ -42,6 +42,8 @@ type
     actExit: TFileExit;
     cbProvider: TComboBox;
     Chart1: TChart;
+    DateTimeIntervalChartSource1: TDateTimeIntervalChartSource;
+    Depth: TLineSeries;
     CheckListBox1: TCheckListBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -53,7 +55,6 @@ type
     Label3: TLabel;
     lblCardInfo: TLabel;
     lblFileInfo: TLabel;
-    ListChartSource1: TListChartSource;
     MainMenu1: TMainMenu;
     MapView1: TMapView;
     MenuItem1: TMenuItem;
@@ -160,6 +161,8 @@ type
     procedure cbProviderChange(Sender: TObject);
     procedure cbRootDrivesChange(Sender: TObject);
     procedure cbRootDrivesGetItems(Sender: TObject);
+    procedure DateTimeIntervalChartSource1DateTimeStepChange(Sender: TObject;
+      ASteps: TDateTimeStep);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actHelpExecute(Sender: TObject);
@@ -301,6 +304,12 @@ begin
   RefreshRootDrives();
 end;
 
+procedure TfrmMain.DateTimeIntervalChartSource1DateTimeStepChange(
+  Sender: TObject; ASteps: TDateTimeStep);
+begin
+
+end;
+
 procedure TfrmMain.FormActivate(Sender: TObject);
 begin
   MapView1.MapProvider := cbProvider.Text;
@@ -387,10 +396,12 @@ var
   track: TGPSTrack;
   gpsPt: TGpsPoint;
   i: integer;
+  way : TLoggerWaypoint;
 begin
   track := TGPSTrack.Create;
 
   MapView1.GPSItems.ClearAll;
+  Depth.Clear;
   if ltrack.Start.Active then
   begin
     gpsPt := TGpsPoint.Create(ltrack.Start.Longitude, ltrack.Start.Latitude,
@@ -408,10 +419,14 @@ begin
   end;
 
   for i := 0 to length(ltrack.Waypoints) - 1 do
-    if ltrack.Waypoints[i].Active then
-      track.Points.Add(TGPSPoint.Create(ltrack.Waypoints[i].Longitude,
-        ltrack.Waypoints[i].Latitude, ltrack.Waypoints[i].Elevation,
-        ltrack.Waypoints[i].Time));
+  begin
+    way := ltrack.Waypoints[i];
+    if way.Active then
+    begin
+      track.Points.Add(TGPSPoint.Create(way.Longitude,way.Latitude, way.Elevation,way.Time));
+      Depth.AddXY(way.Time, -way.Depth);
+    end;
+  end;
   track.LineWidth := 0.5;
   MapView1.GPSItems.Add(track, 2);
   track.GetArea(FArea);
@@ -583,7 +598,6 @@ begin
   end;
 end;
 
-
 procedure TfrmMain.acZoomInExecute(Sender: TObject);
 begin
   MapView1.Zoom := MapView1.Zoom + 1;
@@ -686,7 +700,8 @@ begin
   if tbMapSports.Down then
   begin
     layer := TGPSTilelayer.Create;
-    layer.MapProvider := 'OpenSeaMap Sports';
+//    layer.MapProvider := 'OpenSeaMap Sports';
+    layer.MapProvider := 'OpenSeaMap Gebco';
     layer.DrawMode := idmUseSourceAlpha;
     MapView1.GPSLayer[0].Add(layer, 43);
   end

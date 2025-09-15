@@ -40,7 +40,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Files]
 ;Source: "..\dist\MCS_Depth_Logger.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\MCSDLUI.exe"; DestDir: "{app}"; Flags: 
-Source: "..\tools\osml.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\osmltools\dist\osml_windows_amd64_v1\osml.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\MCSDLUI.exe"; WorkingDir: "{app}"; IconFilename: "{app}\MCSDLUI.exe"

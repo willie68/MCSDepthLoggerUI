@@ -180,9 +180,11 @@ object frmMain: TfrmMain
         Top = 53
         Width = 309
         Align = alLeft
+        HideSelection = False
         ShowRoot = False
         TabOrder = 1
-        Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
+        Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
+        ObjectTypes = [otFolders, otNonFolders]
         ShellListView = slvTracks
       end
       object slvTracks: TShellListView
@@ -365,14 +367,26 @@ object frmMain: TfrmMain
           end        
           item
             Alignment = calBottom
+            Marks.Format = '%2:s'
             Marks.LabelBrush.Style = bsClear
+            Marks.Source = DateTimeIntervalChartSource1
+            Marks.Style = smsLabel
             Minors = <>
             Title.LabelBrush.Style = bsClear
           end>
+        Legend.Alignment = laBottomCenter
+        Legend.Visible = True
         Title.Text.Strings = (
           'TAChart'
         )
         Align = alClient
+        object Depth: TLineSeries
+          Legend.Format = 'Tiefe (m)'
+          Title = 'Depth'
+          AxisIndexX = 0
+          AxisIndexY = 0
+          LineType = ltStepCenterXY
+        end
       end
       object CheckListBox1: TCheckListBox
         Left = 1
@@ -382,6 +396,7 @@ object frmMain: TfrmMain
         Align = alLeft
         ItemHeight = 0
         TabOrder = 1
+        Visible = False
       end
     end
     object pMapClient: TPanel
@@ -400,8 +415,10 @@ object frmMain: TfrmMain
         Top = 56
         Width = 599
         Align = alClient
+        CacheLocation = clCustom
         DownloadEngine = MapView1.BuiltInDLE
         DrawingEngine = MapView1.BuiltInDE
+        Options = [mvoMouseDragging, mvoMouseZooming, mvoLatLonInDMS]
         Layers = <>
         PluginManager = MvPluginManager1
         POITextBgOpacity = 0.550000011920929
@@ -3970,8 +3987,11 @@ object frmMain: TfrmMain
     Left = 1288
     Top = 792
   end
-  object ListChartSource1: TListChartSource
-    Left = 1571
-    Top = 666
+  object DateTimeIntervalChartSource1: TDateTimeIntervalChartSource
+    Params.Count = 100
+    Params.MaxLength = 120
+    OnDateTimeStepChange = DateTimeIntervalChartSource1DateTimeStepChange
+    Left = 1485
+    Top = 720
   end
 end
