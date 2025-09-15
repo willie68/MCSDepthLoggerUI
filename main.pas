@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
   mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, CheckLst, TASources,
-  TAGraph, mcslogger;
+  TAGraph, mcslogger, mvTypes, mvGPSObj, mvEngine;
 
 type
 
@@ -36,6 +36,7 @@ type
     ActionList1: TActionList;
     btnAnalyse: TBitBtn;
     cbAutoAnalyse: TCheckBox;
+    cbAutoMap: TCheckBox;
     cbRootDrives: TComboBox;
     actExit: TFileExit;
     cbProvider: TComboBox;
@@ -92,9 +93,9 @@ type
     Separator2: TMenuItem;
     Separator3: TMenuItem;
     slvTracks: TShellListView;
+    spHorizontal1: TSplitter;
     Splitter1: TSplitter;
     stvTracks: TShellTreeView;
-    spHorizontal1: TSplitter;
     spLEft: TSplitter;
     spRight: TSplitter;
     spHorizontal: TSplitter;
@@ -166,8 +167,11 @@ type
     procedure tbTracksResize(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
-    init: boolean;
-    trackSelected: boolean;
+    FInit: boolean;
+    FTrackSelected: boolean;
+    FArea: TRealArea;
+    FAreaSelected: boolean;
+
     procedure SetMapProvider();
     procedure RefreshRootDrives();
     procedure PopulateFilesGrid();
@@ -183,10 +187,60 @@ var
 implementation
 
 uses fileinfo, uPreferences, uloggerconfig, MCSAbout, ufsinfo,
-  LazStringUtils, mvTypes, mvGPSObj, mvEngine, uconst, usdcardimages, uwait;
+  LazStringUtils, uconst, usdcardimages, uwait;
   {$R *.lfm}
 
-  { TfrmMain }
+type
+
+  { TAnalyseThread }
+
+  TAnalyseThread = class(TThread)
+  private
+    FFilename: string;
+    FResult: TLoggerCheckResult;
+    FOutput: string;
+
+  protected
+    procedure Execute; override;
+    procedure showLabel();
+  public
+    constructor Create(filename: string);
+  end;
+
+  { TAnalyseThread }
+
+procedure TAnalyseThread.Execute;
+var
+  pc: double;
+begin
+  FResult := HWLogger.Check(FFilename);
+  if FResult.DatagrammCount > 0 then
+    pc := FResult.ErrorCount / FResult.DatagrammCount * 100.0;
+  FOutput := 'Dateiname: ' + FResult.Filename + LineEnding +
+    'Dateigröße: ' + FormatBytes(FResult.Size) + LineEnding +
+    'Datagramme: ' + IntToStr(FResult.DatagrammCount) + LineEnding +
+    'Fehler: ' + IntToStr(FResult.ErrorCount) + ' (' + Format('%.1f', [pc]) +
+    '% A:' + IntToStr(FResult.ErrorA) + ', B:' + IntToStr(FResult.ErrorB) +
+    ', I:' + IntToStr(FResult.ErrorI) + ')' + LineEnding + 'Version: ' +
+    FResult.Version + LineEnding + 'Zeitstempel' + LineEnding + 'von: ' +
+    FormatDateTime('yyyy-mm-dd hh:mm:ss', FResult.FirstTimeStamp) +
+    LineEnding + 'bis: ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', FResult.LastTimeStamp);
+
+  Synchronize(@ShowLabel);
+end;
+
+procedure TAnalyseThread.showLabel();
+begin
+  frmMain.lblFileInfo.Caption := FOutput;
+end;
+
+constructor TAnalyseThread.Create(filename: string);
+begin
+  FFilename := filename;
+  inherited Create(False);
+end;
+
+{ TfrmMain }
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
@@ -198,7 +252,8 @@ var
   mapname: string;
   i: integer;
 begin
-  init := False;
+  FInit := False;
+  FAreaSelected := False;
   configDir := GetAppConfigDir(False);
   if not DirectoryExists(configDir) then
   begin
@@ -231,7 +286,7 @@ begin
   Provider.Free();
 
   CreateMCSLogger();
-  trackSelected := False;
+  FTrackSelected := False;
 end;
 
 procedure TfrmMain.cbRootDrivesGetItems(Sender: TObject);
@@ -273,8 +328,13 @@ begin
     end;
     MvPluginManager1LegalNoticePlugin1.LegalNotice := legal;
     MapView1.Active := True;
-    MapView1.Center := MvGeoNames1.Search('Germany', MapView1.DownloadEngine);
-    MapView1.Zoom := 7;
+    if FAreaSelected then
+      MapView1.ZoomOnArea(FArea)
+    else
+    begin
+      MapView1.Center := MvGeoNames1.Search('Germany', MapView1.DownloadEngine);
+      MapView1.Zoom := 7;
+    end;
   end;
 end;
 
@@ -319,26 +379,14 @@ procedure TfrmMain.AnalyseFile(filename: string);
 var
   res: TLoggerCheckResult;
   pc: double;
+  an: TAnalyseThread;
 begin
-  res := HWLogger.Check(filename);
-  if res.DatagrammCount > 0 then
-    pc := res.ErrorCount / res.DatagrammCount * 100.0;
-
-  lblFileInfo.Caption := 'Dateiname: ' + res.Filename + LineEnding +
-    'Dateigröße: ' + FormatBytes(res.Size) + LineEnding + 'Datagramme: ' +
-    IntToStr(res.DatagrammCount) + LineEnding + 'Fehler: ' +
-    IntToStr(res.ErrorCount) + ' (' + Format('%.1f', [pc]) + '% A:' +
-    IntToStr(res.ErrorA) + ', B:' + IntToStr(res.ErrorB) + ', I:' +
-    IntToStr(res.ErrorI) + ')' + LineEnding + 'Version: ' + res.Version +
-    LineEnding + 'Zeitstempel' + LineEnding + 'von: ' +
-    FormatDateTime('yyyy-mm-dd hh:mm:ss', res.FirstTimeStamp) +
-    LineEnding + 'bis: ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', res.LastTimeStamp);
+  an := TAnalyseThread.Create(filename);
 end;
 
 procedure TfrmMain.ShowTrackOnMap(ltrack: TLoggerTrack);
 var
   track: TGPSTrack;
-  area: TRealArea;
   gpsPt: TGpsPoint;
   i: integer;
 begin
@@ -368,8 +416,9 @@ begin
         ltrack.Waypoints[i].Time));
   track.LineWidth := 0.5;
   MapView1.GPSItems.Add(track, 2);
-  track.GetArea(area);
-  MapView1.ZoomOnArea(area);
+  track.GetArea(FArea);
+  FAreaSelected := True;
+  MapView1.ZoomOnArea(FArea);
 end;
 
 procedure TfrmMain.cbRootDrivesChange(Sender: TObject);
@@ -476,7 +525,7 @@ var
   track: TLoggerTrack;
   fn: string;
 begin
-  if trackSelected then
+  if FTrackSelected then
     ShowMessage('Nicht implementiert!')
   else
   begin
@@ -585,16 +634,18 @@ end;
 
 procedure TfrmMain.sgFilesSelection(Sender: TObject; aCol, aRow: integer);
 begin
-  trackSelected := False;
+  FTrackSelected := False;
   if cbAutoAnalyse.Checked then
     AnalyseFile(sgFiles.Cells[0, sgFiles.Row]);
+  if cbAutoMap.Checked then
+    actMapExecute(Sender);
   actAnalyse.Enabled := True;
 end;
 
 procedure TfrmMain.slvTracksSelectItem(Sender: TObject; Item: TListItem;
   Selected: boolean);
 begin
-  trackSelected := True;
+  FTrackSelected := True;
 end;
 
 procedure TfrmMain.tbMainResize(Sender: TObject);
@@ -638,7 +689,7 @@ end;
 
 procedure TfrmMain.Timer1Timer(Sender: TObject);
 begin
-  if not init then
+  if not FInit then
   begin
     RefreshRootDrives();
     if (cbRootDrives.Items.Count > 0) and (cbRootDrives.ItemIndex < 0) then
@@ -646,7 +697,7 @@ begin
       cbRootDrives.ItemIndex := 0;
     end;
     cbRootDrivesChange(Sender);
-    init := True;
+    FInit := True;
   end;
 end;
 

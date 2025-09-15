@@ -321,10 +321,7 @@ begin
   begin
     exec := TExecOSMLThread.Create(['check', '-s', filename]);
     try
-      while not exec.Finished do
-      begin
-        Application.ProcessMessages();
-      end;
+      exec.WaitFor;
       if exec.Ok then
       begin
         Data := GetJSON(exec.Output);
@@ -380,10 +377,7 @@ begin
   begin
     exec := TExecOSMLThread.Create(['convert', '-s', filename]);
     try
-      while not exec.Finished do
-      begin
-        Application.ProcessMessages();
-      end;
+      exec.WaitFor;
       if exec.Ok then
       begin
         try
@@ -457,10 +451,7 @@ begin
   begin
     exec := TExecOSMLThread.Create(['backup', '-s', FRootpath, '-o', backupFolder]);
     try
-      while not exec.Finished do
-      begin
-        Application.ProcessMessages();
-      end;
+      exec.WaitFor;
       if exec.Ok then
       begin
         try
@@ -499,10 +490,7 @@ var
 begin
   exec := TExecOSMLThread.Create(['restore', '-s', FRootpath, '-z', filename]);
   try
-    while not exec.Finished do
-    begin
-      Application.ProcessMessages();
-    end;
+    exec.WaitFor;
     if exec.Ok then
     begin
       try
