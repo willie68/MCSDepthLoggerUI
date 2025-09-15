@@ -21,6 +21,7 @@ type
     actAdd2Track: TAction;
     actExport: TAction;
     actAbout: TAction;
+    actMapZoomArea: TAction;
     acZoomIn: TAction;
     acZoomOut: TAction;
     actTrackEdit: TAction;
@@ -41,6 +42,7 @@ type
     actExit: TFileExit;
     cbProvider: TComboBox;
     Chart1: TChart;
+    CheckListBox1: TCheckListBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     actHelp: THelpAction;
@@ -126,6 +128,9 @@ type
     ToolButton26: TToolButton;
     tbtnZoomIn: TToolButton;
     tbtnZoomOut: TToolButton;
+    tbMapsSeamarks: TToolButton;
+    tbMapSports: TToolButton;
+    ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
     ToolButton6: TToolButton;
@@ -140,6 +145,7 @@ type
     procedure actExportExecute(Sender: TObject);
     procedure actImportExecute(Sender: TObject);
     procedure actMapExecute(Sender: TObject);
+    procedure actMapZoomAreaExecute(Sender: TObject);
     procedure actNewTrackExecute(Sender: TObject);
     procedure actPreferencesExecute(Sender: TObject);
     procedure actSDManagementExecute(Sender: TObject);
@@ -164,8 +170,10 @@ type
       Selected: boolean);
     procedure tbMainResize(Sender: TObject);
     procedure tbMapResize(Sender: TObject);
+    procedure tbMapSportsClick(Sender: TObject);
     procedure tbTracksResize(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure tbMapsSeamarksClick(Sender: TObject);
   private
     FInit: boolean;
     FTrackSelected: boolean;
@@ -175,7 +183,6 @@ type
     procedure SetMapProvider();
     procedure RefreshRootDrives();
     procedure PopulateFilesGrid();
-    procedure AnalyseFile(filename: string);
     procedure ShowTrackOnMap(ltrack: TLoggerTrack);
   public
 
@@ -187,7 +194,7 @@ var
 implementation
 
 uses fileinfo, uPreferences, uloggerconfig, MCSAbout, ufsinfo,
-  LazStringUtils, uconst, usdcardimages, uwait;
+  LazStringUtils, uconst, usdcardimages, mvDrawingEngine, mvMapProvider, uwait;
   {$R *.lfm}
 
 type
@@ -375,15 +382,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.AnalyseFile(filename: string);
-var
-  res: TLoggerCheckResult;
-  pc: double;
-  an: TAnalyseThread;
-begin
-  an := TAnalyseThread.Create(filename);
-end;
-
 procedure TfrmMain.ShowTrackOnMap(ltrack: TLoggerTrack);
 var
   track: TGPSTrack;
@@ -440,7 +438,6 @@ end;
 
 procedure TfrmMain.actPreferencesExecute(Sender: TObject);
 var
-  appData: string;
   mr: integer;
 begin
   frmPreferences.AppData := ConfigPathes.Appdata;
@@ -551,6 +548,15 @@ begin
   end;
 end;
 
+procedure TfrmMain.actMapZoomAreaExecute(Sender: TObject);
+begin
+  if FAreaSelected then
+  begin
+    MapView1.ZoomOnArea(FArea);
+    MapView1.Redraw;
+  end;
+end;
+
 procedure TfrmMain.actNewTrackExecute(Sender: TObject);
 begin
   ShowMessage('Nicht implementiert!');
@@ -573,7 +579,7 @@ begin
   if sgFiles.Row >= 1 then
   begin
     fn := sgFiles.Cells[0, sgFiles.Row];
-    AnalyseFile(fn);
+    TAnalyseThread.Create(fn);
   end;
 end;
 
@@ -597,7 +603,6 @@ end;
 
 procedure TfrmMain.JSONPropStorage1RestoringProperties(Sender: TObject);
 var
-  appData: string;
   mapProvider: string;
   i: integer;
 begin
@@ -636,7 +641,7 @@ procedure TfrmMain.sgFilesSelection(Sender: TObject; aCol, aRow: integer);
 begin
   FTrackSelected := False;
   if cbAutoAnalyse.Checked then
-    AnalyseFile(sgFiles.Cells[0, sgFiles.Row]);
+    TAnalyseThread.Create(sgFiles.Cells[0, sgFiles.Row]);
   if cbAutoMap.Checked then
     actMapExecute(Sender);
   actAnalyse.Enabled := True;
@@ -674,6 +679,23 @@ begin
   Panel1.Width := w;
 end;
 
+procedure TfrmMain.tbMapSportsClick(Sender: TObject);
+var
+  layer: TGPSTilelayer;
+begin
+  if tbMapSports.Down then
+  begin
+    layer := TGPSTilelayer.Create;
+    layer.MapProvider := 'OpenSeaMap Sports';
+    layer.DrawMode := idmUseSourceAlpha;
+    MapView1.GPSLayer[0].Add(layer, 43);
+  end
+  else
+  begin
+    MapView1.GPSLayer[0].Clear(43);
+  end;
+end;
+
 procedure TfrmMain.tbTracksResize(Sender: TObject);
 var
   w: longint;
@@ -698,6 +720,23 @@ begin
     end;
     cbRootDrivesChange(Sender);
     FInit := True;
+  end;
+end;
+
+procedure TfrmMain.tbMapsSeamarksClick(Sender: TObject);
+var
+  layer: TGPSTilelayer;
+begin
+  if tbMapsSeamarks.Down then
+  begin
+    layer := TGPSTilelayer.Create;
+    layer.MapProvider := 'OpenSeaMap Seamarks';
+    layer.DrawMode := idmUseSourceAlpha;
+    MapView1.GPSLayer[0].Add(layer, 42);
+  end
+  else
+  begin
+    MapView1.GPSLayer[0].Clear(42);
   end;
 end;
 

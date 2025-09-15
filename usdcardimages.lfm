@@ -1,30 +1,31 @@
 object frmSDCard: TfrmSDCard
   Left = 340
-  Height = 529
+  Height = 741
   Top = 250
-  Width = 646
+  Width = 904
   Caption = 'frmSDCard'
-  ClientHeight = 529
-  ClientWidth = 646
-  DesignTimePPI = 120
+  ClientHeight = 741
+  ClientWidth = 904
+  DesignTimePPI = 168
   Position = poMainFormCenter
   ShowHint = True
+  LCLVersion = '4.2.0.0'
   OnShow = FormShow
   object Panel1: TPanel
     Left = 0
-    Height = 183
+    Height = 256
     Top = 0
     Width = 646
     Align = alTop
-    ClientHeight = 183
+    ClientHeight = 256
     ClientWidth = 646
     ParentBackground = False
     TabOrder = 0
     object Image1: TImage
-      Left = 6
-      Height = 165
-      Top = 6
-      Width = 218
+      Left = 8
+      Height = 231
+      Top = 8
+      Width = 305
       Picture.Data = {
         07544269746D617036840300424D368403000000000036000000280000004001
         0000F0000000010018000000000000840300120B0000120B0000000000000000
@@ -7233,14 +7234,14 @@ object frmSDCard: TfrmSDCard
       Proportional = True
     end
     object Label2: TLabel
-      Left = 246
-      Height = 164
-      Top = 11
-      Width = 395
+      Left = 344
+      Height = 230
+      Top = 15
+      Width = 295
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
-      BorderSpacing.Around = 3
-      BorderSpacing.InnerBorder = 3
+      BorderSpacing.Around = 4
+      BorderSpacing.InnerBorder = 4
       Caption = 'Hier kannst du deine SD Karten Images verwalten. '
       WordWrap = True
     end
@@ -7269,7 +7270,7 @@ object frmSDCard: TfrmSDCard
     end
     object ToolBar1: TToolBar
       Left = 1
-      Height = 33
+      Height = 46
       Top = 1
       Width = 644
       Caption = 'ToolBar1'
@@ -7277,40 +7278,40 @@ object frmSDCard: TfrmSDCard
       TabOrder = 1
       object ToolButton1: TToolButton
         Left = 1
-        Top = 2
+        Top = 3
         Action = actBackup
       end
       object ToolButton3: TToolButton
-        Left = 59
-        Top = 2
+        Left = 83
+        Top = 3
         Action = actDelete
       end
       object ToolButton4: TToolButton
-        Left = 133
-        Top = 2
+        Left = 186
+        Top = 3
         Action = actExplorer
       end
       object ToolButton5: TToolButton
-        Left = 96
-        Top = 2
+        Left = 134
+        Top = 3
         Action = actRefresh
       end
       object ToolButton6: TToolButton
-        Left = 30
-        Top = 2
+        Left = 42
+        Top = 3
         Action = actRestore
       end
       object ToolButton8: TToolButton
-        Left = 88
-        Height = 28
-        Top = 2
+        Left = 123
+        Height = 11
+        Top = 3
         Caption = 'ToolButton8'
         Style = tbsSeparator
       end
       object ToolButton9: TToolButton
-        Left = 125
-        Height = 28
-        Top = 2
+        Left = 175
+        Height = 11
+        Top = 3
         Caption = 'ToolButton9'
         Style = tbsSeparator
       end
@@ -7318,18 +7319,18 @@ object frmSDCard: TfrmSDCard
   end
   object Panel3: TPanel
     Left = 0
-    Height = 57
-    Top = 472
+    Height = 80
+    Top = 449
     Width = 646
     Align = alBottom
-    ClientHeight = 57
+    ClientHeight = 80
     ClientWidth = 646
     TabOrder = 2
     object BitBtn1: TBitBtn
-      Left = 512
-      Height = 38
-      Top = 8
-      Width = 126
+      Left = 459
+      Height = 53
+      Top = -11
+      Width = 176
       Action = actClose
       Anchors = [akRight, akBottom]
       Images = frmMain.ImageList
@@ -7339,8 +7340,8 @@ object frmSDCard: TfrmSDCard
   end
   object pmShellView: TPopupMenu
     Images = frmMain.ImageList
-    Left = 496
-    Top = 272
+    Left = 694
+    Top = 381
     object MenuItem4: TMenuItem
       Action = actBackup
     end
@@ -7365,8 +7366,8 @@ object frmSDCard: TfrmSDCard
   end
   object ActionList1: TActionList
     Images = frmMain.ImageList
-    Left = 544
-    Top = 272
+    Left = 762
+    Top = 381
     object actExplorer: TAction
       Caption = 'Explorer'
       Hint = 'Explorer starten'

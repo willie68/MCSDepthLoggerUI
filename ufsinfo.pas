@@ -8,8 +8,7 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Classes, SysUtils, CustApp,
-  ActiveX, ComObj, Variants, contnrs, fgl
+  Classes, SysUtils, ActiveX, ComObj, Variants, fgl
   { you can add units after this };
 
 type
@@ -21,7 +20,7 @@ type
     FreeSpace: int64;
     Size: int64;
     FileSystem: string;
-    FsType : string;
+    FsType: string;
   end;
 
   TFileInfoList = specialize TFPGObjectList<TFileSystemInfo>;
@@ -41,7 +40,7 @@ type
     property FileInfos: TFileInfoList read FFileSystemInfos;
   end;
 
-  function DriveTypeStr(DriveType: integer): string;
+function DriveTypeStr(DriveType: integer): string;
 function FormatBytes(Bytes: int64): string;
 
 implementation
@@ -58,7 +57,6 @@ var
   FWbemObjectSet: olevariant;
   FWbemObject: olevariant;
   oEnum: IEnumvariant;
-  iValue: longword;
 
 procedure TFileSystemInfoCollector.DoRun;
 var

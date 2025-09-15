@@ -6,8 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
-  Buttons, StdCtrls, Spin, Grids, ShellCtrls, Menus, ActnList, LazNumEdit,
-  mcslogger;
+  Buttons, StdCtrls, ShellCtrls, Menus, ActnList, mcslogger;
 
 type
 
@@ -64,7 +63,7 @@ implementation
 
 {$R *.lfm}
 
-uses uconst, uwait, LCLIntf, Process, LCLProc;
+uses uconst, uwait, LCLIntf, LCLProc;
 
   { TfrmSDCard }
 

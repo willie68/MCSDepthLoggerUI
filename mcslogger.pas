@@ -281,9 +281,6 @@ end;
 procedure TMCSLogger.HasCfg();
 var
   lgConfig: string;
-  FilteredFiles: TStringList;
-  i, Count: integer;
-  ldf: TLoggerDataFile;
 begin
   lgConfig := ConcatPaths([FRootpath, 'config.dat']);
   FLoggerCard := FileExists(lgConfig);
@@ -301,13 +298,10 @@ end;
 
 function TMCSLogger.Check(filename: string): TLoggerCheckResult;
 var
-  Output: string;
   Data: TJSONData;
   Obj: TJSONObject;
-  jv: TJSONVariant;
   jo: TJSONObject;
   Name, v: string;
-  fs: TFormatSettings;
   exec: TExecOSMLThread;
 begin
   Result.Filename := filename;
@@ -369,7 +363,6 @@ var
   Data: TJSONData;
   Obj, way: TJSONObject;
   exec: TExecOSMLThread;
-  dt: TJSONData;
   arr: TJSONArray;
   i: integer;
 begin

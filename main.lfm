@@ -149,12 +149,12 @@ object frmMain: TfrmMain
           Style = tbsSeparator
         end
         object ToolButton25: TToolButton
-          Left = 321
+          Left = 318
           Top = 2
           Action = actExport
         end
         object ToolButton26: TToolButton
-          Left = 363
+          Left = 360
           Top = 2
           Action = actUpload
         end
@@ -169,7 +169,7 @@ object frmMain: TfrmMain
           TabOrder = 0
         end
         object ToolButton20: TToolButton
-          Left = 405
+          Left = 402
           Top = 2
           Action = actMap
         end
@@ -352,10 +352,10 @@ object frmMain: TfrmMain
       ClientWidth = 601
       TabOrder = 0
       object Chart1: TChart
-        Left = 1
+        Left = 144
         Height = 207
         Top = 1
-        Width = 599
+        Width = 456
         AxisList = <        
           item
             Marks.LabelBrush.Style = bsClear
@@ -373,6 +373,15 @@ object frmMain: TfrmMain
           'TAChart'
         )
         Align = alClient
+      end
+      object CheckListBox1: TCheckListBox
+        Left = 1
+        Height = 207
+        Top = 1
+        Width = 143
+        Align = alLeft
+        ItemHeight = 0
+        TabOrder = 1
       end
     end
     object pMapClient: TPanel
@@ -419,12 +428,12 @@ object frmMain: TfrmMain
           OnChange = cbProviderChange
         end
         object tbtnZoomOut: TToolButton
-          Left = 468
+          Left = 388
           Top = 2
           Action = acZoomOut
         end
         object tbtnZoomIn: TToolButton
-          Left = 428
+          Left = 348
           Top = 2
           Action = acZoomIn
         end
@@ -432,9 +441,32 @@ object frmMain: TfrmMain
           Left = 303
           Height = 39
           Top = 2
-          Width = 125
+          Width = 45
           BevelOuter = bvNone
           TabOrder = 1
+        end
+        object ToolButton3: TToolButton
+          Left = 428
+          Top = 2
+          Action = actMapZoomArea
+        end
+        object tbMapsSeamarks: TToolButton
+          Left = 468
+          Hint = 'Seezeichen anzeigen'
+          Top = 2
+          Caption = 'Seezeichen'
+          ImageIndex = 60
+          Style = tbsCheck
+          OnClick = tbMapsSeamarksClick
+        end
+        object tbMapSports: TToolButton
+          Left = 508
+          Hint = 'zeige Sportoverlay'
+          Top = 2
+          Caption = 'Sportoverlay'
+          ImageIndex = 167
+          Style = tbsCheck
+          OnClick = tbMapSportsClick
         end
       end
     end
@@ -468,17 +500,17 @@ object frmMain: TfrmMain
     TabOrder = 6
     OnResize = tbMainResize
     object ToolButton1: TToolButton
-      Left = 793
+      Left = 784
       Top = 2
       Action = actExit
     end
     object ToolButton2: TToolButton
-      Left = 877
+      Left = 868
       Top = 2
       Action = actHelp
     end
     object ToolButton4: TToolButton
-      Left = 835
+      Left = 826
       Top = 2
       Action = actAbout
     end
@@ -515,51 +547,51 @@ object frmMain: TfrmMain
       Style = tbsSeparator
     end
     object ToolButton11: TToolButton
-      Left = 222
+      Left = 219
       Top = 2
       Action = actTimestamp
     end
     object ToolButton12: TToolButton
-      Left = 264
+      Left = 261
       Top = 2
       Action = actImport
     end
     object ToolButton13: TToolButton
-      Left = 306
+      Left = 303
       Top = 2
       Action = actExport
     end
     object ToolButton14: TToolButton
-      Left = 348
+      Left = 345
       Height = 42
       Top = 2
       Caption = 'ToolButton14'
       Style = tbsSeparator
     end
     object ToolButton15: TToolButton
-      Left = 359
+      Left = 353
       Top = 2
       Action = actNewTrack
     end
     object ToolButton16: TToolButton
-      Left = 401
+      Left = 395
       Top = 2
       Action = actAdd2Track
     end
     object ToolButton17: TToolButton
-      Left = 454
+      Left = 445
       Top = 2
       Action = actPreferences
     end
     object ToolButton18: TToolButton
-      Left = 443
+      Left = 437
       Height = 42
       Top = 2
       Caption = 'ToolButton18'
       Style = tbsSeparator
     end
     object Panel7: TPanel
-      Left = 496
+      Left = 487
       Height = 42
       Top = 2
       Width = 297
@@ -841,6 +873,13 @@ object frmMain: TfrmMain
       Caption = 'Zoom out'
       ImageIndex = 372
       OnExecute = acZoomOutExecute
+    end
+    object actMapZoomArea: TAction
+      Category = 'Karte'
+      Caption = 'Zoom on Area'
+      Hint = 'automatic zoom on last area'
+      ImageIndex = 145
+      OnExecute = actMapZoomAreaExecute
     end
   end
   object Timer1: TTimer
