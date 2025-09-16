@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
   mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, CheckLst, TASources,
-  TAGraph, TASeries, TAIntervalSources, mcslogger, mvTypes, mvGPSObj, mvEngine;
+  TAGraph, TASeries, TAIntervalSources, umcslogger, mvTypes, mvGPSObj, mvEngine, ugomapproxy;
 
 type
 
@@ -131,6 +131,7 @@ type
     tbtnZoomOut: TToolButton;
     tbMapsSeamarks: TToolButton;
     tbMapSports: TToolButton;
+    tbMapDepth: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
@@ -177,12 +178,13 @@ type
     procedure tbTracksResize(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure tbMapsSeamarksClick(Sender: TObject);
+    procedure tbMapDepthClick(Sender: TObject);
   private
     FInit: boolean;
     FTrackSelected: boolean;
     FArea: TRealArea;
     FAreaSelected: boolean;
-
+    FMapProxy: TExecProxy;
     procedure SetMapProvider();
     procedure RefreshRootDrives();
     procedure PopulateFilesGrid();
@@ -279,6 +281,8 @@ begin
   finally
     FileVerInfo.Free;
   end;
+
+  FMapProxy:= TExecProxy.Create(ExtractFilePath(Application.ExeName) + 'config.yaml');
 
   MapView1.Align := alClient;
   provider := TStringList.Create();
@@ -700,8 +704,7 @@ begin
   if tbMapSports.Down then
   begin
     layer := TGPSTilelayer.Create;
-//    layer.MapProvider := 'OpenSeaMap Sports';
-    layer.MapProvider := 'OpenSeaMap Gebco';
+    layer.MapProvider := 'OpenSeaMap Sports';
     layer.DrawMode := idmUseSourceAlpha;
     MapView1.GPSLayer[0].Add(layer, 43);
   end
@@ -752,6 +755,25 @@ begin
   else
   begin
     MapView1.GPSLayer[0].Clear(42);
+  end;
+end;
+
+procedure TfrmMain.tbMapDepthClick(Sender: TObject);
+var
+  layer: TGPSTilelayer;
+begin
+  if tbMapDepth.Down then
+  begin
+    FMapProxy.Start();
+    layer := TGPSTilelayer.Create;
+    layer.MapProvider := 'OpenSeaMap Gebco';
+    layer.DrawMode := idmUseSourceAlpha;
+    MapView1.GPSLayer[0].Add(layer, 44);
+  end
+  else
+  begin
+    MapView1.GPSLayer[0].Clear(44);
+    FMapProxy.Stop();
   end;
 end;
 

@@ -30,7 +30,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="14"/>
+      <BuildNr Value="16"/>
       <Language Value="0407"/>
       <Attributes pvaDebug="True" pvaPreRelease="True"/>
       <StringTable CompanyName="MCS Music" InternalName="MCSDLUI" ProductName="MCS Depth Logger" ProductVersion="0.1.0"/>
@@ -105,7 +105,7 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="mcslogger.pas"/>
+        <Filename Value="umcslogger.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -125,6 +125,10 @@
         <ComponentName Value="frmWait"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ugomapproxy.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
   </ProjectOptions>

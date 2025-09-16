@@ -1,4 +1,4 @@
-unit mcslogger;
+unit umcslogger;
 
 {$mode ObjFPC}{$H+}
 

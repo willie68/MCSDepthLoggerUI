@@ -485,6 +485,15 @@ object frmMain: TfrmMain
           Style = tbsCheck
           OnClick = tbMapSportsClick
         end
+        object tbMapDepth: TToolButton
+          Left = 548
+          Hint = 'zeige Wassertiefen'
+          Top = 2
+          Caption = 'Tiefen'
+          ImageIndex = 370
+          Style = tbsCheck
+          OnClick = tbMapDepthClick
+        end
       end
     end
     object spHorizontal1: TSplitter

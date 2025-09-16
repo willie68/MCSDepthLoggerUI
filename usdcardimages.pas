@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
-  Buttons, StdCtrls, ShellCtrls, Menus, ActnList, mcslogger;
+  Buttons, StdCtrls, ShellCtrls, Menus, ActnList, umcslogger;
 
 type
 
