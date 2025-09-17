@@ -12,7 +12,7 @@ object frmMain: TfrmMain
   ShowHint = True
   OnActivate = FormActivate
   OnCreate = FormCreate
-  object StatusBar: TStatusBar
+  object sbMain: TStatusBar
     Left = 0
     Height = 43
     Top = 864
@@ -26,8 +26,17 @@ object frmMain: TfrmMain
       end    
       item
         Width = 50
+      end    
+      item
+        Style = psOwnerDraw
+        Width = 30
+      end    
+      item
+        Width = 30
       end>
     SimplePanel = False
+    OnDrawPanel = sbMainDrawPanel
+    OnResize = sbMainResize
   end
   object pCenter: TPanel
     Left = 308
@@ -421,6 +430,8 @@ object frmMain: TfrmMain
         Options = [mvoMouseDragging, mvoMouseZooming, mvoLatLonInDMS]
         Layers = <>
         PluginManager = MvPluginManager1
+        POIImages = ImageList
+        POIImagesWidth = 24
         POITextBgOpacity = 0.550000011920929
         TabOrder = 0
       end
@@ -4002,5 +4013,11 @@ object frmMain: TfrmMain
     OnDateTimeStepChange = DateTimeIntervalChartSource1DateTimeStepChange
     Left = 1485
     Top = 720
+  end
+  object StatusTimer: TTimer
+    Interval = 3000
+    OnTimer = StatusTimerTimer
+    Left = 1672
+    Top = 688
   end
 end

@@ -7,8 +7,9 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
-  mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, CheckLst, TASources,
-  TAGraph, TASeries, TAIntervalSources, umcslogger, mvTypes, mvGPSObj, mvEngine, ugomapproxy;
+  mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, CheckLst,
+  TAGraph, TASeries, TAIntervalSources, umcslogger, mvTypes, mvGPSObj,
+  ugomapproxy;
 
 type
 
@@ -102,12 +103,13 @@ type
     spLEft: TSplitter;
     spRight: TSplitter;
     spHorizontal: TSplitter;
-    StatusBar: TStatusBar;
+    sbMain: TStatusBar;
     sgFiles: TStringGrid;
     Timer1: TTimer;
     tbMain: TToolBar;
     tbTracks: TToolBar;
     tbMap: TToolBar;
+    StatusTimer: TTimer;
     ToolButton1: TToolButton;
     ToolButton10: TToolButton;
     ToolButton11: TToolButton;
@@ -172,6 +174,10 @@ type
     procedure sgFilesSelection(Sender: TObject; aCol, aRow: integer);
     procedure slvTracksSelectItem(Sender: TObject; Item: TListItem;
       Selected: boolean);
+    procedure sbMainDrawPanel(Statusbar: TStatusBar; Panel: TStatusPanel;
+      const Rect: TRect);
+    procedure sbMainResize(Sender: TObject);
+    procedure StatusTimerTimer(Sender: TObject);
     procedure tbMainResize(Sender: TObject);
     procedure tbMapResize(Sender: TObject);
     procedure tbMapSportsClick(Sender: TObject);
@@ -185,10 +191,16 @@ type
     FArea: TRealArea;
     FAreaSelected: boolean;
     FMapProxy: TExecProxy;
+    FDepthlayer: TMapLayer;
+    FSeamarkslayer: TMapLayer;
+    FSportslayer: TMapLayer;
+    FTrackLayer: TMapLayer;
     procedure SetMapProvider();
     procedure RefreshRootDrives();
     procedure PopulateFilesGrid();
     procedure ShowTrackOnMap(ltrack: TLoggerTrack);
+    procedure PopulateLayers();
+    procedure StatusMsg(line: string);
   public
 
   end;
@@ -198,14 +210,13 @@ var
 
 implementation
 
-uses fileinfo, uPreferences, uloggerconfig, MCSAbout, ufsinfo,
-  LazStringUtils, uconst, usdcardimages, mvDrawingEngine, mvMapProvider, uwait;
+uses fileinfo, uPreferences, uloggerconfig, MCSAbout, ufsinfo, LazStringUtils,
+  uconst, usdcardimages, mvDrawingEngine, mvMapProvider, uwait;
   {$R *.lfm}
 
 type
 
   { TAnalyseThread }
-
   TAnalyseThread = class(TThread)
   private
     FFilename: string;
@@ -282,11 +293,11 @@ begin
     FileVerInfo.Free;
   end;
 
-  FMapProxy:= TExecProxy.Create(ExtractFilePath(Application.ExeName) + 'config.yaml');
+  FMapProxy := TExecProxy.Create(ExtractFilePath(Application.ExeName) + 'config.yaml');
 
   MapView1.Align := alClient;
   provider := TStringList.Create();
-  MapView1.GetMapProviders(provider);
+  MapProvidersToSortedStrings(provider);
   cbProvider.Items.Clear();
   for i := 0 to Provider.Count - 1 do
   begin
@@ -296,11 +307,13 @@ begin
   end;
   map := Provider.Strings[0];
 
+  PopulateLayers();
   MapView1.MapProvider := map;
   Provider.Free();
 
   CreateMCSLogger();
   FTrackSelected := False;
+
 end;
 
 procedure TfrmMain.cbRootDrivesGetItems(Sender: TObject);
@@ -308,8 +321,8 @@ begin
   RefreshRootDrives();
 end;
 
-procedure TfrmMain.DateTimeIntervalChartSource1DateTimeStepChange(
-  Sender: TObject; ASteps: TDateTimeStep);
+procedure TfrmMain.DateTimeIntervalChartSource1DateTimeStepChange(Sender: TObject;
+  ASteps: TDateTimeStep);
 begin
 
 end;
@@ -397,43 +410,46 @@ end;
 
 procedure TfrmMain.ShowTrackOnMap(ltrack: TLoggerTrack);
 var
-  track: TGPSTrack;
-  gpsPt: TGpsPoint;
+  track: TMapTrack;
+  rp, rpStart, rpEnd: TRealPoint;
   i: integer;
-  way : TLoggerWaypoint;
+  way: TLoggerWaypoint;
 begin
-  track := TGPSTrack.Create;
-
-  MapView1.GPSItems.ClearAll;
+  FTrackLayer.Visible := False;
+  FTrackLayer.PointsOfInterest.Clear;
+  FTrackLayer.Tracks.Clear;
   Depth.Clear;
+
   if ltrack.Start.Active then
   begin
-    gpsPt := TGpsPoint.Create(ltrack.Start.Longitude, ltrack.Start.Latitude,
-      ltrack.Start.Elevation, ltrack.Start.Time);
-    gpsPt.Name := ltrack.Start.Name;
-    Mapview1.GPSItems.Add(gpsPt, 0);
+    rpStart.InitXY(ltrack.Start.Longitude, ltrack.Start.Latitude);
+    FTrackLayer.AddPointOfInterest(rpStart, ltrack.Start.Name).ImageIndex:=149;
   end;
 
   if ltrack.Finish.Active then
   begin
-    gpsPt := TGpsPoint.Create(ltrack.Finish.Longitude, ltrack.Finish.Latitude,
-      ltrack.Finish.Elevation, ltrack.Finish.Time);
-    gpsPt.Name := ltrack.Finish.Name;
-    Mapview1.GPSItems.Add(gpsPt, 1);
+    rpEnd.InitXY(ltrack.Finish.Longitude, ltrack.Finish.Latitude);
+    FTrackLayer.AddPointOfInterest(rpEnd, ltrack.Finish.Name).ImageIndex:=150;
   end;
 
-  for i := 0 to length(ltrack.Waypoints) - 1 do
+  if length(ltrack.Waypoints) > 0 then
   begin
-    way := ltrack.Waypoints[i];
-    if way.Active then
+    track := FTrackLayer.Tracks.Add as TMapTrack;
+    for i := 0 to length(ltrack.Waypoints) - 1 do
     begin
-      track.Points.Add(TGPSPoint.Create(way.Longitude,way.Latitude, way.Elevation,way.Time));
-      Depth.AddXY(way.Time, -way.Depth);
+      way := ltrack.Waypoints[i];
+      if way.Active then
+      begin
+        rp.InitXY(way.Longitude, way.Latitude);
+        track.AddPoint(rp, way.Elevation, Way.Time);
+        Depth.AddXY(way.Time, -way.Depth);
+      end;
     end;
+    track.LineWidth := 0.5;
   end;
-  track.LineWidth := 0.5;
-  MapView1.GPSItems.Add(track, 2);
-  track.GetArea(FArea);
+
+  FTrackLayer.Visible := True;
+  TGPSTrack(track.GPSObj).GetArea(FArea);
   FAreaSelected := True;
   MapView1.ZoomOnArea(FArea);
 end;
@@ -556,9 +572,12 @@ begin
         else
         begin
           frmWait.Hide();
-          MessageDlg('Information',
-            'Keine kartenrelevanten Daten in der Datei gefunden.',
-            mtWarning, [mbOK], 0);
+          if cbAutoMap.Checked then
+            StatusMsg('Keine kartenrelevanten Daten in der Datei gefunden.')
+          else
+            MessageDlg('Information',
+              'Keine kartenrelevanten Daten in der Datei gefunden.',
+              mtWarning, [mbOK], 0);
         end;
       finally
         frmWait.Hide();
@@ -671,6 +690,45 @@ begin
   FTrackSelected := True;
 end;
 
+procedure TfrmMain.sbMainDrawPanel(Statusbar: TStatusBar; Panel: TStatusPanel;
+  const Rect: TRect);
+begin
+  if Panel.Index = 3 then
+  begin
+    if FMapProxy.Started then
+      ImageList.Draw(sbMain.Canvas, Rect.Left, Rect.Top, 370)
+    else
+    begin
+      with sbMain.Canvas do
+      begin
+        Brush.Color := clDefault;
+        Font.Color := clDefault;
+        FillRect(Rect);
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmMain.sbMainResize(Sender: TObject);
+var
+  size: integer;
+  i: integer;
+begin
+  size := sbMain.ClientWidth;
+  for i := 0 to sbMain.Panels.Count - 1 do
+  begin
+    if i <> 2 then
+      size := size - sbMain.Panels[i].Width;
+  end;
+  sbMain.Panels[2].Width := size;
+end;
+
+procedure TfrmMain.StatusTimerTimer(Sender: TObject);
+begin
+  sbMain.Panels[2].Text := '';
+  StatusTimer.Enabled := False;
+end;
+
 procedure TfrmMain.tbMainResize(Sender: TObject);
 var
   w: longint;
@@ -695,23 +753,6 @@ begin
     w := w - tbMap.Buttons[i].Width;
   end;
   Panel1.Width := w;
-end;
-
-procedure TfrmMain.tbMapSportsClick(Sender: TObject);
-var
-  layer: TGPSTilelayer;
-begin
-  if tbMapSports.Down then
-  begin
-    layer := TGPSTilelayer.Create;
-    layer.MapProvider := 'OpenSeaMap Sports';
-    layer.DrawMode := idmUseSourceAlpha;
-    MapView1.GPSLayer[0].Add(layer, 43);
-  end
-  else
-  begin
-    MapView1.GPSLayer[0].Clear(43);
-  end;
 end;
 
 procedure TfrmMain.tbTracksResize(Sender: TObject);
@@ -741,40 +782,67 @@ begin
   end;
 end;
 
-procedure TfrmMain.tbMapsSeamarksClick(Sender: TObject);
-var
-  layer: TGPSTilelayer;
+procedure TfrmMain.tbMapSportsClick(Sender: TObject);
 begin
-  if tbMapsSeamarks.Down then
-  begin
-    layer := TGPSTilelayer.Create;
-    layer.MapProvider := 'OpenSeaMap Seamarks';
-    layer.DrawMode := idmUseSourceAlpha;
-    MapView1.GPSLayer[0].Add(layer, 42);
-  end
-  else
-  begin
-    MapView1.GPSLayer[0].Clear(42);
-  end;
+  FSportslayer.Visible := tbMapSports.Down;
+end;
+
+procedure TfrmMain.tbMapsSeamarksClick(Sender: TObject);
+begin
+  FSeamarkslayer.Visible := tbMapsSeamarks.Down;
 end;
 
 procedure TfrmMain.tbMapDepthClick(Sender: TObject);
-var
-  layer: TGPSTilelayer;
 begin
   if tbMapDepth.Down then
   begin
     FMapProxy.Start();
-    layer := TGPSTilelayer.Create;
-    layer.MapProvider := 'OpenSeaMap Gebco';
-    layer.DrawMode := idmUseSourceAlpha;
-    MapView1.GPSLayer[0].Add(layer, 44);
+    FDepthlayer.Visible := True;
+    sbMain.Invalidate;
   end
   else
   begin
-    MapView1.GPSLayer[0].Clear(44);
+    FDepthlayer.Visible := False;
     FMapProxy.Stop();
+    sbMain.Invalidate;
   end;
 end;
+
+procedure TfrmMain.PopulateLayers();
+begin
+
+  RegisterMapProvider('OpenSeaMap Seamarks', ptEPSG3857,
+    'https://tiles.openseamap.org/seamark/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
+  RegisterMapProvider('OpenSeaMap Sports', ptEPSG3857,
+    'https://tiles.openseamap.org/sports/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
+  RegisterMapProvider('OpenSeaMap Gebco', ptEPSG3857,
+    'http://localhost:8580/gebco/tms/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
+
+
+  FDepthlayer := MapView1.Layers.Add as TMapLayer;
+  FDepthlayer.Visible := False;
+  FDepthlayer.MapProvider := 'OpenSeaMap Gebco';
+  FDepthlayer.DrawMode := idmUseSourceAlpha;
+
+  FSeamarkslayer := MapView1.Layers.Add as TMapLayer;
+  FSeamarkslayer.Visible := False;
+  FSeamarkslayer.MapProvider := 'OpenSeaMap Seamarks';
+  FSeamarkslayer.DrawMode := idmUseSourceAlpha;
+
+  FSportslayer := MapView1.Layers.Add as TMapLayer;
+  FSportslayer.Visible := False;
+  FSportslayer.MapProvider := 'OpenSeaMap Sports';
+  FSportslayer.DrawMode := idmUseSourceAlpha;
+
+  FTrackLayer := MapView1.Layers.Add as TMapLayer;
+  FTrackLayer.Visible := False;
+end;
+
+procedure TfrmMain.StatusMsg(line: string);
+begin
+  sbMain.Panels[2].Text := line;
+  StatusTimer.Enabled := True;
+end;
+
 
 end.

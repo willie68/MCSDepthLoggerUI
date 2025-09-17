@@ -21,6 +21,8 @@ type
     constructor Create(config: string);
     procedure Start();
     procedure Stop();
+  published
+    property Started: boolean read FStarted;
   end;
 
 implementation
