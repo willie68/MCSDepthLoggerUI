@@ -184,32 +184,20 @@ object frmMain: TfrmMain
         end
       end
       object stvTracks: TShellTreeView
-        Left = 0
+        Left = 8
         Height = 378
         Top = 53
-        Width = 309
-        Align = alLeft
+        Width = 838
+        Align = alClient
         HideSelection = False
         ShowRoot = False
         TabOrder = 1
         Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
         ObjectTypes = [otFolders, otNonFolders]
-        ShellListView = slvTracks
-      end
-      object slvTracks: TShellListView
-        Left = 317
-        Height = 378
-        Top = 53
-        Width = 529
-        Align = alClient
-        Color = clDefault
-        Mask = '*.zip'
-        TabOrder = 2
-        ShellTreeView = stvTracks
-        OnSelectItem = slvTracksSelectItem
+        OnAddItem = stvTracksAddItem
       end
       object Splitter1: TSplitter
-        Left = 309
+        Left = 0
         Height = 378
         Top = 53
         Width = 8

@@ -96,7 +96,6 @@ type
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Separator3: TMenuItem;
-    slvTracks: TShellListView;
     spHorizontal1: TSplitter;
     Splitter1: TSplitter;
     stvTracks: TShellTreeView;
@@ -178,6 +177,8 @@ type
       const Rect: TRect);
     procedure sbMainResize(Sender: TObject);
     procedure StatusTimerTimer(Sender: TObject);
+    procedure stvTracksAddItem(Sender: TObject; const ABasePath: String;
+      const AFileInfo: TSearchRec; var CanAdd: Boolean);
     procedure tbMainResize(Sender: TObject);
     procedure tbMapResize(Sender: TObject);
     procedure tbMapSportsClick(Sender: TObject);
@@ -729,6 +730,19 @@ begin
   StatusTimer.Enabled := False;
 end;
 
+procedure TfrmMain.stvTracksAddItem(Sender: TObject; const ABasePath: String;
+  const AFileInfo: TSearchRec; var CanAdd: Boolean);
+begin
+  // only allow directories and track zips
+  CanAdd := False;
+  // check if track zip
+  if ExtractFileExt(AFileInfo.Name) = '.zip' then
+    CanAdd := True;
+  // check if directory
+  if (AFileInfo.Attr and faDirectory) <> 0 then
+    CanAdd := True;
+end;
+
 procedure TfrmMain.tbMainResize(Sender: TObject);
 var
   w: longint;
@@ -810,14 +824,12 @@ end;
 
 procedure TfrmMain.PopulateLayers();
 begin
-
   RegisterMapProvider('OpenSeaMap Seamarks', ptEPSG3857,
     'https://tiles.openseamap.org/seamark/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
   RegisterMapProvider('OpenSeaMap Sports', ptEPSG3857,
     'https://tiles.openseamap.org/sports/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
   RegisterMapProvider('OpenSeaMap Gebco', ptEPSG3857,
     'http://localhost:8580/gebco/tms/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
-
 
   FDepthlayer := MapView1.Layers.Add as TMapLayer;
   FDepthlayer.Visible := False;
