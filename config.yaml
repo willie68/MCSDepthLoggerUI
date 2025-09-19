@@ -1,7 +1,7 @@
 port: 8580
 cache:
   active: false
-  path: ./testdata/cache
+  path:
   maxage: 2160 # in hours, 90 days = 2160
 
 logging:

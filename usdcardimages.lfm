@@ -1,31 +1,29 @@
 object frmSDCard: TfrmSDCard
   Left = 340
-  Height = 741
+  Height = 423
   Top = 250
-  Width = 904
+  Width = 517
   Caption = 'frmSDCard'
-  ClientHeight = 741
-  ClientWidth = 904
-  DesignTimePPI = 168
+  ClientHeight = 423
+  ClientWidth = 517
   Position = poMainFormCenter
   ShowHint = True
-  LCLVersion = '4.2.0.0'
   OnShow = FormShow
   object Panel1: TPanel
     Left = 0
-    Height = 256
+    Height = 146
     Top = 0
-    Width = 646
+    Width = 517
     Align = alTop
-    ClientHeight = 256
-    ClientWidth = 646
+    ClientHeight = 146
+    ClientWidth = 517
     ParentBackground = False
     TabOrder = 0
     object Image1: TImage
-      Left = 8
-      Height = 231
-      Top = 8
-      Width = 305
+      Left = 5
+      Height = 132
+      Top = 5
+      Width = 174
       Picture.Data = {
         07544269746D617036840300424D368403000000000036000000280000004001
         0000F0000000010018000000000000840300120B0000120B0000000000000000
@@ -7234,32 +7232,32 @@ object frmSDCard: TfrmSDCard
       Proportional = True
     end
     object Label2: TLabel
-      Left = 344
-      Height = 230
-      Top = 15
-      Width = 295
+      Left = 197
+      Height = 131
+      Top = 9
+      Width = 316
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
-      BorderSpacing.Around = 4
-      BorderSpacing.InnerBorder = 4
+      BorderSpacing.Around = 2
+      BorderSpacing.InnerBorder = 2
       Caption = 'Hier kannst du deine SD Karten Images verwalten. '
       WordWrap = True
     end
   end
   object Panel2: TPanel
     Left = 0
-    Height = 289
-    Top = 183
-    Width = 646
+    Height = 231
+    Top = 146
+    Width = 517
     Align = alClient
-    ClientHeight = 289
-    ClientWidth = 646
+    ClientHeight = 231
+    ClientWidth = 517
     TabOrder = 1
     object ShellListView1: TShellListView
       Left = 1
-      Height = 254
-      Top = 34
-      Width = 644
+      Height = 197
+      Top = 33
+      Width = 515
       Align = alClient
       Color = clDefault
       PopupMenu = pmShellView
@@ -7270,48 +7268,49 @@ object frmSDCard: TfrmSDCard
     end
     object ToolBar1: TToolBar
       Left = 1
-      Height = 46
       Top = 1
-      Width = 644
+      Width = 515
+      ButtonHeight = 26
+      ButtonWidth = 26
       Caption = 'ToolBar1'
       Images = frmMain.ImageList
       TabOrder = 1
       object ToolButton1: TToolButton
         Left = 1
-        Top = 3
+        Top = 2
         Action = actBackup
       end
       object ToolButton3: TToolButton
-        Left = 83
-        Top = 3
+        Left = 57
+        Top = 2
         Action = actDelete
       end
       object ToolButton4: TToolButton
-        Left = 186
-        Top = 3
+        Left = 123
+        Top = 2
         Action = actExplorer
       end
       object ToolButton5: TToolButton
-        Left = 134
-        Top = 3
+        Left = 90
+        Top = 2
         Action = actRefresh
       end
       object ToolButton6: TToolButton
-        Left = 42
-        Top = 3
+        Left = 29
+        Top = 2
         Action = actRestore
       end
       object ToolButton8: TToolButton
-        Left = 123
-        Height = 8
-        Top = 3
+        Left = 85
+        Height = 26
+        Top = 2
         Caption = 'ToolButton8'
         Style = tbsSeparator
       end
       object ToolButton9: TToolButton
-        Left = 175
-        Height = 8
-        Top = 3
+        Left = 118
+        Height = 26
+        Top = 2
         Caption = 'ToolButton9'
         Style = tbsSeparator
       end
@@ -7319,18 +7318,18 @@ object frmSDCard: TfrmSDCard
   end
   object Panel3: TPanel
     Left = 0
-    Height = 80
-    Top = 449
-    Width = 646
+    Height = 46
+    Top = 377
+    Width = 517
     Align = alBottom
-    ClientHeight = 80
-    ClientWidth = 646
+    ClientHeight = 46
+    ClientWidth = 517
     TabOrder = 2
     object BitBtn1: TBitBtn
-      Left = 459
-      Height = 53
-      Top = -11
-      Width = 176
+      Left = 408
+      Height = 32
+      Top = 8
+      Width = 101
       Action = actClose
       Anchors = [akRight, akBottom]
       Images = frmMain.ImageList
@@ -7340,8 +7339,8 @@ object frmSDCard: TfrmSDCard
   end
   object pmShellView: TPopupMenu
     Images = frmMain.ImageList
-    Left = 694
-    Top = 381
+    Left = 397
+    Top = 218
     object MenuItem4: TMenuItem
       Action = actBackup
     end
@@ -7366,8 +7365,8 @@ object frmSDCard: TfrmSDCard
   end
   object ActionList1: TActionList
     Images = frmMain.ImageList
-    Left = 762
-    Top = 381
+    Left = 435
+    Top = 218
     object actExplorer: TAction
       Caption = 'Explorer'
       Hint = 'Explorer starten'

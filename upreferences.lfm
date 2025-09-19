@@ -7,6 +7,7 @@ object frmPreferences: TfrmPreferences
   ClientHeight = 407
   ClientWidth = 505
   Position = poMainFormCenter
+  LCLVersion = '4.2.0.0'
   OnHide = FormHide
   OnShow = FormShow
   object Panel1: TPanel
@@ -7362,7 +7363,6 @@ object frmPreferences: TfrmPreferences
         Width = 343
         ButtonWidth = 23
         EchoMode = emPassword
-        Images = Form1.ImageList
         ImageIndex = 49
         MaxLength = 0
         NumGlyphs = 1

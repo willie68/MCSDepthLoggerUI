@@ -37,20 +37,20 @@ type
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
-    mdata: string;
-    murl: string;
-    muser: string;
-    mpassword: string;
-    mbootloader: integer;
+    FData: string;
+    FURL: string;
+    FUser: string;
+    FPassword: string;
+    FBootloader: integer;
 
     procedure SetData(datapath: string);
   public
   published
-    property AppData: string read mdata write SetData;
-    property URL: string read murl write murl;
-    property Username: string read muser write muser;
-    property Password: string read mpassword write mpassword;
-    property Bootloader: integer read mbootloader write mbootloader;
+    property AppData: string read FData write SetData;
+    property URL: string read FURL write FURL;
+    property Username: string read FUser write FUser;
+    property Password: string read FPassword write FPassword;
+    property Bootloader: integer read FBootloader write FBootloader;
   end;
 
 var
@@ -64,12 +64,12 @@ implementation
 
 procedure TfrmPreferences.FormShow(Sender: TObject);
 begin
-  deDatafolder.Text := mdata;
-  edtURL.Text := murl;
-  edtUsername.Text := muser;
-  edtPassword.Text := mpassword;
+  deDatafolder.Text := FData;
+  edtURL.Text := FURL;
+  edtUsername.Text := FUser;
+  edtPassword.Text := FPassword;
   PageControl1.ActivePageIndex := 0;
-  rgBootloader.ItemIndex := mbootloader;
+  rgBootloader.ItemIndex := FBootloader;
 end;
 
 procedure TfrmPreferences.edtPasswordButtonClick(Sender: TObject);
@@ -82,17 +82,18 @@ end;
 
 procedure TfrmPreferences.FormHide(Sender: TObject);
 begin
-  mdata := deDatafolder.Text;
-  murl := edtURL.Text;
-  muser := edtUsername.Text;
-  mpassword := edtPassword.Text;
-  mbootloader := rgBootloader.ItemIndex;
+  FData := deDatafolder.Text;
+  FURL := edtURL.Text;
+  FUser := edtUsername.Text;
+  FPassword := edtPassword.Text;
+  FBootloader := rgBootloader.ItemIndex;
 end;
 
 procedure TfrmPreferences.SetData(datapath: string);
 begin
-  if mdata = '' then
-    mdata := GetAppConfigDir(True);
+  FData := datapath;
+  if FData = '' then
+    FData := GetAppConfigDir(True);
 end;
 
 end.

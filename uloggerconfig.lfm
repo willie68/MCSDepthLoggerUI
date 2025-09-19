@@ -1,73 +1,77 @@
 object frmLoggerConfig: TfrmLoggerConfig
   Left = 604
-  Height = 747
+  Height = 427
   Top = 42
-  Width = 775
+  Width = 443
   Caption = 'Konfiguration des Loggers'
-  ClientHeight = 747
-  ClientWidth = 775
-  DesignTimePPI = 168
+  ClientHeight = 427
+  ClientWidth = 443
   Position = poMainFormCenter
-  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnShow = FormShow
   object Panel2: TPanel
     Left = 0
-    Height = 88
-    Top = 659
-    Width = 775
+    Height = 50
+    Top = 377
+    Width = 443
     Align = alBottom
-    ClientHeight = 88
-    ClientWidth = 775
+    ClientHeight = 50
+    ClientWidth = 443
     TabOrder = 0
     object BitBtn1: TBitBtn
-      Left = 448
-      Height = 52
-      Top = 16
-      Width = 150
+      Left = 256
+      Height = 32
+      Top = 9
+      Width = 86
       Anchors = [akTop, akRight]
       DefaultCaption = True
       Kind = bkOK
       ModalResult = 1
+      Images = frmMain.ImageList
+      ImageIndex = 91
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 606
-      Height = 52
-      Top = 16
-      Width = 150
+      Left = 346
+      Height = 32
+      Top = 9
+      Width = 86
       Anchors = [akTop, akRight]
       Caption = 'Abbrechen'
       Kind = bkCancel
       ModalResult = 2
+      Images = frmMain.ImageList
+      ImageIndex = 127
       TabOrder = 1
     end
     object btnDefault: TBitBtn
-      Left = 219
-      Height = 53
-      Top = 16
-      Width = 219
+      Left = 104
+      Height = 32
+      Top = 9
+      Width = 146
       Caption = 'Werkseinstellungen'
       Kind = bkRetry
+      Images = frmMain.ImageList
+      ImageIndex = 267
       TabOrder = 2
       OnClick = btnDefaultClick
     end
   end
   object Panel1: TPanel
     Left = 0
-    Height = 256
+    Height = 146
     Top = 0
-    Width = 775
+    Width = 443
     Align = alTop
-    ClientHeight = 256
-    ClientWidth = 775
+    ClientHeight = 146
+    ClientWidth = 443
     ParentBackground = False
     TabOrder = 1
     object Image1: TImage
-      Left = 9
-      Height = 229
-      Top = 9
-      Width = 313
+      Left = 5
+      Height = 131
+      Top = 5
+      Width = 179
       Anchors = [akTop, akLeft, akRight, akBottom]
       AutoSize = True
       Picture.Data = {
@@ -7278,83 +7282,83 @@ object frmLoggerConfig: TfrmLoggerConfig
       Proportional = True
     end
     object Label2: TLabel
-      Left = 345
-      Height = 229
-      Top = 16
-      Width = 423
+      Left = 197
+      Height = 131
+      Top = 9
+      Width = 242
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
-      BorderSpacing.Around = 4
-      BorderSpacing.InnerBorder = 4
+      BorderSpacing.Around = 2
+      BorderSpacing.InnerBorder = 2
       Caption = 'Bitte wähle  die Konfiguration für deinen Logger. Die Konfiguration wird dann automatisch auf die gewählte SD Karte gespeichert.'
       WordWrap = True
     end
   end
   object Panel3: TPanel
     Left = 0
-    Height = 403
-    Top = 256
-    Width = 775
+    Height = 231
+    Top = 146
+    Width = 443
     Align = alClient
-    ClientHeight = 403
-    ClientWidth = 775
+    ClientHeight = 231
+    ClientWidth = 443
     TabOrder = 2
     object Label1: TLabel
-      Left = 136
-      Height = 30
-      Top = 16
-      Width = 160
+      Left = 78
+      Height = 15
+      Top = 9
+      Width = 90
       Alignment = taRightJustify
       Caption = 'Baudrate Kanal A'
       FocusControl = cbBaudA
     end
     object Label4: TLabel
-      Left = 229
-      Height = 30
-      Top = 65
-      Width = 66
+      Left = 131
+      Height = 15
+      Top = 37
+      Width = 37
       Alignment = taRightJustify
       Caption = 'Seatalk'
     end
     object Label5: TLabel
-      Left = 138
-      Height = 30
-      Top = 112
-      Width = 158
+      Left = 79
+      Height = 15
+      Top = 64
+      Width = 89
       Alignment = taRightJustify
       Caption = 'Baudrate Kanal B'
       FocusControl = cbBaudB
     end
     object Label6: TLabel
-      Left = 219
-      Height = 30
-      Top = 168
-      Width = 78
+      Left = 125
+      Height = 15
+      Top = 96
+      Width = 44
       Alignment = taRightJustify
       Caption = 'Features'
     end
     object Label7: TLabel
-      Left = 206
-      Height = 30
-      Top = 289
-      Width = 90
+      Left = 118
+      Height = 15
+      Top = 165
+      Width = 51
       Alignment = taRightJustify
       Caption = 'Schiffs-ID'
       FocusControl = sedVesselID
     end
     object Label8: TLabel
-      Left = 320
-      Height = 30
-      Top = 336
-      Width = 412
+      Left = 183
+      Height = 15
+      Top = 192
+      Width = 236
       Caption = 'Parameter mit * sind Loggervoreinstellungen'
     end
     object cbBaudA: TComboBox
-      Left = 312
-      Height = 38
-      Top = 16
-      Width = 404
-      ItemHeight = 30
+      Left = 178
+      Height = 23
+      Top = 9
+      Width = 231
+      ItemHeight = 15
       Items.Strings = (
         'deaktiviert'
         '1200'
@@ -7367,20 +7371,20 @@ object frmLoggerConfig: TfrmLoggerConfig
       TabOrder = 0
     end
     object cbSeatalk: TCheckBox
-      Left = 320
-      Height = 34
+      Left = 183
+      Height = 19
       Hint = 'Seatalk für Kanal A aktiviert'
-      Top = 64
-      Width = 173
+      Top = 37
+      Width = 100
       Caption = 'Seatalk aktiviert'
       TabOrder = 1
     end
     object cbBaudB: TComboBox
-      Left = 312
-      Height = 38
-      Top = 112
-      Width = 404
-      ItemHeight = 30
+      Left = 178
+      Height = 23
+      Top = 64
+      Width = 231
+      ItemHeight = 15
       Items.Strings = (
         'deaktiviert'
         '1200'
@@ -7392,44 +7396,44 @@ object frmLoggerConfig: TfrmLoggerConfig
       TabOrder = 2
     end
     object sedVesselID: TSpinEdit
-      Left = 313
-      Height = 38
-      Top = 289
-      Width = 402
+      Left = 179
+      Height = 23
+      Top = 165
+      Width = 230
       TabOrder = 3
     end
     object GroupBox1: TGroupBox
-      Left = 312
-      Height = 128
-      Top = 152
-      Width = 404
-      ClientHeight = 93
-      ClientWidth = 400
+      Left = 178
+      Height = 73
+      Top = 87
+      Width = 231
+      ClientHeight = 53
+      ClientWidth = 227
       TabOrder = 4
       object cbGyro: TCheckBox
-        Left = 16
-        Height = 34
+        Left = 9
+        Height = 19
         Hint = 'Der Logger schreibt zusätzliche DAten zur Lage und Beschleuningung'
-        Top = -8
-        Width = 222
+        Top = -5
+        Width = 128
         Caption = 'schreibe Gyrodaten *'
         TabOrder = 0
       end
       object cbSupply: TCheckBox
-        Left = 16
-        Height = 34
+        Left = 9
+        Height = 19
         Hint = 'Der Logger schreibt zusätzliche Daten zur aktuellen Spannungsversorgung'
-        Top = 32
-        Width = 360
+        Top = 18
+        Width = 207
         Caption = 'schreibe Versorgungspannugsdaten'
         TabOrder = 1
       end
     end
   end
   object Label3: TLabel
-    Left = 40
+    Left = 23
     Height = 1
-    Top = 16
+    Top = 9
     Width = 1
   end
 end

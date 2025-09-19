@@ -101,7 +101,7 @@ type
     function LoggerCFG(): TLoggerConfig;
     procedure SetLoggerCFG(newcfg: TLoggerConfig);
     function Check(filename: string): TLoggerCheckResult;
-    function Convert(filename: string): TLoggerTrack;
+    function Convert(filenames: TStrings): TLoggerTrack;
     procedure Backup(backupFolder: string);
     procedure Restore(filename: string);
   published
@@ -358,17 +358,29 @@ begin
   end;
 end;
 
-function TMCSLogger.Convert(filename: string): TLoggerTrack;
+function TMCSLogger.Convert(filenames: TStrings): TLoggerTrack;
 var
   Data: TJSONData;
   Obj, way: TJSONObject;
   exec: TExecOSMLThread;
   arr: TJSONArray;
   i: integer;
+  params: TProcessStringArray;
+  filename : string;
 begin
   if FLoggerCard then
   begin
-    exec := TExecOSMLThread.Create(['convert', '-s', filename]);
+    SetLength(params, 3);
+    params[0] := 'convert';
+    params[1] := '-s';
+    params[2] := SDRoot;
+    for i := 0 to filenames.Count -1 do
+    begin
+      filename := ExtractFileName(filenames[i]);
+      AddParam(params, '-f');
+      AddParam(params, filename);
+    end;
+    exec := TExecOSMLThread.Create(params);
     try
       exec.WaitFor;
       if exec.Ok then

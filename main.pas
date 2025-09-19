@@ -133,6 +133,7 @@ type
     tbMapsSeamarks: TToolButton;
     tbMapSports: TToolButton;
     tbMapDepth: TToolButton;
+    ToolButton27: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
@@ -177,8 +178,8 @@ type
       const Rect: TRect);
     procedure sbMainResize(Sender: TObject);
     procedure StatusTimerTimer(Sender: TObject);
-    procedure stvTracksAddItem(Sender: TObject; const ABasePath: String;
-      const AFileInfo: TSearchRec; var CanAdd: Boolean);
+    procedure stvTracksAddItem(Sender: TObject; const ABasePath: string;
+      const AFileInfo: TSearchRec; var CanAdd: boolean);
     procedure tbMainResize(Sender: TObject);
     procedure tbMapResize(Sender: TObject);
     procedure tbMapSportsClick(Sender: TObject);
@@ -424,13 +425,13 @@ begin
   if ltrack.Start.Active then
   begin
     rpStart.InitXY(ltrack.Start.Longitude, ltrack.Start.Latitude);
-    FTrackLayer.AddPointOfInterest(rpStart, ltrack.Start.Name).ImageIndex:=149;
+    FTrackLayer.AddPointOfInterest(rpStart, ltrack.Start.Name).ImageIndex := 149;
   end;
 
   if ltrack.Finish.Active then
   begin
     rpEnd.InitXY(ltrack.Finish.Longitude, ltrack.Finish.Latitude);
-    FTrackLayer.AddPointOfInterest(rpEnd, ltrack.Finish.Name).ImageIndex:=150;
+    FTrackLayer.AddPointOfInterest(rpEnd, ltrack.Finish.Name).ImageIndex := 150;
   end;
 
   if length(ltrack.Waypoints) > 0 then
@@ -506,8 +507,17 @@ begin
 end;
 
 procedure TfrmMain.actTrackDeleteExecute(Sender: TObject);
+var
+  track: string;
 begin
-  ShowMessage('Nicht implementiert!');
+  track := stvTracks.GetPathFromNode(stvTracks.Selected);
+  if MessageDlg('Track löschen', 'Soll der Track ' + sLineBreak +
+    track + sLineBreak + ' wirklich gelöscht werden?', mtConfirmation,
+    mbOKCancel, '') = mrOk then
+  begin
+    DeleteFile(track);
+    actTracksReload.Execute;
+  end;
 end;
 
 procedure TfrmMain.actTrackEditExecute(Sender: TObject);
@@ -517,7 +527,10 @@ end;
 
 procedure TfrmMain.actTracksReloadExecute(Sender: TObject);
 begin
-  ShowMessage('Nicht implementiert!');
+  stvTracks.BeginUpdate;
+  stvTracks.Root := '';
+  stvTracks.Root := ConfigPathes.Trackspath;
+  stvTracks.EndUpdate;
 end;
 
 procedure TfrmMain.actUpdateExecute(Sender: TObject);
@@ -556,7 +569,8 @@ end;
 procedure TfrmMain.actMapExecute(Sender: TObject);
 var
   track: TLoggerTrack;
-  fn: string;
+  fn: TStringList;
+  i: integer;
 begin
   if FTrackSelected then
     ShowMessage('Nicht implementiert!')
@@ -565,8 +579,13 @@ begin
     if sgFiles.Row >= 1 then
     begin
       frmWait.Show();
+      fn := TStringList.Create();
       try
-        fn := sgFiles.Cells[0, sgFiles.Row];
+        for i := 0 to sgFiles.RowCount - 1 do
+        begin
+          if sgFiles.IsCellSelected[0, i] then
+            fn.Add(sgFiles.Cells[0, i]);
+        end;
         track := HWLogger.Convert(fn);
         if length(track.Waypoints) > 0 then
           ShowTrackOnMap(track)
@@ -582,6 +601,7 @@ begin
         end;
       finally
         frmWait.Hide();
+        fn.Free();
       end;
     end;
   end;
@@ -730,8 +750,8 @@ begin
   StatusTimer.Enabled := False;
 end;
 
-procedure TfrmMain.stvTracksAddItem(Sender: TObject; const ABasePath: String;
-  const AFileInfo: TSearchRec; var CanAdd: Boolean);
+procedure TfrmMain.stvTracksAddItem(Sender: TObject; const ABasePath: string;
+  const AFileInfo: TSearchRec; var CanAdd: boolean);
 begin
   // only allow directories and track zips
   CanAdd := False;
