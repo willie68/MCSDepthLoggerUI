@@ -92,3 +92,5 @@ tools/MCSfsInfo/lib/
 *.dbg
 
 dist/
+
+debug.log

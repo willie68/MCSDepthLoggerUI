@@ -7,11 +7,19 @@ interface
 uses
   Classes, SysUtils;
 
+const
+  TILES_MAXAGE = 'maps.tilesmaxage';
+  LOGGER_BOOTLOADER = 'logger.bootloader';
+  UPLOAD_PASSWORD = 'upload.password';
+  UPLOAD_USERNAME = 'upload.username';
+  UPLOAD_URL = 'upload.url';
+  TRACK_STOREPATH = 'track.storepath';
+
 type
 
-  { TConfigPathes }
+  { TAppConfig }
 
-  TConfigPathes = class
+  TAppConfig = class
   private
     FRootpath: string;
     FTilesCache: string;
@@ -31,23 +39,23 @@ type
 procedure CreateConfigPathes(rootfolder: string);
 
 var
-  ConfigPathes: TConfigPathes;
+  AppConfig: TAppConfig;
 
 implementation
 
 
 procedure CreateConfigPathes(rootfolder: string);
 begin
-  if ConfigPathes = nil then
+  if AppConfig = nil then
   begin
-    ConfigPathes := TConfigPathes.Create();
+    AppConfig := TAppConfig.Create();
   end;
-  ConfigPathes.SetRoot(rootfolder);
+  AppConfig.SetRoot(rootfolder);
 end;
 
-{ TConfigPathes }
+{ TAppConfig }
 
-procedure TConfigPathes.EnsurePaths();
+procedure TAppConfig.EnsurePaths();
 begin
   ForceDirectories(FTrackspath);
   ForceDirectories(FTilesCache);
@@ -55,7 +63,7 @@ begin
   ForceDirectories(FTemp);
 end;
 
-procedure TConfigPathes.SetRoot(rootFolder: string);
+procedure TAppConfig.SetRoot(rootFolder: string);
 begin
   FRootpath := rootFolder;
   FTilesCache := ConcatPaths([FRootpath, 'tilescache']);

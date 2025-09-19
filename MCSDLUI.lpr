@@ -11,7 +11,8 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, lazcontrols, tachartlazaruspkg, main, uPreferences, uloggerconfig,
-  MCSAbout, ufsinfo, umcslogger, uconst, usdcardimages, uwait, ugomapproxy;
+  MCSAbout, ufsinfo, umcslogger, uconst, usdcardimages, uwait, ugomapproxy,
+  utilecacheutils, utrackedit;
 
 {$R *.res}
 
@@ -30,6 +31,7 @@ begin
   Infobox.CopyRight:= '(C) MCS 2025';
   Application.CreateForm(TfrmSDCard, frmSDCard);
   Application.CreateForm(TfrmWait, frmWait);
+  Application.CreateForm(TfrmTrackEdit, frmTrackEdit);
   Application.Run;
 end.
 

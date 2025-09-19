@@ -12,6 +12,7 @@ object frmMain: TfrmMain
   Scaled = False
   OnActivate = FormActivate
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   object sbMain: TStatusBar
     Left = 0
     Height = 23
@@ -403,12 +404,12 @@ object frmMain: TfrmMain
     end
     object pMapClient: TPanel
       Left = 0
-      Height = 342
+      Height = 336
       Top = 0
       Width = 500
       Align = alClient
       Caption = 'pMapClient'
-      ClientHeight = 342
+      ClientHeight = 336
       ClientWidth = 500
       TabOrder = 1
       object MapView1: TMapView
@@ -500,15 +501,15 @@ object frmMain: TfrmMain
           OnClick = tbMapDepthClick
         end
       end
-      object spHorizontal1: TSplitter
-        Cursor = crVSplit
-        Left = 1
-        Height = 6
-        Top = 335
-        Width = 498
-        Align = alBottom
-        ResizeAnchor = akBottom
-      end
+    end
+    object spHorizontal1: TSplitter
+      Cursor = crVSplit
+      Left = 0
+      Height = 6
+      Top = 336
+      Width = 500
+      Align = alBottom
+      ResizeAnchor = akBottom
     end
   end
   object spRight: TSplitter
@@ -916,9 +917,9 @@ object frmMain: TfrmMain
       OnExecute = actMapZoomAreaExecute
     end
   end
-  object Timer1: TTimer
+  object timRefreshRoot: TTimer
     Interval = 100
-    OnTimer = Timer1Timer
+    OnTimer = timRefreshRootTimer
     Left = 955
     Top = 453
   end
@@ -4011,10 +4012,16 @@ object frmMain: TfrmMain
     Left = 849
     Top = 411
   end
-  object StatusTimer: TTimer
+  object timStatusbar: TTimer
     Interval = 3000
-    OnTimer = StatusTimerTimer
+    OnTimer = timStatusbarTimer
     Left = 955
     Top = 393
+  end
+  object timAfterStart: TTimer
+    Interval = 10000
+    OnTimer = timAfterStartTimer
+    Left = 1016
+    Top = 453
   end
 end

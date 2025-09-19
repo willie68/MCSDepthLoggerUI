@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
-  EditBtn, StdCtrls, Buttons, MaskEdit;
+  EditBtn, StdCtrls, Buttons, MaskEdit, Spin;
 
 type
 
@@ -26,13 +26,16 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
+    Label6: TLabel;
     PageControl1: TPageControl;
     Panel1: TPanel;
     Panel2: TPanel;
     rgBootloader: TRadioGroup;
+    sedTilesMaaxAge: TSpinEdit;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
+    TabSheet4: TTabSheet;
     procedure edtPasswordButtonClick(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -42,6 +45,7 @@ type
     FUser: string;
     FPassword: string;
     FBootloader: integer;
+    FTilesMaxAge: integer;
 
     procedure SetData(datapath: string);
   public
@@ -51,6 +55,7 @@ type
     property Username: string read FUser write FUser;
     property Password: string read FPassword write FPassword;
     property Bootloader: integer read FBootloader write FBootloader;
+    property TilesMaxAge: integer read FTilesMaxAge write FTilesMaxAge;
   end;
 
 var
@@ -70,6 +75,7 @@ begin
   edtPassword.Text := FPassword;
   PageControl1.ActivePageIndex := 0;
   rgBootloader.ItemIndex := FBootloader;
+  sedTilesMaaxAge.Value:= FTilesMaxAge;
 end;
 
 procedure TfrmPreferences.edtPasswordButtonClick(Sender: TObject);
@@ -87,6 +93,7 @@ begin
   FUser := edtUsername.Text;
   FPassword := edtPassword.Text;
   FBootloader := rgBootloader.ItemIndex;
+  FTilesMaxAge := sedTilesMaaxAge.Value;
 end;
 
 procedure TfrmPreferences.SetData(datapath: string);

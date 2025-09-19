@@ -9,7 +9,7 @@ uses
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
   mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, CheckLst,
   TAGraph, TASeries, TAIntervalSources, umcslogger, mvTypes, mvGPSObj,
-  ugomapproxy;
+  ugomapproxy, utilecacheutils, LazLogger, MCSDBGLog;
 
 type
 
@@ -104,11 +104,12 @@ type
     spHorizontal: TSplitter;
     sbMain: TStatusBar;
     sgFiles: TStringGrid;
-    Timer1: TTimer;
+    timAfterStart: TTimer;
+    timRefreshRoot: TTimer;
     tbMain: TToolBar;
     tbTracks: TToolBar;
     tbMap: TToolBar;
-    StatusTimer: TTimer;
+    timStatusbar: TTimer;
     ToolButton1: TToolButton;
     ToolButton10: TToolButton;
     ToolButton11: TToolButton;
@@ -169,6 +170,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actHelpExecute(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure JSONPropStorage1RestoringProperties(Sender: TObject);
     procedure JSONPropStorage1SavingProperties(Sender: TObject);
     procedure sgFilesSelection(Sender: TObject; aCol, aRow: integer);
@@ -177,17 +179,20 @@ type
     procedure sbMainDrawPanel(Statusbar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
     procedure sbMainResize(Sender: TObject);
-    procedure StatusTimerTimer(Sender: TObject);
+    procedure timAfterStartTimer(Sender: TObject);
+    procedure timStatusbarTimer(Sender: TObject);
     procedure stvTracksAddItem(Sender: TObject; const ABasePath: string;
       const AFileInfo: TSearchRec; var CanAdd: boolean);
     procedure tbMainResize(Sender: TObject);
     procedure tbMapResize(Sender: TObject);
     procedure tbMapSportsClick(Sender: TObject);
     procedure tbTracksResize(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
+    procedure timRefreshRootTimer(Sender: TObject);
     procedure tbMapsSeamarksClick(Sender: TObject);
     procedure tbMapDepthClick(Sender: TObject);
   private
+    FLog: TLogger;
+
     FInit: boolean;
     FTrackSelected: boolean;
     FArea: TRealArea;
@@ -197,12 +202,16 @@ type
     FSeamarkslayer: TMapLayer;
     FSportslayer: TMapLayer;
     FTrackLayer: TMapLayer;
+    FCleanupThread: TFileCleanupThread;
+
     procedure SetMapProvider();
     procedure RefreshRootDrives();
     procedure PopulateFilesGrid();
     procedure ShowTrackOnMap(ltrack: TLoggerTrack);
     procedure PopulateLayers();
     procedure StatusMsg(line: string);
+    procedure StartApplication();
+    procedure StopApplication();
   public
 
   end;
@@ -213,7 +222,7 @@ var
 implementation
 
 uses fileinfo, uPreferences, uloggerconfig, MCSAbout, ufsinfo, LazStringUtils,
-  uconst, usdcardimages, mvDrawingEngine, mvMapProvider, uwait;
+  uconst, usdcardimages, mvDrawingEngine, mvMapProvider, uwait, utrackedit;
   {$R *.lfm}
 
 type
@@ -277,6 +286,7 @@ var
   mapname: string;
   i: integer;
 begin
+  DebugLogger.CloseLogFileBetweenWrites := True;
   FInit := False;
   FAreaSelected := False;
   configDir := GetAppConfigDir(False);
@@ -315,7 +325,8 @@ begin
 
   CreateMCSLogger();
   FTrackSelected := False;
-
+  FLog := TLogger.Create('main');
+  FLog.Info(Title + ' started');
 end;
 
 procedure TfrmMain.cbRootDrivesGetItems(Sender: TObject);
@@ -477,21 +488,23 @@ procedure TfrmMain.actPreferencesExecute(Sender: TObject);
 var
   mr: integer;
 begin
-  frmPreferences.AppData := ConfigPathes.Appdata;
-  frmPreferences.URL := JSONPropStorage1.ReadString('upload.url', '');
-  frmPreferences.Username := JSONPropStorage1.ReadString('upload.username', '');
-  frmPreferences.Password := JSONPropStorage1.ReadString('upload.password', '');
-  frmPreferences.Bootloader := JSONPropStorage1.ReadInteger('logger.bootloader', 1);
+  frmPreferences.AppData := AppConfig.Appdata;
+  frmPreferences.URL := JSONPropStorage1.ReadString(UPLOAD_URL, '');
+  frmPreferences.Username := JSONPropStorage1.ReadString(UPLOAD_USERNAME, '');
+  frmPreferences.Password := JSONPropStorage1.ReadString(UPLOAD_PASSWORD, '');
+  frmPreferences.Bootloader := JSONPropStorage1.ReadInteger(LOGGER_BOOTLOADER, 1);
+  frmPreferences.TilesMaxAge := JSONPropStorage1.ReadInteger(TILES_MAXAGE, 30);
 
   mr := frmPreferences.ShowModal();
   if mr = mrOk then
   begin
-    JSONPropStorage1.WriteString('track.storepath', frmPreferences.AppData);
-    ConfigPathes.SetRoot(frmPreferences.AppData);
-    JSONPropStorage1.WriteString('upload.url', frmPreferences.URL);
-    JSONPropStorage1.WriteString('upload.username', frmPreferences.Username);
-    JSONPropStorage1.WriteString('upload.password', frmPreferences.Password);
-    JSONPropStorage1.WriteInteger('logger.bootloader', frmPreferences.Bootloader);
+    JSONPropStorage1.WriteString(TRACK_STOREPATH, frmPreferences.AppData);
+    AppConfig.SetRoot(frmPreferences.AppData);
+    JSONPropStorage1.WriteString(UPLOAD_URL, frmPreferences.URL);
+    JSONPropStorage1.WriteString(UPLOAD_USERNAME, frmPreferences.Username);
+    JSONPropStorage1.WriteString(UPLOAD_PASSWORD, frmPreferences.Password);
+    JSONPropStorage1.WriteInteger(LOGGER_BOOTLOADER, frmPreferences.Bootloader);
+    JSONPropStorage1.WriteInteger(TILES_MAXAGE, frmPreferences.TilesMaxAge);
     JSONPropStorage1RestoringProperties(Sender);
   end;
 end;
@@ -529,7 +542,7 @@ procedure TfrmMain.actTracksReloadExecute(Sender: TObject);
 begin
   stvTracks.BeginUpdate;
   stvTracks.Root := '';
-  stvTracks.Root := ConfigPathes.Trackspath;
+  stvTracks.Root := AppConfig.Trackspath;
   stvTracks.EndUpdate;
 end;
 
@@ -618,7 +631,8 @@ end;
 
 procedure TfrmMain.actNewTrackExecute(Sender: TObject);
 begin
-  ShowMessage('Nicht implementiert!');
+  if frmTrackEdit.ShowModal = mrOk then
+    ShowMessage('Nicht implementiert!');
 end;
 
 procedure TfrmMain.actAboutExecute(Sender: TObject);
@@ -659,6 +673,13 @@ begin
   frmWait.Hide;
 end;
 
+procedure TfrmMain.FormDestroy(Sender: TObject);
+begin
+  StopApplication();
+  FLog.Info('Application stopped');
+  FLog.Free();
+end;
+
 procedure TfrmMain.JSONPropStorage1RestoringProperties(Sender: TObject);
 var
   mapProvider: string;
@@ -676,10 +697,10 @@ begin
     GetAppConfigDir(True)));
 
   MapView1.CacheLocation := clCustom;
-  MapView1.CachePath := ConfigPathes.Tilescache;
+  MapView1.CachePath := AppConfig.Tilescache;
   MapView1.CacheOnDisk := True;
 
-  stvTracks.Root := ConfigPathes.Trackspath + '\';
+  stvTracks.Root := AppConfig.Trackspath + '\';
   SetMapProvider();
 end;
 
@@ -744,10 +765,16 @@ begin
   sbMain.Panels[2].Width := size;
 end;
 
-procedure TfrmMain.StatusTimerTimer(Sender: TObject);
+procedure TfrmMain.timAfterStartTimer(Sender: TObject);
+begin
+  timAfterStart.Enabled := False;
+  StartApplication();
+end;
+
+procedure TfrmMain.timStatusbarTimer(Sender: TObject);
 begin
   sbMain.Panels[2].Text := '';
-  StatusTimer.Enabled := False;
+  timStatusbar.Enabled := False;
 end;
 
 procedure TfrmMain.stvTracksAddItem(Sender: TObject; const ABasePath: string;
@@ -802,7 +829,7 @@ begin
   Panel6.Width := w;
 end;
 
-procedure TfrmMain.Timer1Timer(Sender: TObject);
+procedure TfrmMain.timRefreshRootTimer(Sender: TObject);
 begin
   if not FInit then
   begin
@@ -873,7 +900,26 @@ end;
 procedure TfrmMain.StatusMsg(line: string);
 begin
   sbMain.Panels[2].Text := line;
-  StatusTimer.Enabled := True;
+  timStatusbar.Enabled := True;
+end;
+
+procedure TfrmMain.StartApplication();
+begin
+  FCleanupThread := TFileCleanupThread.Create(AppConfig.Tilescache,
+    JSONPropStorage1.ReadInteger(TILES_MAXAGE, 30));
+end;
+
+procedure TfrmMain.StopApplication();
+begin
+  if FCleanupThread <> nil then
+  begin
+    if not FCleanupThread.Finished then
+    begin
+      FCleanupThread.RequestStop;
+      FCleanupThread.WaitFor;
+    end;
+    FCleanupThread.Free;
+  end;
 end;
 
 

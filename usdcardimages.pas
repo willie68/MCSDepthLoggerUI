@@ -105,7 +105,7 @@ begin
       frmSDCard.Enabled := False;
       Application.ProcessMessages;
       try
-        HWLogger.Backup(ConfigPathes.Backuppath);
+        HWLogger.Backup(AppConfig.Backuppath);
       finally
         frmWait.Hide;
         frmSDCard.Enabled := True;
@@ -150,7 +150,7 @@ end;
 
 procedure TfrmSDCard.actExplorerExecute(Sender: TObject);
 begin
-  OpenDocument(ConfigPathes.Backuppath);
+  OpenDocument(AppConfig.Backuppath);
 end;
 
 procedure TfrmSDCard.actRefreshExecute(Sender: TObject);
@@ -160,7 +160,7 @@ end;
 
 procedure TfrmSDCard.FormShow(Sender: TObject);
 begin
-  ShellListView1.Root := ConfigPathes.Backuppath;
+  ShellListView1.Root := AppConfig.Backuppath;
   ShellListView1.UseBuiltInIcons := True;
 end;
 
