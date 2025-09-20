@@ -145,6 +145,7 @@
         <Filename Value="utrackedit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmTrackEdit"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
