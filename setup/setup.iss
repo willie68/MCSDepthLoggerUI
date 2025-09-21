@@ -42,7 +42,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Source: "..\MCSDLUI.exe"; DestDir: "{app}"; Flags: 
 Source: "..\..\osmltools\dist\osml_windows_amd64_v1\osml.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\go_mapproxy\dist\gomapproxy_windows_amd64_v1\gomapproxy.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\..\go_mapproxy\configs\config.yaml"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\config.yaml"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\MCSDLUI.exe"; WorkingDir: "{app}"; IconFilename: "{app}\MCSDLUI.exe"

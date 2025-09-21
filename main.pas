@@ -22,6 +22,7 @@ type
     actAdd2Track: TAction;
     actExport: TAction;
     actAbout: TAction;
+    actStartMapProxy: TAction;
     actMapZoomArea: TAction;
     acZoomIn: TAction;
     acZoomOut: TAction;
@@ -135,6 +136,7 @@ type
     tbMapSports: TToolButton;
     tbMapDepth: TToolButton;
     ToolButton27: TToolButton;
+    tbMapProxy: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
@@ -154,6 +156,7 @@ type
     procedure actNewTrackExecute(Sender: TObject);
     procedure actPreferencesExecute(Sender: TObject);
     procedure actSDManagementExecute(Sender: TObject);
+    procedure actStartMapProxyExecute(Sender: TObject);
     procedure actTimestampExecute(Sender: TObject);
     procedure actTrackDeleteExecute(Sender: TObject);
     procedure actTrackEditExecute(Sender: TObject);
@@ -308,6 +311,7 @@ begin
   FMapProxy := TExecProxy.Create(ExtractFilePath(Application.ExeName) + 'config.yaml');
 
   MapView1.Align := alClient;
+  PopulateLayers();
   provider := TStringList.Create();
   MapProvidersToSortedStrings(provider);
   cbProvider.Items.Clear();
@@ -319,7 +323,6 @@ begin
   end;
   map := Provider.Strings[0];
 
-  PopulateLayers();
   MapView1.MapProvider := map;
   Provider.Free();
 
@@ -363,6 +366,11 @@ begin
   if not (mapName = '') then
   begin
     legal := '';
+    if LazStartsStr('OpenStreetMap terrestris', mapName) then
+    begin
+      if not FMapProxy.Started then
+        actStartMapProxy.Execute;
+    end;
     if LazStartsStr('OpenStreet', mapName) then
     begin
       legal :=
@@ -512,6 +520,20 @@ end;
 procedure TfrmMain.actSDManagementExecute(Sender: TObject);
 begin
   frmSDCard.ShowModal;
+end;
+
+procedure TfrmMain.actStartMapProxyExecute(Sender: TObject);
+begin
+  if actStartMapProxy.Checked then
+  begin
+    FMapProxy.Start();
+    sbMain.Invalidate;
+  end
+  else
+  begin
+    FMapProxy.Stop();
+    sbMain.Invalidate;
+  end;
 end;
 
 procedure TfrmMain.actTimestampExecute(Sender: TObject);
@@ -857,19 +879,21 @@ procedure TfrmMain.tbMapDepthClick(Sender: TObject);
 begin
   if tbMapDepth.Down then
   begin
-    FMapProxy.Start();
+    if not FMapProxy.Started then
+      actStartMapProxy.Execute;
     FDepthlayer.Visible := True;
     sbMain.Invalidate;
   end
   else
   begin
     FDepthlayer.Visible := False;
-    FMapProxy.Stop();
     sbMain.Invalidate;
   end;
 end;
 
 procedure TfrmMain.PopulateLayers();
+var
+  mp: TMapProvider;
 begin
   RegisterMapProvider('OpenSeaMap Seamarks', ptEPSG3857,
     'https://tiles.openseamap.org/seamark/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
@@ -877,6 +901,8 @@ begin
     'https://tiles.openseamap.org/sports/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
   RegisterMapProvider('OpenSeaMap Gebco', ptEPSG3857,
     'http://localhost:8580/gebco/tms/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
+  RegisterMapProvider('OpenStreetMap terrestris', ptEPSG3857,
+    'http://localhost:8580/osm-terrestris/tms/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
 
   FDepthlayer := MapView1.Layers.Add as TMapLayer;
   FDepthlayer.Visible := False;
@@ -920,6 +946,8 @@ begin
     end;
     FCleanupThread.Free;
   end;
+  if FMapProxy.Started then
+    FMapProxy.Stop();
 end;
 
 

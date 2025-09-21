@@ -6,7 +6,6 @@ object frmMain: TfrmMain
   Caption = 'MCS Depth Logger UI'
   ClientHeight = 579
   ClientWidth = 1092
-  DesignTimePPI = 120
   Menu = MainMenu1
   SessionProperties = 'cbAutoAnalyse.Checked;Height;Left;pBottom.Height;pLeft.Width;pMapBottom.Height;pRight.Width;Top;Width;cbAutoMap.Checked'
   ShowHint = True
@@ -16,8 +15,8 @@ object frmMain: TfrmMain
   OnDestroy = FormDestroy
   object sbMain: TStatusBar
     Left = 0
-    Height = 29
-    Top = 550
+    Height = 23
+    Top = 556
     Width = 1092
     Panels = <    
       item
@@ -42,13 +41,13 @@ object frmMain: TfrmMain
   end
   object pCenter: TPanel
     Left = 176
-    Height = 516
+    Height = 522
     Top = 34
     Width = 410
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pCenter'
-    ClientHeight = 516
+    ClientHeight = 522
     ClientWidth = 410
     TabOrder = 1
     object pTop: TPanel
@@ -64,7 +63,7 @@ object frmMain: TfrmMain
       TabOrder = 0
       object Label2: TLabel
         Left = 0
-        Height = 20
+        Height = 15
         Top = 0
         Width = 410
         Align = alTop
@@ -74,8 +73,8 @@ object frmMain: TfrmMain
       end
       object sgFiles: TStringGrid
         Left = 0
-        Height = 190
-        Top = 20
+        Height = 195
+        Top = 15
         Width = 410
         Align = alClient
         AutoEdit = False
@@ -104,13 +103,13 @@ object frmMain: TfrmMain
     end
     object pBottom: TPanel
       Left = 0
-      Height = 300
+      Height = 306
       Top = 216
       Width = 410
       Align = alClient
       BevelOuter = bvNone
       Caption = 'pBottom'
-      ClientHeight = 300
+      ClientHeight = 306
       ClientWidth = 410
       TabOrder = 1
       object tbTracks: TToolBar
@@ -126,7 +125,7 @@ object frmMain: TfrmMain
           Left = 1
           Height = 26
           Top = 2
-          Width = 44
+          Width = 35
           Align = alLeft
           Caption = 'Tracks'
           Font.Style = [fsBold]
@@ -192,7 +191,7 @@ object frmMain: TfrmMain
       end
       object stvTracks: TShellTreeView
         Left = 5
-        Height = 268
+        Height = 274
         Top = 32
         Width = 405
         Align = alClient
@@ -205,7 +204,7 @@ object frmMain: TfrmMain
       end
       object Splitter1: TSplitter
         Left = 0
-        Height = 268
+        Height = 274
         Top = 32
         Width = 5
       end
@@ -222,12 +221,12 @@ object frmMain: TfrmMain
   end
   object pLeft: TPanel
     Left = 0
-    Height = 516
+    Height = 522
     Top = 34
     Width = 170
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 516
+    ClientHeight = 522
     ClientWidth = 170
     Constraints.MinWidth = 80
     TabOrder = 2
@@ -238,14 +237,14 @@ object frmMain: TfrmMain
       Width = 156
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Karteninformation'
-      ClientHeight = 130
+      ClientHeight = 135
       ClientWidth = 152
       Font.Style = [fsUnderline]
       ParentFont = False
       TabOrder = 0
       object lblCardInfo: TLabel
         Left = 5
-        Height = 120
+        Height = 125
         Top = 5
         Width = 142
         Align = alClient
@@ -260,14 +259,14 @@ object frmMain: TfrmMain
       Width = 156
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Dateiinformation'
-      ClientHeight = 153
+      ClientHeight = 158
       ClientWidth = 152
       Font.Style = [fsUnderline]
       ParentFont = False
       TabOrder = 1
       object lblFileInfo: TLabel
         Left = 5
-        Height = 143
+        Height = 148
         Top = 5
         Width = 142
         Align = alClient
@@ -298,11 +297,11 @@ object frmMain: TfrmMain
     end
     object cbRootDrives: TComboBox
       Left = 8
-      Height = 28
+      Height = 23
       Top = 23
       Width = 156
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 20
+      ItemHeight = 15
       Style = csDropDownList
       TabOrder = 4
       OnChange = cbRootDrivesChange
@@ -310,9 +309,9 @@ object frmMain: TfrmMain
     end
     object Label1: TLabel
       Left = 8
-      Height = 20
+      Height = 15
       Top = 0
-      Width = 122
+      Width = 96
       Caption = 'SD Kartenlaufwerk'
       Font.Style = [fsUnderline]
       ParentFont = False
@@ -331,25 +330,25 @@ object frmMain: TfrmMain
   end
   object spLEft: TSplitter
     Left = 170
-    Height = 516
+    Height = 522
     Top = 34
     Width = 6
   end
   object pRight: TPanel
     Left = 592
-    Height = 516
+    Height = 522
     Top = 34
     Width = 500
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 516
+    ClientHeight = 522
     ClientWidth = 500
     Constraints.MinWidth = 10
     TabOrder = 4
     object pMapBottom: TPanel
       Left = 0
       Height = 119
-      Top = 397
+      Top = 403
       Width = 500
       Align = alBottom
       BevelOuter = bvSpace
@@ -405,17 +404,17 @@ object frmMain: TfrmMain
     end
     object pMapClient: TPanel
       Left = 0
-      Height = 391
+      Height = 397
       Top = 0
       Width = 500
       Align = alClient
       Caption = 'pMapClient'
-      ClientHeight = 391
+      ClientHeight = 397
       ClientWidth = 500
       TabOrder = 1
       object MapView1: TMapView
         Left = 1
-        Height = 355
+        Height = 361
         Top = 35
         Width = 498
         Align = alClient
@@ -443,10 +442,10 @@ object frmMain: TfrmMain
         OnResize = tbMapResize
         object cbProvider: TComboBox
           Left = 1
-          Height = 28
+          Height = 23
           Top = 2
           Width = 173
-          ItemHeight = 20
+          ItemHeight = 15
           Style = csDropDownList
           TabOrder = 0
           OnChange = cbProviderChange
@@ -501,13 +500,19 @@ object frmMain: TfrmMain
           Style = tbsCheck
           OnClick = tbMapDepthClick
         end
+        object tbMapProxy: TToolButton
+          Left = 368
+          Top = 2
+          Action = actStartMapProxy
+          Style = tbsCheck
+        end
       end
     end
     object spHorizontal1: TSplitter
       Cursor = crVSplit
       Left = 0
       Height = 6
-      Top = 391
+      Top = 397
       Width = 500
       Align = alBottom
       ResizeAnchor = akBottom
@@ -515,7 +520,7 @@ object frmMain: TfrmMain
   end
   object spRight: TSplitter
     Left = 586
-    Height = 516
+    Height = 522
     Top = 34
     Width = 6
     Align = alRight
@@ -916,6 +921,14 @@ object frmMain: TfrmMain
       Hint = 'automatic zoom on last area'
       ImageIndex = 145
       OnExecute = actMapZoomAreaExecute
+    end
+    object actStartMapProxy: TAction
+      Category = 'Tools'
+      AutoCheck = True
+      Caption = 'MapProxy starten'
+      Hint = 'starten des MapProxy um definierte WMS Services zu benutzen'
+      ImageIndex = 229
+      OnExecute = actStartMapProxyExecute
     end
   end
   object timRefreshRoot: TTimer

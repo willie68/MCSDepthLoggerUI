@@ -30,7 +30,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="20"/>
+      <BuildNr Value="21"/>
       <Language Value="0407"/>
       <Attributes pvaDebug="True" pvaPreRelease="True"/>
       <StringTable CompanyName="MCS Music" InternalName="MCSDLUI" ProductName="MCS Depth Logger" ProductVersion="0.1.0"/>
@@ -190,6 +190,9 @@
       </Item>
       <Item>
         <Name Value="Exception"/>
+      </Item>
+      <Item>
+        <Name Value="EInvalidGraphic"/>
       </Item>
     </Exceptions>
   </Debugging>
