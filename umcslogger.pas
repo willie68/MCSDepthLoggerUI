@@ -32,7 +32,7 @@ type
     Size: int64;
     DatagrammCount: integer;
     ErrorCount: integer;
-    ErrorA, ErrorB, ErrorI:integer;
+    ErrorA, ErrorB, ErrorI: integer;
     Version: string;
     FirstTimeStamp: TDateTime;
     LastTimeStamp: TDateTime;
@@ -91,10 +91,14 @@ type
     FDataFiles: array of TLoggerDataFile;
     FRootpath: string;
     FCfg: TLoggerConfig;
+    FLastError: string;
+    FHasError: boolean;
+    function GetLastError: string;
     procedure InitCard(root: string);
     procedure ScanFolder();
     procedure HasCfg();
   public
+    constructor Create();
     function Version(): string;
     procedure Read();
     procedure Write();
@@ -109,6 +113,8 @@ type
     property SDRoot: string read FRootpath write InitCard;
     property DataFileCount: integer read FDataFileCount;
     property DataFiles: TLoggerDataFileArray read FDataFiles;
+    property LastError: string read GetLastError;
+    property HasError: boolean read FHasError;
   end;
 
 function ParseTimestamp(const S: string): TDateTime;
@@ -188,8 +194,11 @@ begin
       end;
     end
     else
-      MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak + sLineBreak + Output,
-        mtError, [mbOK], 0);
+    begin
+      FLOggerCard := False;
+      FLastError := 'Fehler beim Auslesen der Loggerkonfiguration';
+      FHasError := True;
+    end;
   end;
 end;
 
@@ -251,6 +260,13 @@ begin
   Read();
 end;
 
+function TMCSLogger.GetLastError: string;
+begin
+  Result := FLastError;
+  FLastError := '';
+  FHasError := False;
+end;
+
 procedure TMCSLogger.ScanFolder();
 var
   FilteredFiles: TStringList;
@@ -284,6 +300,13 @@ var
 begin
   lgConfig := ConcatPaths([FRootpath, 'config.dat']);
   FLoggerCard := FileExists(lgConfig);
+end;
+
+constructor TMCSLogger.Create();
+begin
+  inherited Create();
+  FLastError := '';
+  FHasError := False;
 end;
 
 function TMCSLogger.LoggerCFG(): TLoggerConfig;
@@ -334,9 +357,9 @@ begin
               Result.FirstTimeStamp := ParseTimestamp(v);
               v := jo.Get('lastTimestamp', '');
               Result.LastTimeStamp := ParseTimestamp(v);
-              Result.ErrorA:= jo.Get('errorA', 0);
-              Result.ErrorB:= jo.Get('errorB', 0);
-              Result.ErrorI:= jo.Get('errorI', 0);
+              Result.ErrorA := jo.Get('errorA', 0);
+              Result.ErrorB := jo.Get('errorB', 0);
+              Result.ErrorI := jo.Get('errorI', 0);
             end;
           except
             on e: Exception do
@@ -366,7 +389,7 @@ var
   arr: TJSONArray;
   i: integer;
   params: TProcessStringArray;
-  filename : string;
+  filename: string;
 begin
   if FLoggerCard then
   begin
@@ -374,7 +397,7 @@ begin
     params[0] := 'convert';
     params[1] := '-s';
     params[2] := SDRoot;
-    for i := 0 to filenames.Count -1 do
+    for i := 0 to filenames.Count - 1 do
     begin
       filename := ExtractFileName(filenames[i]);
       AddParam(params, '-f');
@@ -387,8 +410,8 @@ begin
       begin
         try
           try
-            Result.Start.Active:=False;
-            Result.Finish.Active:=False;
+            Result.Start.Active := False;
+            Result.Finish.Active := False;
             Data := GetJSON(exec.Output);
             if Data.JSONType = jtObject then
             begin

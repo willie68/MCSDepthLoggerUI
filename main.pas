@@ -22,7 +22,6 @@ type
     actAdd2Track: TAction;
     actExport: TAction;
     actAbout: TAction;
-    actStartMapProxy: TAction;
     actMapZoomArea: TAction;
     acZoomIn: TAction;
     acZoomOut: TAction;
@@ -31,7 +30,7 @@ type
     actTracksReload: TAction;
     actNewTrack: TAction;
     actTimestamp: TAction;
-    actMap: TAction;
+    actMapShow: TAction;
     actSDManagement: TAction;
     actPreferences: TAction;
     actUpdate: TAction;
@@ -81,7 +80,6 @@ type
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
-    MVGeoNames1: TMVGeoNames;
     MvPluginManager1: TMvPluginManager;
     MvPluginManager1LegalNoticePlugin1: TLegalNoticePlugin;
     Panel1: TPanel;
@@ -136,7 +134,6 @@ type
     tbMapSports: TToolButton;
     tbMapDepth: TToolButton;
     ToolButton27: TToolButton;
-    tbMapProxy: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
@@ -151,17 +148,15 @@ type
     procedure actConfigExecute(Sender: TObject);
     procedure actExportExecute(Sender: TObject);
     procedure actImportExecute(Sender: TObject);
-    procedure actMapExecute(Sender: TObject);
+    procedure actMapShowExecute(Sender: TObject);
     procedure actMapZoomAreaExecute(Sender: TObject);
     procedure actNewTrackExecute(Sender: TObject);
     procedure actPreferencesExecute(Sender: TObject);
     procedure actSDManagementExecute(Sender: TObject);
-    procedure actStartMapProxyExecute(Sender: TObject);
     procedure actTimestampExecute(Sender: TObject);
     procedure actTrackDeleteExecute(Sender: TObject);
     procedure actTrackEditExecute(Sender: TObject);
     procedure actTracksReloadExecute(Sender: TObject);
-    procedure actUpdateExecute(Sender: TObject);
     procedure actUploadExecute(Sender: TObject);
     procedure acZoomInExecute(Sender: TObject);
     procedure acZoomOutExecute(Sender: TObject);
@@ -182,7 +177,7 @@ type
     procedure sbMainDrawPanel(Statusbar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
     procedure sbMainResize(Sender: TObject);
-    procedure timAfterStartTimer(Sender: TObject);
+     procedure timAfterStartTimer(Sender: TObject);
     procedure timStatusbarTimer(Sender: TObject);
     procedure stvTracksAddItem(Sender: TObject; const ABasePath: string;
       const AFileInfo: TSearchRec; var CanAdd: boolean);
@@ -215,6 +210,7 @@ type
     procedure StatusMsg(line: string);
     procedure StartApplication();
     procedure StopApplication();
+    procedure ShowDataFileOnMap();
   public
 
   end;
@@ -359,6 +355,7 @@ procedure TfrmMain.SetMapProvider();
 var
   mapName: string;
   legal: string;
+  germany : TRealPoint;
 begin
   MapView1.Active := False;
   mapName := cbProvider.Text;
@@ -381,8 +378,9 @@ begin
       MapView1.ZoomOnArea(FArea)
     else
     begin
-      MapView1.Center := MvGeoNames1.Search('Germany', MapView1.DownloadEngine);
-      MapView1.Zoom := 7;
+      germany.InitXY(10.0, 51.0);
+      MapView1.Center := Germany;
+      MapView1.Zoom := 6;
     end;
   end;
 end;
@@ -484,6 +482,13 @@ begin
       'Dateisystem: ' + fsInfo.FileSystem + LineEnding +
       'Anzahl der Datendateien: ' + IntToStr(HWLogger.DataFileCount);
     PopulateFilesGrid();
+    if HWLogger.HasError then
+    begin
+      if Sender <> timRefreshRoot then
+        MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+          sLineBreak + HWLogger.LastError,
+          mtError, [mbOK], 0);
+    end;
   end;
 end;
 
@@ -517,19 +522,6 @@ begin
   frmSDCard.ShowModal;
 end;
 
-procedure TfrmMain.actStartMapProxyExecute(Sender: TObject);
-begin
-  if actStartMapProxy.Checked then
-  begin
-    FMapProxy.Start();
-    sbMain.Invalidate;
-  end
-  else
-  begin
-    FMapProxy.Stop();
-    sbMain.Invalidate;
-  end;
-end;
 
 procedure TfrmMain.actTimestampExecute(Sender: TObject);
 begin
@@ -563,11 +555,6 @@ begin
   stvTracks.EndUpdate;
 end;
 
-procedure TfrmMain.actUpdateExecute(Sender: TObject);
-begin
-  ShowMessage('Nicht implementiert!');
-end;
-
 procedure TfrmMain.actUploadExecute(Sender: TObject);
 begin
   ShowMessage('Nicht implementiert!');
@@ -596,44 +583,13 @@ begin
   ShowMessage('Nicht implementiert!');
 end;
 
-procedure TfrmMain.actMapExecute(Sender: TObject);
-var
-  track: TLoggerTrack;
-  fn: TStringList;
-  i: integer;
+procedure TfrmMain.actMapShowExecute(Sender: TObject);
 begin
   if FTrackSelected then
     ShowMessage('Nicht implementiert!')
   else
   begin
-    if sgFiles.Row >= 1 then
-    begin
-      frmWait.Show();
-      fn := TStringList.Create();
-      try
-        for i := 0 to sgFiles.RowCount - 1 do
-        begin
-          if sgFiles.IsCellSelected[0, i] then
-            fn.Add(sgFiles.Cells[0, i]);
-        end;
-        track := HWLogger.Convert(fn);
-        if length(track.Waypoints) > 0 then
-          ShowTrackOnMap(track)
-        else
-        begin
-          frmWait.Hide();
-          if cbAutoMap.Checked then
-            StatusMsg('Keine kartenrelevanten Daten in der Datei gefunden.')
-          else
-            MessageDlg('Information',
-              'Keine kartenrelevanten Daten in der Datei gefunden.',
-              mtWarning, [mbOK], 0);
-        end;
-      finally
-        frmWait.Hide();
-        fn.Free();
-      end;
-    end;
+    ShowDataFileOnMap();
   end;
 end;
 
@@ -739,7 +695,7 @@ begin
   if cbAutoAnalyse.Checked then
     TAnalyseThread.Create(sgFiles.Cells[0, sgFiles.Row]);
   if cbAutoMap.Checked then
-    actMapExecute(Sender);
+    actMapShowExecute(Sender);
   actAnalyse.Enabled := True;
 end;
 
@@ -848,6 +804,7 @@ end;
 
 procedure TfrmMain.timRefreshRootTimer(Sender: TObject);
 begin
+  timRefreshRoot.Enabled := False;
   if not FInit then
   begin
     RefreshRootDrives();
@@ -858,6 +815,7 @@ begin
     cbRootDrivesChange(Sender);
     FInit := True;
   end;
+  timRefreshRoot.Enabled := True;
 end;
 
 procedure TfrmMain.tbMapSportsClick(Sender: TObject);
@@ -875,13 +833,16 @@ begin
   if tbMapDepth.Down then
   begin
     if not FMapProxy.Started then
-      actStartMapProxy.Execute;
+    begin
+      FMapProxy.Start();
+      sbMain.Invalidate;
+    end;
     FDepthlayer.Visible := True;
-    sbMain.Invalidate;
   end
   else
   begin
     FDepthlayer.Visible := False;
+    FMapProxy.Stop();
     sbMain.Invalidate;
   end;
 end;
@@ -941,6 +902,42 @@ begin
   end;
   if FMapProxy.Started then
     FMapProxy.Stop();
+end;
+
+procedure TfrmMain.ShowDataFileOnMap();
+var
+  track: TLoggerTrack;
+  fn: TStringList;
+  i: integer;
+begin
+  if sgFiles.Row >= 1 then
+  begin
+    frmWait.Show();
+    fn := TStringList.Create();
+    try
+      for i := 0 to sgFiles.RowCount - 1 do
+      begin
+        if sgFiles.IsCellSelected[0, i] then
+          fn.Add(sgFiles.Cells[0, i]);
+      end;
+      track := HWLogger.Convert(fn);
+      if length(track.Waypoints) > 0 then
+        ShowTrackOnMap(track)
+      else
+      begin
+        frmWait.Hide();
+        if cbAutoMap.Checked then
+          StatusMsg('Keine kartenrelevanten Daten in der Datei gefunden.')
+        else
+          MessageDlg('Information',
+            'Keine kartenrelevanten Daten in der Datei gefunden.',
+            mtWarning, [mbOK], 0);
+      end;
+    finally
+      frmWait.Hide();
+      fn.Free();
+    end;
+  end;
 end;
 
 

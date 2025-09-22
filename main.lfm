@@ -6,11 +6,9 @@ object frmMain: TfrmMain
   Caption = 'MCS Depth Logger UI'
   ClientHeight = 579
   ClientWidth = 1092
-  DesignTimePPI = 120
   Menu = MainMenu1
-  SessionProperties = 'cbAutoAnalyse.Checked;Height;Left;pBottom.Height;pLeft.Width;pMapBottom.Height;pRight.Width;Top;Width;cbAutoMap.Checked'
+  SessionProperties = 'cbAutoAnalyse.Checked;cbAutoMap.Checked;Height;Left;pBottom.Height;pLeft.Width;pMapBottom.Height;pRight.Width;Top;Width'
   ShowHint = True
-  LCLVersion = '4.2.0.0'
   Scaled = False
   OnActivate = FormActivate
   OnCreate = FormCreate
@@ -155,7 +153,7 @@ object frmMain: TfrmMain
         end
         object ToolButton24: TToolButton
           Left = 282
-          Height = 8
+          Height = 26
           Top = 2
           Caption = 'ToolButton24'
           Style = tbsSeparator
@@ -183,7 +181,7 @@ object frmMain: TfrmMain
         object ToolButton20: TToolButton
           Left = 346
           Top = 2
-          Action = actMap
+          Action = actMapShow
         end
         object ToolButton27: TToolButton
           Left = 170
@@ -502,12 +500,6 @@ object frmMain: TfrmMain
           Style = tbsCheck
           OnClick = tbMapDepthClick
         end
-        object tbMapProxy: TToolButton
-          Left = 368
-          Top = 2
-          Action = actStartMapProxy
-          Style = tbsCheck
-        end
       end
     end
     object spHorizontal1: TSplitter
@@ -567,6 +559,7 @@ object frmMain: TfrmMain
       Left = 57
       Top = 2
       Action = actUpdate
+      Enabled = False
     end
     object ToolButton8: TToolButton
       Left = 85
@@ -576,11 +569,11 @@ object frmMain: TfrmMain
     object ToolButton9: TToolButton
       Left = 113
       Top = 2
-      Action = actMap
+      Action = actMapShow
     end
     object ToolButton10: TToolButton
       Left = 141
-      Height = 8
+      Height = 26
       Top = 2
       Caption = 'ToolButton10'
       Style = tbsSeparator
@@ -602,7 +595,7 @@ object frmMain: TfrmMain
     end
     object ToolButton14: TToolButton
       Left = 233
-      Height = 8
+      Height = 26
       Top = 2
       Caption = 'ToolButton14'
       Style = tbsSeparator
@@ -624,7 +617,7 @@ object frmMain: TfrmMain
     end
     object ToolButton18: TToolButton
       Left = 297
-      Height = 8
+      Height = 26
       Top = 2
       Caption = 'ToolButton18'
       Style = tbsSeparator
@@ -695,7 +688,7 @@ object frmMain: TfrmMain
     object MenuItem6: TMenuItem
       Caption = '&Karte'
       object MenuItem14: TMenuItem
-        Action = actMap
+        Action = actMapShow
       end
       object MenuItem15: TMenuItem
         Action = actExport
@@ -810,7 +803,6 @@ object frmMain: TfrmMain
       Caption = 'Update'
       Hint = 'Update der Loggerfirmware'
       ImageIndex = 76
-      OnExecute = actUpdateExecute
     end
     object actImport: TAction
       Category = 'Datei'
@@ -850,12 +842,12 @@ object frmMain: TfrmMain
       ImageIndex = 120
       OnExecute = actAdd2TrackExecute
     end
-    object actMap: TAction
+    object actMapShow: TAction
       Category = 'Karte'
       Caption = 'Karte'
       Hint = 'auf Karte anzeigen'
       ImageIndex = 203
-      OnExecute = actMapExecute
+      OnExecute = actMapShowExecute
     end
     object actExport: TAction
       Category = 'Karte'
@@ -923,14 +915,6 @@ object frmMain: TfrmMain
       Hint = 'automatic zoom on last area'
       ImageIndex = 145
       OnExecute = actMapZoomAreaExecute
-    end
-    object actStartMapProxy: TAction
-      Category = 'Tools'
-      AutoCheck = True
-      Caption = 'MapProxy starten'
-      Hint = 'starten des MapProxy um definierte WMS Services zu benutzen'
-      ImageIndex = 229
-      OnExecute = actStartMapProxyExecute
     end
   end
   object timRefreshRoot: TTimer
@@ -4016,10 +4000,6 @@ object frmMain: TfrmMain
     object MvPluginManager1LegalNoticePlugin1: TLegalNoticePlugin
       MapView = MapView1
     end
-  end
-  object MVGeoNames1: TMVGeoNames
-    Left = 736
-    Top = 453
   end
   object DateTimeIntervalChartSource1: TDateTimeIntervalChartSource
     Params.Count = 100
