@@ -6,9 +6,11 @@ object frmMain: TfrmMain
   Caption = 'MCS Depth Logger UI'
   ClientHeight = 579
   ClientWidth = 1092
+  DesignTimePPI = 120
   Menu = MainMenu1
   SessionProperties = 'cbAutoAnalyse.Checked;Height;Left;pBottom.Height;pLeft.Width;pMapBottom.Height;pRight.Width;Top;Width;cbAutoMap.Checked'
   ShowHint = True
+  LCLVersion = '4.2.0.0'
   Scaled = False
   OnActivate = FormActivate
   OnCreate = FormCreate
@@ -153,7 +155,7 @@ object frmMain: TfrmMain
         end
         object ToolButton24: TToolButton
           Left = 282
-          Height = 26
+          Height = 8
           Top = 2
           Caption = 'ToolButton24'
           Style = tbsSeparator
@@ -578,7 +580,7 @@ object frmMain: TfrmMain
     end
     object ToolButton10: TToolButton
       Left = 141
-      Height = 26
+      Height = 8
       Top = 2
       Caption = 'ToolButton10'
       Style = tbsSeparator
@@ -600,7 +602,7 @@ object frmMain: TfrmMain
     end
     object ToolButton14: TToolButton
       Left = 233
-      Height = 26
+      Height = 8
       Top = 2
       Caption = 'ToolButton14'
       Style = tbsSeparator
@@ -622,7 +624,7 @@ object frmMain: TfrmMain
     end
     object ToolButton18: TToolButton
       Left = 297
-      Height = 26
+      Height = 8
       Top = 2
       Caption = 'ToolButton18'
       Style = tbsSeparator

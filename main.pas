@@ -366,11 +366,6 @@ begin
   if not (mapName = '') then
   begin
     legal := '';
-    if LazStartsStr('OpenStreetMap terrestris', mapName) then
-    begin
-      if not FMapProxy.Started then
-        actStartMapProxy.Execute;
-    end;
     if LazStartsStr('OpenStreet', mapName) then
     begin
       legal :=
@@ -901,8 +896,6 @@ begin
     'https://tiles.openseamap.org/sports/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
   RegisterMapProvider('OpenSeaMap Gebco', ptEPSG3857,
     'http://localhost:8580/gebco/tms/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
-  RegisterMapProvider('OpenStreetMap terrestris', ptEPSG3857,
-    'http://localhost:8580/osm-terrestris/tms/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
 
   FDepthlayer := MapView1.Layers.Add as TMapLayer;
   FDepthlayer.Visible := False;

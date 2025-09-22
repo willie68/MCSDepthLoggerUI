@@ -38,10 +38,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 ;Name: Programm; Description: Programm; Types: full
 
 [Files]
-;Source: "..\dist\MCS_Depth_Logger.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\MCSDLUI.exe"; DestDir: "{app}"; Flags: 
-Source: "..\..\osmltools\dist\osml_windows_amd64_v1\osml.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\..\go_mapproxy\dist\gomapproxy_windows_amd64_v1\gomapproxy.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\tools\osml.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\tools\gomapproxy.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\config.yaml"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
@@ -54,6 +53,7 @@ Root: HKCU; Subkey: "Software\MCS\{#MyAppName}"; Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\MCS\{#MyAppName}"; ValueType: string; ValueName: "Version"; ValueData: "{#MyAppVersion}"
 
 [Run]
+
 Filename: "{app}\MCSDLUI.exe"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram, {#MyAppName}}"; Flags: postinstall nowait skipifsilent unchecked
 
 [UninstallDelete]
