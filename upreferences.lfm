@@ -7259,7 +7259,6 @@ object frmPreferences: TfrmPreferences
       Top = 11
       Width = 108
       Anchors = [akTop, akRight]
-      Default = True
       DefaultCaption = True
       Kind = bkOK
       ModalResult = 1
@@ -7271,7 +7270,6 @@ object frmPreferences: TfrmPreferences
       Top = 11
       Width = 108
       Anchors = [akTop, akRight]
-      Cancel = True
       Caption = 'Abbrechen'
       Kind = bkCancel
       ModalResult = 2
@@ -7283,9 +7281,9 @@ object frmPreferences: TfrmPreferences
     Height = 265
     Top = 182
     Width = 631
-    ActivePage = TabSheet4
+    ActivePage = TabSheet1
     Align = alClient
-    TabIndex = 3
+    TabIndex = 0
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Allgemein'
@@ -7304,12 +7302,28 @@ object frmPreferences: TfrmPreferences
         TabOrder = 0
       end
       object Label1: TLabel
-        Left = 11
+        Left = 15
         Height = 20
         Top = 22
         Width = 121
         Caption = 'Datenverzeichniss:'
         FocusControl = deDatafolder
+      end
+      object Label7: TLabel
+        Left = 72
+        Height = 20
+        Top = 58
+        Width = 64
+        Alignment = taRightJustify
+        Caption = 'Schiffs-ID'
+        FocusControl = sedVesselID
+      end
+      object sedVesselID: TSpinEdit
+        Left = 147
+        Height = 28
+        Top = 58
+        Width = 288
+        TabOrder = 1
       end
     end
     object TabSheet2: TTabSheet

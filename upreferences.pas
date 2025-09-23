@@ -27,11 +27,13 @@ type
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    Label7: TLabel;
     PageControl1: TPageControl;
     Panel1: TPanel;
     Panel2: TPanel;
     rgBootloader: TRadioGroup;
     sedTilesMaaxAge: TSpinEdit;
+    sedVesselID: TSpinEdit;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
@@ -46,6 +48,7 @@ type
     FPassword: string;
     FBootloader: integer;
     FTilesMaxAge: integer;
+    FVesselID: integer;
 
     procedure SetData(datapath: string);
   public
@@ -56,6 +59,7 @@ type
     property Password: string read FPassword write FPassword;
     property Bootloader: integer read FBootloader write FBootloader;
     property TilesMaxAge: integer read FTilesMaxAge write FTilesMaxAge;
+    property VesselID: integer read FVesselID write FVesselID;
   end;
 
 var
@@ -75,7 +79,8 @@ begin
   edtPassword.Text := FPassword;
   PageControl1.ActivePageIndex := 0;
   rgBootloader.ItemIndex := FBootloader;
-  sedTilesMaaxAge.Value:= FTilesMaxAge;
+  sedTilesMaaxAge.Value := FTilesMaxAge;
+  sedVesselID.Value:= FVesselID;
 end;
 
 procedure TfrmPreferences.edtPasswordButtonClick(Sender: TObject);
@@ -94,6 +99,7 @@ begin
   FPassword := edtPassword.Text;
   FBootloader := rgBootloader.ItemIndex;
   FTilesMaxAge := sedTilesMaaxAge.Value;
+  FVesselID:= sedVesselID.Value;
 end;
 
 procedure TfrmPreferences.SetData(datapath: string);

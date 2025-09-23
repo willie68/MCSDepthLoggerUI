@@ -36,7 +36,6 @@ type
     actUpdate: TAction;
     actUpload: TAction;
     ActionList1: TActionList;
-    btnAnalyse: TBitBtn;
     cbAutoAnalyse: TCheckBox;
     cbAutoMap: TCheckBox;
     cbRootDrives: TComboBox;
@@ -74,6 +73,7 @@ type
     MenuItem20: TMenuItem;
     MenuItem21: TMenuItem;
     MenuItem22: TMenuItem;
+    MenuItem23: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
@@ -126,6 +126,8 @@ type
     tbMapsSeamarks: TToolButton;
     tbMapSports: TToolButton;
     tbMapDepth: TToolButton;
+    ToolButton22: TToolButton;
+    ToolButton23: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
@@ -204,6 +206,8 @@ type
     procedure StopApplication();
     procedure ShowDataFileOnMap();
     procedure ShowTrackFileOnMap();
+    procedure ClearTrack();
+    procedure SyncFrmTrack();
   public
 
   end;
@@ -495,7 +499,7 @@ begin
   frmPreferences.Password := JSONPropStorage1.ReadString(UPLOAD_PASSWORD, '');
   frmPreferences.Bootloader := JSONPropStorage1.ReadInteger(LOGGER_BOOTLOADER, 1);
   frmPreferences.TilesMaxAge := JSONPropStorage1.ReadInteger(TILES_MAXAGE, 30);
-
+  frmPreferences.VesselID := JSONPropStorage1.ReadInteger(VESSEL_ID, 0);
   mr := frmPreferences.ShowModal();
   if mr = mrOk then
   begin
@@ -506,6 +510,7 @@ begin
     JSONPropStorage1.WriteString(UPLOAD_PASSWORD, frmPreferences.Password);
     JSONPropStorage1.WriteInteger(LOGGER_BOOTLOADER, frmPreferences.Bootloader);
     JSONPropStorage1.WriteInteger(TILES_MAXAGE, frmPreferences.TilesMaxAge);
+    JSONPropStorage1.WriteInteger(VESSEL_ID, frmPreferences.VesselID);
     JSONPropStorage1RestoringProperties(Sender);
   end;
 end;
@@ -514,7 +519,6 @@ procedure TfrmMain.actSDManagementExecute(Sender: TObject);
 begin
   frmSDCard.ShowModal;
 end;
-
 
 procedure TfrmMain.actTimestampExecute(Sender: TObject);
 begin
@@ -535,9 +539,10 @@ begin
   end;
 end;
 
-procedure TfrmMain.actTrackEditExecute(Sender: TObject);
+procedure TfrmMain.SyncFrmTrack();
 begin
-  ShowMessage('Nicht implementiert!');
+  frmTrackEdit.Root := AppConfig.Trackspath;
+  frmTrackEdit.VesselID := JSONPropStorage1.ReadInteger(VESSEL_ID, 0);
 end;
 
 procedure TfrmMain.actTracksReloadExecute(Sender: TObject);
@@ -578,6 +583,7 @@ end;
 
 procedure TfrmMain.actMapShowExecute(Sender: TObject);
 begin
+  ClearTrack();
   if FTrackSelected then
     ShowTrackFileOnMap()
   else
@@ -593,12 +599,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.actNewTrackExecute(Sender: TObject);
-begin
-  if frmTrackEdit.ShowModal = mrOk then
-    ShowMessage('Nicht implementiert!');
-end;
-
 procedure TfrmMain.actAboutExecute(Sender: TObject);
 begin
   Infobox.ShowModal;
@@ -606,7 +606,49 @@ end;
 
 procedure TfrmMain.actAdd2TrackExecute(Sender: TObject);
 begin
-  ShowMessage('Nicht implementiert!');
+  SyncFrmTrack();
+  if frmTrackEdit.ShowModal = mrOk then
+    ShowMessage('Nicht implementiert!');
+end;
+
+procedure TfrmMain.actNewTrackExecute(Sender: TObject);
+var
+  track: TLoggerTrackinfo;
+  fn: TStringList;
+  i: integer;
+  path: string;
+begin
+  if sgFiles.Row >= 1 then
+  begin
+    SyncFrmTrack();
+    if frmTrackEdit.ShowModal = mrOk then
+    begin
+      frmWait.Show();
+      fn := TStringList.Create();
+      try
+        for i := 0 to sgFiles.RowCount - 1 do
+        begin
+          if sgFiles.IsCellSelected[0, i] then
+            fn.Add(sgFiles.Cells[0, i]);
+        end;
+        path := ConcatPaths([AppConfig.Trackspath, frmTrackEdit.Grouppath,
+          frmTrackEdit.Trackname + '.zip']);
+        track := frmTrackEdit.GetTrackinfo;
+        HWLogger.NewTrack(path, fn, track);
+        actTracksReloadExecute(Sender)
+      finally
+        frmWait.Hide();
+        fn.Free();
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmMain.actTrackEditExecute(Sender: TObject);
+begin
+  SyncFrmTrack();
+  if frmTrackEdit.ShowModal = mrOk then
+    ShowMessage('Nicht implementiert!');
 end;
 
 procedure TfrmMain.actAnalyseExecute(Sender: TObject);
@@ -666,6 +708,8 @@ begin
 
   stvTracks.Root := AppConfig.Trackspath + '\';
   SetMapProvider();
+  if frmTrackEdit <> nil then
+    frmTrackEdit.Root := AppConfig.Trackspath;
 end;
 
 procedure TfrmMain.JSONPropStorage1SavingProperties(Sender: TObject);
@@ -949,8 +993,23 @@ begin
     FilePath := TShellTreeNode(stvTracks.Selected).FullFilename;
     track := HWLogger.ConvertFile(FilePath);
     if length(track.Waypoints) > 0 then
-      ShowTrackOnMap(track);
+      ShowTrackOnMap(track)
+    else
+    if cbAutoMap.Checked then
+      StatusMsg('Keine kartenrelevanten Daten in der Datei gefunden.')
+    else
+      MessageDlg('Information',
+        'Keine kartenrelevanten Daten in der Datei gefunden.',
+        mtWarning, [mbOK], 0);
+
   end;
+end;
+
+procedure TfrmMain.ClearTrack();
+begin
+  FTrackLayer.Visible := False;
+  FTrackLayer.PointsOfInterest.Clear;
+  FTrackLayer.Tracks.Clear;
 end;
 
 

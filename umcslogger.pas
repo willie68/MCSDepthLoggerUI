@@ -54,18 +54,12 @@ type
     Acceleration: TThreeCoord;
     GyroLocation: TThreeCoord;
     Supply: integer;
- {
-  Name         string       `json:"name,omitempty"`
-  Lat          float64      `json:"latitude,omitempty"`
-  Lon          float64      `json:"longitude,omitempty"`
-  Time         time.Time    `json:"time,omitempty"`
-  Speed        float64      `json:"speed,omitempty"`
-  Ele          float64      `json:"elevation,omitempty"`
-  Depth        float64      `json:"depth,omitempty"`
-  Acceleration *ThreePoints `json:"acc,omitempty"`
-  GyroLocation *ThreePoints `json:"gyro,omitempty"`
-  Supply       int64        `json:"supply,omitempty"`
-}
+  end;
+
+  TLoggerTrackInfo = record
+    Name: string;
+    Description: string;
+    VesselID: integer;
   end;
 
   TLoggerTrack = record
@@ -73,13 +67,6 @@ type
     Waypoints: array of TLoggerWaypoint;
     Start: TLoggerWaypoint;
     Finish: TLoggerWaypoint;
-    {
-  Name      string      `json:"name,omitempty"`
-  Waypoints []*Waypoint `json:"waypoints,omitempty"`
-  Start     *Waypoint   `json:"start,omitempty"`
-  End       *Waypoint   `json:"end,omitempty"`
-  LogLines  []*LogLine  `json:"log_lines,omitempty"`
-}
   end;
 
   { TMCSLogger }
@@ -109,6 +96,7 @@ type
     function ConvertFile(filename: string): TLoggerTrack;
     procedure Backup(backupFolder: string);
     procedure Restore(filename: string);
+    procedure NewTrack(path: string; filenames: TStrings; track: TLoggerTrackInfo);
   published
     property IsLoggerCard: boolean read FLoggerCard;
     property SDRoot: string read FRootpath write InitCard;
@@ -607,6 +595,71 @@ begin
         mtError, [mbOK], 0);
   finally
     exec.Free;
+  end;
+end;
+
+procedure TMCSLogger.NewTrack(path: string; filenames: TStrings;
+  track: TLoggerTrackInfo);
+var
+  Data: TJSONData;
+  Obj: TJSONObject;
+  filename: string;
+  params: TProcessStringArray;
+  exec: TExecOSMLThread;
+  i: integer;
+begin
+  if FLoggerCard then
+  begin
+    SetLength(params, 4);
+    params[0] := 'track';
+    params[1] := 'new';
+    params[2] := '-s';
+    params[3] := SDRoot;
+    for i := 0 to filenames.Count - 1 do
+    begin
+      filename := ExtractFileName(filenames[i]);
+      AddParam(params, '-f');
+      AddParam(params, filename);
+    end;
+    AddParam(params, '-n');
+    AddParam(params, track.Name);
+    AddParam(params, '-d');
+    AddParam(params, track.Description);
+    AddParam(params, '-v');
+    AddParam(params, IntToStr(track.VesselID));
+    AddParam(params, '-t');
+    AddParam(params, path);
+
+    exec := TExecOSMLThread.Create(params);
+    try
+      exec.WaitFor;
+      if exec.Ok then
+      begin
+        try
+          try
+            Data := GetJSON(exec.Output);
+            if Data.JSONType = jtObject then
+            begin
+              Obj := TJSONObject(Data);
+              filename := Obj.Get('filename', '');
+            end;
+          except
+            on e: Exception do
+              MessageDlg('Fehler beim Parsen der osml Antwort.' +
+                sLineBreak + exec.Output + sLineBreak + e.Message, mtError, [mbOK], 0);
+          end;
+        finally
+          Data.Free;
+        end;
+        MessageDlg('Track erfolgreich erstellt' + sLineBreak + sLineBreak + filename,
+          mtInformation, [mbOK], 0);
+      end
+      else
+        MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+          sLineBreak + exec.Output, mtError, [mbOK], 0);
+    finally
+      exec.Free();
+    end;
   end;
 end;
 

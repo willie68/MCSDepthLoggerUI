@@ -24,14 +24,14 @@ begin
   {$POP}
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmTrackEdit, frmTrackEdit);
   Application.CreateForm(TfrmPreferences, frmPreferences);
   Application.CreateForm(TfrmLoggerConfig, frmLoggerConfig);
+  Application.CreateForm(TfrmSDCard, frmSDCard);
+  Application.CreateForm(TfrmWait, frmWait);
   Infobox.AppTitel:= 'MCS Depth Logger UI';
   Infobox.AppID:= 64;
   Infobox.CopyRight:= '(C) MCS 2025';
-  Application.CreateForm(TfrmSDCard, frmSDCard);
-  Application.CreateForm(TfrmWait, frmWait);
-  Application.CreateForm(TfrmTrackEdit, frmTrackEdit);
   Application.Run;
 end.
 

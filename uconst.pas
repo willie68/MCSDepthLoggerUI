@@ -14,6 +14,7 @@ const
   UPLOAD_USERNAME = 'upload.username';
   UPLOAD_URL = 'upload.url';
   TRACK_STOREPATH = 'track.storepath';
+  VESSEL_ID = 'vesselid';
 
 type
 
