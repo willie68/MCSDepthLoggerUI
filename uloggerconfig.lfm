@@ -7,6 +7,7 @@ object frmLoggerConfig: TfrmLoggerConfig
   ClientHeight = 427
   ClientWidth = 443
   Position = poMainFormCenter
+  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnShow = FormShow
   object Panel2: TPanel
@@ -27,8 +28,6 @@ object frmLoggerConfig: TfrmLoggerConfig
       DefaultCaption = True
       Kind = bkOK
       ModalResult = 1
-      Images = frmMain.ImageList
-      ImageIndex = 91
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
@@ -40,8 +39,6 @@ object frmLoggerConfig: TfrmLoggerConfig
       Caption = 'Abbrechen'
       Kind = bkCancel
       ModalResult = 2
-      Images = frmMain.ImageList
-      ImageIndex = 127
       TabOrder = 1
     end
     object btnDefault: TBitBtn
@@ -51,8 +48,6 @@ object frmLoggerConfig: TfrmLoggerConfig
       Width = 146
       Caption = 'Werkseinstellungen'
       Kind = bkRetry
-      Images = frmMain.ImageList
-      ImageIndex = 267
       TabOrder = 2
       OnClick = btnDefaultClick
     end

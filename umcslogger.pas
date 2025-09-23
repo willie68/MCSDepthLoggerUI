@@ -106,6 +106,7 @@ type
     procedure SetLoggerCFG(newcfg: TLoggerConfig);
     function Check(filename: string): TLoggerCheckResult;
     function Convert(filenames: TStrings): TLoggerTrack;
+    function ConvertFile(filename: string): TLoggerTrack;
     procedure Backup(backupFolder: string);
     procedure Restore(filename: string);
   published
@@ -448,6 +449,66 @@ begin
     finally
       exec.Free();
     end;
+  end;
+end;
+
+function TMCSLogger.ConvertFile(filename: string): TLoggerTrack;
+var
+  Data: TJSONData;
+  Obj, way: TJSONObject;
+  exec: TExecOSMLThread;
+  arr: TJSONArray;
+  i: integer;
+  params: TProcessStringArray;
+begin
+  SetLength(params, 3);
+  params[0] := 'convert';
+  params[1] := '-t';
+  params[2] := filename;
+  exec := TExecOSMLThread.Create(params);
+  try
+    exec.WaitFor;
+    if exec.Ok then
+    begin
+      try
+        try
+          Result.Start.Active := False;
+          Result.Finish.Active := False;
+          Data := GetJSON(exec.Output);
+          if Data.JSONType = jtObject then
+          begin
+            Obj := TJSONObject(Data);
+            Result.Name := Obj.Get('name', '');
+            if Obj.Find('start') <> nil then
+              Result.Start := ConvertWaypoint(Obj.Get('start', TJSONObject.Create()));
+            if Obj.FInd('end') <> nil then
+              Result.Finish := ConvertWaypoint(Obj.Get('end', TJSONObject.Create()));
+            if Obj.Find('waypoints', jtArray) <> nil then
+            begin
+              arr := TJsonArray(Obj.Find('waypoints', jtArray));
+              SetLength(Result.Waypoints, arr.Count);
+              for i := 0 to arr.Count - 1 do
+                if arr.Items[i].JSONType = jtObject then
+                begin
+                  way := TJSONObject(arr.Items[i]);
+                  Result.WayPoints[i] := ConvertWaypoint(way);
+                end;
+            end;
+          end;
+        except
+          on e: Exception do
+            MessageDlg('Fehler beim Parsen der osml Antwort.' +
+              sLineBreak + exec.Output + sLineBreak + e.Message, mtError, [mbOK], 0);
+        end;
+      finally
+        Data.Free;
+      end;
+    end
+    else
+      MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+        sLineBreak + exec.Output, mtError, [mbOK], 0);
+  finally
+    exec.Free();
   end;
 end;
 

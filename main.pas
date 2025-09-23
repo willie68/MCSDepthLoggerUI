@@ -50,7 +50,7 @@ type
     GroupBox2: TGroupBox;
     actHelp: THelpAction;
     ImageList: TImageList;
-    ImageList1: TImageList;
+    ilStatus: TImageList;
     JSONPropStorage1: TJSONPropStorage;
     Label1: TLabel;
     Label2: TLabel;
@@ -91,13 +91,11 @@ type
     pRight: TPanel;
     pTop: TPanel;
     pBottom: TPanel;
-    Panel6: TPanel;
     Panel7: TPanel;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Separator3: TMenuItem;
     spHorizontal1: TSplitter;
-    Splitter1: TSplitter;
     stvTracks: TShellTreeView;
     spLEft: TSplitter;
     spRight: TSplitter;
@@ -107,7 +105,6 @@ type
     timAfterStart: TTimer;
     timRefreshRoot: TTimer;
     tbMain: TToolBar;
-    tbTracks: TToolBar;
     tbMap: TToolBar;
     timStatusbar: TTimer;
     ToolButton1: TToolButton;
@@ -124,17 +121,11 @@ type
     ToolButton2: TToolButton;
     ToolButton20: TToolButton;
     ToolButton21: TToolButton;
-    ToolButton22: TToolButton;
-    ToolButton23: TToolButton;
-    ToolButton24: TToolButton;
-    ToolButton25: TToolButton;
-    ToolButton26: TToolButton;
     tbtnZoomIn: TToolButton;
     tbtnZoomOut: TToolButton;
     tbMapsSeamarks: TToolButton;
     tbMapSports: TToolButton;
     tbMapDepth: TToolButton;
-    ToolButton27: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
@@ -172,20 +163,20 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure JSONPropStorage1RestoringProperties(Sender: TObject);
     procedure JSONPropStorage1SavingProperties(Sender: TObject);
+    procedure sgFilesClick(Sender: TObject);
     procedure sgFilesSelection(Sender: TObject; aCol, aRow: integer);
-    procedure slvTracksSelectItem(Sender: TObject; Item: TListItem;
-      Selected: boolean);
     procedure sbMainDrawPanel(Statusbar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
     procedure sbMainResize(Sender: TObject);
-     procedure timAfterStartTimer(Sender: TObject);
+    procedure stvTracksClick(Sender: TObject);
+    procedure stvTracksSelectionChanged(Sender: TObject);
+    procedure timAfterStartTimer(Sender: TObject);
     procedure timStatusbarTimer(Sender: TObject);
     procedure stvTracksAddItem(Sender: TObject; const ABasePath: string;
       const AFileInfo: TSearchRec; var CanAdd: boolean);
     procedure tbMainResize(Sender: TObject);
     procedure tbMapResize(Sender: TObject);
     procedure tbMapSportsClick(Sender: TObject);
-    procedure tbTracksResize(Sender: TObject);
     procedure timRefreshRootTimer(Sender: TObject);
     procedure tbMapsSeamarksClick(Sender: TObject);
     procedure tbMapDepthClick(Sender: TObject);
@@ -212,6 +203,7 @@ type
     procedure StartApplication();
     procedure StopApplication();
     procedure ShowDataFileOnMap();
+    procedure ShowTrackFileOnMap();
   public
 
   end;
@@ -356,7 +348,7 @@ procedure TfrmMain.SetMapProvider();
 var
   mapName: string;
   legal: string;
-  germany : TRealPoint;
+  germany: TRealPoint;
 begin
   MapView1.Active := False;
   mapName := cbProvider.Text;
@@ -438,13 +430,13 @@ begin
   if ltrack.Start.Active then
   begin
     rpStart.InitXY(ltrack.Start.Longitude, ltrack.Start.Latitude);
-    FTrackLayer.AddPointOfInterest(rpStart, ltrack.Start.Name).ImageIndex := 149;
+    FTrackLayer.AddPointOfInterest(rpStart, ltrack.Start.Name).ImageIndex := 27;
   end;
 
   if ltrack.Finish.Active then
   begin
     rpEnd.InitXY(ltrack.Finish.Longitude, ltrack.Finish.Latitude);
-    FTrackLayer.AddPointOfInterest(rpEnd, ltrack.Finish.Name).ImageIndex := 150;
+    FTrackLayer.AddPointOfInterest(rpEnd, ltrack.Finish.Name).ImageIndex := 28;
   end;
 
   if length(ltrack.Waypoints) > 0 then
@@ -587,11 +579,9 @@ end;
 procedure TfrmMain.actMapShowExecute(Sender: TObject);
 begin
   if FTrackSelected then
-    ShowMessage('Nicht implementiert!')
+    ShowTrackFileOnMap()
   else
-  begin
     ShowDataFileOnMap();
-  end;
 end;
 
 procedure TfrmMain.actMapZoomAreaExecute(Sender: TObject);
@@ -690,6 +680,15 @@ begin
   JSONPropStorage1.WriteString('map.mapprovider', MapView1.MapProvider);
 end;
 
+procedure TfrmMain.sgFilesClick(Sender: TObject);
+begin
+  FTrackSelected := False;
+  if cbAutoMap.Checked then
+  begin
+    actMapShowExecute(Sender);
+  end;
+end;
+
 procedure TfrmMain.sgFilesSelection(Sender: TObject; aCol, aRow: integer);
 begin
   FTrackSelected := False;
@@ -700,19 +699,13 @@ begin
   actAnalyse.Enabled := True;
 end;
 
-procedure TfrmMain.slvTracksSelectItem(Sender: TObject; Item: TListItem;
-  Selected: boolean);
-begin
-  FTrackSelected := True;
-end;
-
 procedure TfrmMain.sbMainDrawPanel(Statusbar: TStatusBar; Panel: TStatusPanel;
   const Rect: TRect);
 begin
   if Panel.Index = 3 then
   begin
     if FMapProxy.Started then
-      ImageList.Draw(sbMain.Canvas, Rect.Left, Rect.Top, 370)
+      ilStatus.Draw(sbMain.Canvas, Rect.Left, Rect.Top, 0)
     else
     begin
       with sbMain.Canvas do
@@ -737,6 +730,24 @@ begin
       size := size - sbMain.Panels[i].Width;
   end;
   sbMain.Panels[2].Width := size;
+end;
+
+procedure TfrmMain.stvTracksClick(Sender: TObject);
+begin
+  FTrackSelected := True;
+  if cbAutoMap.Checked then
+  begin
+    actMapShowExecute(Sender);
+  end;
+end;
+
+procedure TfrmMain.stvTracksSelectionChanged(Sender: TObject);
+begin
+  FTrackSelected := True;
+  if cbAutoMap.Checked then
+  begin
+    actMapShowExecute(Sender);
+  end;
 end;
 
 procedure TfrmMain.timAfterStartTimer(Sender: TObject);
@@ -788,19 +799,6 @@ begin
     w := w - tbMap.Buttons[i].Width;
   end;
   Panel1.Width := w;
-end;
-
-procedure TfrmMain.tbTracksResize(Sender: TObject);
-var
-  w: longint;
-  i: integer;
-begin
-  w := tbTracks.ClientWidth - Label3.Width - 24;
-  for i := 0 to tbTracks.ButtonCount - 1 do
-  begin
-    w := w - tbTracks.Buttons[i].Width;
-  end;
-  Panel6.Width := w;
 end;
 
 procedure TfrmMain.timRefreshRootTimer(Sender: TObject);
@@ -938,6 +936,20 @@ begin
       frmWait.Hide();
       fn.Free();
     end;
+  end;
+end;
+
+procedure TfrmMain.ShowTrackFileOnMap();
+var
+  FilePath: string;
+  track: TLoggerTrack;
+begin
+  if stvTracks.Selected <> nil then
+  begin
+    FilePath := TShellTreeNode(stvTracks.Selected).FullFilename;
+    track := HWLogger.ConvertFile(FilePath);
+    if length(track.Waypoints) > 0 then
+      ShowTrackOnMap(track);
   end;
 end;
 

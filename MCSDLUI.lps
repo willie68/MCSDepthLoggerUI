@@ -19,10 +19,9 @@
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="581"/>
-        <CursorPos X="3" Y="584"/>
-        <FoldState Value=" T3n70311192]5]3]76[B4B piQu70HU"/>
+        <TopLine Value="701"/>
+        <CursorPos X="71" Y="723"/>
+        <FoldState Value=" T3mg0311192]5]3]7621E piMuD0Ht"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -34,7 +33,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uPreferences"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="60"/>
         <CursorPos X="39" Y="78"/>
         <UsageCount Value="200"/>
@@ -63,7 +62,7 @@
         <ComponentName Value="frmLoggerConfig"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="15"/>
         <CursorPos Y="10"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
@@ -81,8 +80,9 @@
         <Filename Value="umcslogger.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="180"/>
-        <CursorPos X="34" Y="209"/>
+        <TopLine Value="488"/>
+        <CursorPos Y="504"/>
+        <FoldState Value=" T4kK01 T3kN033 pj3jH067]9Lk00@013 Pj6lH0 TL Hkd01*"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -91,7 +91,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
         <CursorPos X="39" Y="16"/>
-        <UsageCount Value="154"/>
+        <UsageCount Value="172"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -100,10 +100,11 @@
         <ComponentName Value="frmSDCard"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="11"/>
         <TopLine Value="40"/>
         <CursorPos X="27" Y="105"/>
-        <UsageCount Value="152"/>
+        <UsageCount Value="170"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -116,14 +117,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos X="10" Y="16"/>
-        <UsageCount Value="151"/>
+        <UsageCount Value="169"/>
       </Unit>
       <Unit>
         <Filename Value="ugomapproxy.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="10"/>
         <CursorPos X="23" Y="18"/>
-        <UsageCount Value="78"/>
+        <UsageCount Value="96"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -132,14 +133,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="27"/>
         <CursorPos X="28" Y="43"/>
-        <UsageCount Value="65"/>
+        <UsageCount Value="83"/>
       </Unit>
       <Unit>
         <Filename Value="utilecacheutils.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
         <CursorPos X="53" Y="6"/>
-        <UsageCount Value="42"/>
+        <UsageCount Value="60"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -151,7 +152,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="15"/>
         <CursorPos Y="33"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="55"/>
       </Unit>
       <Unit>
         <Filename Value="udbglog.pas"/>
@@ -159,7 +160,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="39"/>
         <CursorPos Y="56"/>
-        <UsageCount Value="35"/>
+        <UsageCount Value="53"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvmapviewer.pas"/>
@@ -167,7 +168,7 @@
         <EditorIndex Value="5"/>
         <TopLine Value="2564"/>
         <CursorPos Y="2587"/>
-        <UsageCount Value="57"/>
+        <UsageCount Value="66"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -176,7 +177,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="886"/>
         <CursorPos X="8" Y="913"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -185,7 +186,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="66"/>
         <CursorPos X="11" Y="86"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="43"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvtypes.pas"/>
@@ -193,7 +194,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="46"/>
         <CursorPos X="17" Y="59"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="34"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -202,13 +203,13 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="4061"/>
         <CursorPos Y="4081"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\osutilsh.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="10" Y="36"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\lcl\forms.pp"/>
@@ -216,7 +217,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1868"/>
         <CursorPos X="3" Y="1984"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="24"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\components\lazutils\lazutf8.pas"/>
@@ -224,7 +225,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="3975"/>
         <CursorPos X="3" Y="3986"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\fpc\3.2.2\source\packages\fcl-json\src\jsonconf.pp"/>
@@ -232,7 +233,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="305"/>
         <CursorPos Y="312"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\lcl\propertystorage.pas"/>
@@ -240,14 +241,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="667"/>
         <CursorPos Y="684"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="ulogger.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="20" Y="18"/>
         <FoldState Value=" T3i1034 Pbc0/"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_lib\mcsabout.pas"/>
@@ -258,28 +259,28 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="61"/>
         <CursorPos X="33" Y="22"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\fpc\3.2.2\source\rtl\objpas\fgl.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1059"/>
         <CursorPos Y="1079"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\fpc\3.2.2\source\rtl\inc\objpash.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="193"/>
         <CursorPos X="23" Y="206"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\fpc\3.2.2\source\rtl\inc\objpas.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="333"/>
         <CursorPos X="12" Y="335"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\lcl\dialogs.pp"/>
@@ -287,28 +288,28 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="902"/>
         <CursorPos X="27" Y="926"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\fpc\3.2.2\source\packages\fcl-process\src\processbody.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="168"/>
         <CursorPos X="10" Y="185"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="12"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\fpc\3.2.2\source\packages\fcl-process\src\process.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="8"/>
         <CursorPos X="32" Y="27"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\fpc\3.2.2\source\packages\fcl-process\src\processbody.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="22" Y="40"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\components\lazutils\fileutil.pas"/>
@@ -316,14 +317,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="34"/>
         <CursorPos X="168" Y="43"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\datih.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="164"/>
         <CursorPos X="11" Y="184"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="0"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\components\lazutils\lazfileutils.pas"/>
@@ -331,14 +332,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="24"/>
         <CursorPos X="10" Y="43"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\finah.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="15"/>
         <CursorPos X="10" Y="43"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\lcl\dialogs.pp"/>
@@ -346,29 +347,21 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
         <CursorPos X="49" Y="38"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\fpc\3.2.2\source\packages\fcl-process\src\process.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="39" Y="25"/>
-        <UsageCount Value="7"/>
-      </Unit>
-      <Unit>
-        <Filename Value="E:\Sprachen\lazarus\lcl\customtimer.pas"/>
-        <UnitName Value="CustomTimer"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="170"/>
-        <CursorPos Y="182"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="H:\Sprachen\lazarus\fpc\3.2.2\source\packages\fcl-json\src\fpjson.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="681"/>
         <CursorPos X="14" Y="695"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Users\wklaa\AppData\Local\lazarus\onlinepackagemanager\packages\LazMapViewer\source\mvengine.pas"/>
@@ -376,7 +369,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1216"/>
         <CursorPos Y="1226"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Users\wklaa\AppData\Local\lazarus\onlinepackagemanager\packages\LazMapViewer\source\mvgpsobj.pas"/>
@@ -384,7 +377,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="90"/>
         <CursorPos X="52" Y="106"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="H:\Sprachen\lazarus\lcl\dialogs.pp"/>
@@ -392,7 +385,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="885"/>
         <CursorPos X="10" Y="898"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="H:\Sprachen\lazarus\lcl\grids.pas"/>
@@ -400,35 +393,35 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="11342"/>
         <CursorPos Y="11361"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1811"/>
         <CursorPos X="14" Y="1825"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\lcl\interfaces\win32\win32object.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="408"/>
         <CursorPos Y="427"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\MCSTools.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="67"/>
         <CursorPos X="14" Y="87"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="38"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\MCSStrings.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="500"/>
         <CursorPos X="65" Y="519"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="38"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mcsabout.pas"/>
@@ -438,27 +431,27 @@
         <UnitName Value="MCSAbout"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="3" Y="10"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="38"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvdrawingengine.pas"/>
         <UnitName Value="mvDrawingEngine"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="21" Y="12"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvdownloadengine.pas"/>
         <UnitName Value="mvDownloadEngine"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvengine_mapreg.inc"/>
         <EditorIndex Value="7"/>
         <TopLine Value="196"/>
         <CursorPos X="38" Y="216"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -467,7 +460,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="235"/>
         <CursorPos X="14" Y="275"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\components\tachart\tacustomseries.pas"/>
@@ -475,7 +468,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1084"/>
         <CursorPos Y="1104"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Users\w.klaas\AppData\Local\Temp\06fbe349-b1e3-4c8e-894b-eadbaccde377_data_arriving.zip.data_arriving.zip\unit1.pas"/>
@@ -483,7 +476,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="49"/>
         <CursorPos X="11" Y="63"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\components\tachart\taintervalsources.pas"/>
@@ -491,7 +484,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="12"/>
         <CursorPos X="10" Y="30"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\components\tachart\tacustomsource.pas"/>
@@ -499,7 +492,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="242"/>
         <CursorPos X="16" Y="280"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Users\w.klaas\AppData\Local\Temp\373206aa-ad48-46cc-a22d-5638ac29ee57_Test_Chart.zip.e57\unit1.pas"/>
@@ -507,20 +500,20 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="27"/>
         <CursorPos X="18" Y="54"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Users\w.klaas\AppData\Local\Temp\36f08429-ac88-4b0f-abf7-b5bde8f34d78_data_arriving.zip.data_arriving.zip\unit1.pas"/>
         <UnitName Value="Unit1"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="13" Y="79"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Users\w.klaas\AppData\Local\Temp\a7d8e7f3-2db8-4e0b-b695-f65e96c44b79_Lazarus - Chart Demo - no thread.zip.b79\chartdemo.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Users\w.klaas\AppData\Local\Temp\cc6eae2f-e9bd-4776-9efe-bef1f74695ae_demo.zip.5ae\unit1.pas"/>
@@ -528,7 +521,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
         <CursorPos X="71" Y="76"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\nxt-vs\Photos\web\demo\unit1.pas"/>
@@ -539,7 +532,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos X="59" Y="77"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\components\tachart\tasources.pas"/>
@@ -547,7 +540,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="578"/>
         <CursorPos Y="610"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvde_intfgraphics.pas"/>
@@ -555,7 +548,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="169"/>
         <CursorPos X="25" Y="191"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Users\w.klaas\AppData\Local\Temp\98a797c3-3af1-4c1c-9637-8d8f05a353ee_mapproviders_at_runtime.zip.3ee\unit1.pas"/>
@@ -563,7 +556,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="31"/>
         <CursorPos X="20" Y="48"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\examples\colored_tracks\main.pas"/>
@@ -572,7 +565,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="79"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\examples\elevations\main.pas"/>
@@ -582,7 +575,7 @@
         <UnitName Value="Main"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="294"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\examples\trackdemo\main.pas"/>
@@ -592,7 +585,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos X="17" Y="53"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\examples\flights\main.pas"/>
@@ -603,7 +596,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="76"/>
         <CursorPos X="30" Y="97"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgpsobj.pas"/>
@@ -611,7 +604,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="303"/>
         <CursorPos Y="321"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvlayerspropeditform.pas"/>
@@ -621,7 +614,7 @@
         <UnitName Value="mvLayersPropEditForm"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="49"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\lcl\intfgraphics.pas"/>
@@ -629,7 +622,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2261"/>
         <CursorPos X="30" Y="2271"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\lcl\shellctrls.pas"/>
@@ -637,7 +630,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1163"/>
         <CursorPos Y="1177"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\lcl\jsonpropstorage.pas"/>
@@ -645,7 +638,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="60"/>
         <CursorPos X="31" Y="82"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvcache.pas"/>
@@ -653,7 +646,7 @@
         <EditorIndex Value="9"/>
         <TopLine Value="566"/>
         <CursorPos X="39" Y="575"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="31"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -661,34 +654,34 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="256"/>
         <CursorPos X="10" Y="272"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\fpc\3.2.2\source\rtl\win\tthread.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="91"/>
         <CursorPos X="3" Y="106"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\components\lazutils\LazLoggerIntf.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="112" Y="15"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\components\lazutils\lazloggerbase.pas"/>
         <UnitName Value="LazLoggerBase"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\components\lazutils\LazLoggerImpl.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="194"/>
         <CursorPos X="14" Y="197"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="E:\sprachen\lazarus\components\lazutils\lazlogger.pas"/>
@@ -696,28 +689,28 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="233"/>
         <CursorPos X="77" Y="184"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\MCSDBGLog.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="31"/>
         <CursorPos Y="44"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\filutilh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="182"/>
         <CursorPos X="10" Y="200"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="12"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\lcl\include\control.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="3614"/>
         <CursorPos Y="3631"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="12"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\lcl\comctrls.pp"/>
@@ -725,17 +718,17 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2340"/>
         <CursorPos X="22" Y="2356"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="12"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\lcl\include\lcl_defines.inc"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="12"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\lcl\include\toolbar.inc"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="12"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\lcl\controls.pp"/>
@@ -743,7 +736,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1171"/>
         <CursorPos X="3" Y="1188"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="12"/>
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
@@ -751,130 +744,138 @@
         <EditorIndex Value="6"/>
         <TopLine Value="185"/>
         <CursorPos Y="217"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="D:\Sprachen\pascal\lazarus\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="13"/>
+        <TopLine Value="1804"/>
+        <CursorPos X="15" Y="1821"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="381" TopLine="358"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvmapviewer.pas"/>
-        <Caret Line="2582" TopLine="2564"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvmapviewer.pas"/>
-        <Caret Line="2583" TopLine="2564"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvmapviewer.pas"/>
-        <Caret Line="2586" TopLine="2564"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvmapviewer.pas"/>
-        <Caret Line="2587" TopLine="2564"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="203" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="179" TopLine="161"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="204" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="205" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="206" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="207" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="208" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="209" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="210" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="211" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="206" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="213" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="214" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="216" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="203" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="217" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="203" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\mapviewer\source\mvgeonames.pas"/>
-        <Caret Line="217" TopLine="185"/>
+        <Caret Line="688" Column="27" TopLine="686"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="382" Column="21" TopLine="354"/>
+        <Caret Line="689" Column="27" TopLine="687"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="383" Column="34" TopLine="354"/>
+        <Caret Line="688" Column="27" TopLine="686"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="382" Column="34" TopLine="353"/>
+        <Caret Line="687" Column="27" TopLine="685"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="465" TopLine="449"/>
+        <Caret Line="686" Column="27" TopLine="684"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="175" Column="52" TopLine="158"/>
+        <Caret Line="685" Column="27" TopLine="683"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="468" Column="96" TopLine="459"/>
+        <Caret Line="687" Column="27" TopLine="685"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="469" Column="96" TopLine="460"/>
+        <Caret Line="686" Column="27" TopLine="684"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="685" Column="27" TopLine="683"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="684" Column="27" TopLine="682"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="685" Column="27" TopLine="683"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="803" TopLine="793"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="179" TopLine="163"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="180" TopLine="164"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="179" TopLine="163"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="177" TopLine="164"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="783" Column="3" TopLine="777"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="175" Column="15" TopLine="162"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="768" Column="3" TopLine="764"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="174" Column="15" TopLine="161"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="761" Column="3" TopLine="758"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="173" Column="15" TopLine="159"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="755" Column="3" TopLine="752"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="172" Column="15" TopLine="158"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="746" Column="3" TopLine="743"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="171" Column="15" TopLine="157"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="737" Column="3" TopLine="734"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="170" Column="15" TopLine="156"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="726" Column="3" TopLine="720"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="168" Column="15" TopLine="155"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -920,6 +921,9 @@
       </Item>
       <Item>
         <Expression Value="AFileInfo"/>
+      </Item>
+      <Item>
+        <Expression Value="Result"/>
       </Item>
     </Watches>
   </Debugging>
