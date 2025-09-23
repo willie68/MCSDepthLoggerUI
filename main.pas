@@ -50,6 +50,7 @@ type
     GroupBox2: TGroupBox;
     actHelp: THelpAction;
     ImageList: TImageList;
+    ImageList1: TImageList;
     JSONPropStorage1: TJSONPropStorage;
     Label1: TLabel;
     Label2: TLabel;
