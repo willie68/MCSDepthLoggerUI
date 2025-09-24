@@ -1,29 +1,30 @@
 object frmLoggerConfig: TfrmLoggerConfig
   Left = 604
-  Height = 427
+  Height = 534
   Top = 42
-  Width = 443
+  Width = 554
   Caption = 'Konfiguration des Loggers'
-  ClientHeight = 427
-  ClientWidth = 443
+  ClientHeight = 534
+  ClientWidth = 554
+  DesignTimePPI = 120
   Position = poMainFormCenter
   LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnShow = FormShow
   object Panel2: TPanel
     Left = 0
-    Height = 50
-    Top = 377
+    Height = 62
+    Top = 365
     Width = 443
     Align = alBottom
-    ClientHeight = 50
+    ClientHeight = 62
     ClientWidth = 443
     TabOrder = 0
     object BitBtn1: TBitBtn
-      Left = 256
-      Height = 32
-      Top = 9
-      Width = 86
+      Left = 209
+      Height = 40
+      Top = 11
+      Width = 108
       Anchors = [akTop, akRight]
       DefaultCaption = True
       Kind = bkOK
@@ -31,10 +32,10 @@ object frmLoggerConfig: TfrmLoggerConfig
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 346
-      Height = 32
-      Top = 9
-      Width = 86
+      Left = 321
+      Height = 40
+      Top = 11
+      Width = 108
       Anchors = [akTop, akRight]
       Caption = 'Abbrechen'
       Kind = bkCancel
@@ -42,10 +43,10 @@ object frmLoggerConfig: TfrmLoggerConfig
       TabOrder = 1
     end
     object btnDefault: TBitBtn
-      Left = 104
-      Height = 32
-      Top = 9
-      Width = 146
+      Left = 130
+      Height = 40
+      Top = 11
+      Width = 182
       Caption = 'Werkseinstellungen'
       Kind = bkRetry
       TabOrder = 2
@@ -54,19 +55,19 @@ object frmLoggerConfig: TfrmLoggerConfig
   end
   object Panel1: TPanel
     Left = 0
-    Height = 146
+    Height = 182
     Top = 0
     Width = 443
     Align = alTop
-    ClientHeight = 146
+    ClientHeight = 182
     ClientWidth = 443
     ParentBackground = False
     TabOrder = 1
     object Image1: TImage
-      Left = 5
-      Height = 131
-      Top = 5
-      Width = 179
+      Left = 6
+      Height = 128
+      Top = 6
+      Width = 113
       Anchors = [akTop, akLeft, akRight, akBottom]
       AutoSize = True
       Picture.Data = {
@@ -7277,10 +7278,10 @@ object frmLoggerConfig: TfrmLoggerConfig
       Proportional = True
     end
     object Label2: TLabel
-      Left = 197
-      Height = 131
-      Top = 9
-      Width = 242
+      Left = 246
+      Height = 164
+      Top = 11
+      Width = 192
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Around = 2
@@ -7299,60 +7300,60 @@ object frmLoggerConfig: TfrmLoggerConfig
     ClientWidth = 443
     TabOrder = 2
     object Label1: TLabel
-      Left = 78
+      Left = 98
       Height = 15
-      Top = 9
+      Top = 11
       Width = 90
       Alignment = taRightJustify
       Caption = 'Baudrate Kanal A'
       FocusControl = cbBaudA
     end
     object Label4: TLabel
-      Left = 131
+      Left = 164
       Height = 15
-      Top = 37
+      Top = 46
       Width = 37
       Alignment = taRightJustify
       Caption = 'Seatalk'
     end
     object Label5: TLabel
-      Left = 79
+      Left = 99
       Height = 15
-      Top = 64
+      Top = 80
       Width = 89
       Alignment = taRightJustify
       Caption = 'Baudrate Kanal B'
       FocusControl = cbBaudB
     end
     object Label6: TLabel
-      Left = 125
+      Left = 156
       Height = 15
-      Top = 96
+      Top = 120
       Width = 44
       Alignment = taRightJustify
       Caption = 'Features'
     end
     object Label7: TLabel
-      Left = 118
+      Left = 148
       Height = 15
-      Top = 165
+      Top = 206
       Width = 51
       Alignment = taRightJustify
       Caption = 'Schiffs-ID'
       FocusControl = sedVesselID
     end
     object Label8: TLabel
-      Left = 183
+      Left = 229
       Height = 15
-      Top = 192
+      Top = 240
       Width = 236
       Caption = 'Parameter mit * sind Loggervoreinstellungen'
     end
     object cbBaudA: TComboBox
-      Left = 178
+      Left = 222
       Height = 23
-      Top = 9
-      Width = 231
+      Top = 11
+      Width = 289
       ItemHeight = 15
       Items.Strings = (
         'deaktiviert'
@@ -7366,19 +7367,19 @@ object frmLoggerConfig: TfrmLoggerConfig
       TabOrder = 0
     end
     object cbSeatalk: TCheckBox
-      Left = 183
+      Left = 229
       Height = 19
       Hint = 'Seatalk für Kanal A aktiviert'
-      Top = 37
+      Top = 46
       Width = 100
       Caption = 'Seatalk aktiviert'
       TabOrder = 1
     end
     object cbBaudB: TComboBox
-      Left = 178
+      Left = 222
       Height = 23
-      Top = 64
-      Width = 231
+      Top = 80
+      Width = 289
       ItemHeight = 15
       Items.Strings = (
         'deaktiviert'
@@ -7391,34 +7392,34 @@ object frmLoggerConfig: TfrmLoggerConfig
       TabOrder = 2
     end
     object sedVesselID: TSpinEdit
-      Left = 179
+      Left = 224
       Height = 23
-      Top = 165
-      Width = 230
+      Top = 206
+      Width = 288
       TabOrder = 3
     end
     object GroupBox1: TGroupBox
-      Left = 178
-      Height = 73
-      Top = 87
-      Width = 231
-      ClientHeight = 53
-      ClientWidth = 227
+      Left = 222
+      Height = 91
+      Top = 109
+      Width = 289
+      ClientHeight = 71
+      ClientWidth = 285
       TabOrder = 4
       object cbGyro: TCheckBox
-        Left = 9
+        Left = 11
         Height = 19
         Hint = 'Der Logger schreibt zusätzliche DAten zur Lage und Beschleuningung'
-        Top = -5
+        Top = -6
         Width = 128
         Caption = 'schreibe Gyrodaten *'
         TabOrder = 0
       end
       object cbSupply: TCheckBox
-        Left = 9
+        Left = 11
         Height = 19
         Hint = 'Der Logger schreibt zusätzliche Daten zur aktuellen Spannungsversorgung'
-        Top = 18
+        Top = 22
         Width = 207
         Caption = 'schreibe Versorgungspannugsdaten'
         TabOrder = 1
@@ -7426,9 +7427,9 @@ object frmLoggerConfig: TfrmLoggerConfig
     end
   end
   object Label3: TLabel
-    Left = 23
+    Left = 29
     Height = 1
-    Top = 9
+    Top = 11
     Width = 1
   end
 end

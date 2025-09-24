@@ -40,10 +40,13 @@ type
     procedure FormShow(Sender: TObject);
   private
     FLoggerConfig: TLoggerConfig;
+    function GetVesselID: integer;
+    procedure SetVesselID(AValue: integer);
   public
     function LoggerCFG(): TLoggerConfig;
     procedure SetLoggerCFG(newcfg: TLoggerConfig);
-
+  published
+    property VesselID : integer read GetVesselID write SetVesselID;
   end;
 
 function BaudToIndex(baud: integer): integer;
@@ -106,7 +109,7 @@ begin
   cbBaudB.ItemIndex := 3;
   cbGyro.Checked := True;
   cbSupply.Checked := False;
-  sedVesselID.Value := 0;
+  sedVesselID.Value := FLoggerConfig.VesselID;
 end;
 
 procedure TFrmLoggerConfig.FormShow(Sender: TObject);
@@ -117,6 +120,16 @@ begin
   cbGyro.Checked := FLoggerConfig.Gyro;
   cbSupply.Checked := FLoggerConfig.Supply;
   sedVesselID.Value := FLoggerConfig.VesselID;
+end;
+
+function TFrmLoggerConfig.GetVesselID: integer;
+begin
+  result := FLoggerConfig.VesselID;
+end;
+
+procedure TFrmLoggerConfig.SetVesselID(AValue: integer);
+begin
+  FLoggerConfig.VesselID:= AValue;
 end;
 
 function TFrmLoggerConfig.LoggerCFG(): TLoggerConfig;

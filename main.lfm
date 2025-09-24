@@ -453,18 +453,18 @@ object frmMain: TfrmMain
     TabOrder = 6
     OnResize = tbMainResize
     object ToolButton1: TToolButton
-      Left = 743
+      Left = 671
       Top = 2
       Action = actExit
     end
     object ToolButton2: TToolButton
-      Left = 815
+      Left = 743
       Top = 2
       Action = actHelp
       ImageIndex = 15
     end
     object ToolButton4: TToolButton
-      Left = 779
+      Left = 707
       Top = 2
       Action = actAbout
     end
@@ -478,76 +478,65 @@ object frmMain: TfrmMain
       Top = 2
       Action = actConfig
     end
-    object ToolButton7: TToolButton
-      Left = 73
-      Top = 2
-      Action = actUpdate
-      Enabled = False
-    end
     object ToolButton8: TToolButton
-      Left = 109
+      Left = 73
       Top = 2
       Action = actSDManagement
       ImageIndex = 14
     end
     object ToolButton9: TToolButton
-      Left = 305
+      Left = 233
       Top = 2
       Action = actMapShow
     end
     object ToolButton10: TToolButton
-      Left = 145
+      Left = 109
       Height = 32
       Top = 2
       Caption = 'ToolButton10'
       Style = tbsSeparator
     end
     object ToolButton11: TToolButton
-      Left = 153
+      Left = 117
       Top = 2
       Action = actTimestamp
     end
-    object ToolButton12: TToolButton
-      Left = 189
-      Top = 2
-      Action = actImport
-    end
     object ToolButton13: TToolButton
-      Left = 225
+      Left = 153
       Top = 2
       Action = actExport
     end
     object ToolButton14: TToolButton
-      Left = 297
+      Left = 225
       Height = 32
       Top = 2
       Caption = 'ToolButton14'
       Style = tbsSeparator
     end
     object ToolButton15: TToolButton
-      Left = 349
+      Left = 277
       Top = 2
       Action = actNewTrack
     end
     object ToolButton16: TToolButton
-      Left = 385
+      Left = 313
       Top = 2
       Action = actAdd2Track
     end
     object ToolButton17: TToolButton
-      Left = 537
+      Left = 465
       Top = 2
       Action = actPreferences
     end
     object ToolButton18: TToolButton
-      Left = 529
+      Left = 457
       Height = 32
       Top = 2
       Caption = 'ToolButton18'
       Style = tbsSeparator
     end
     object Panel7: TPanel
-      Left = 573
+      Left = 501
       Height = 32
       Top = 2
       Width = 170
@@ -557,27 +546,27 @@ object frmMain: TfrmMain
       TabOrder = 0
     end
     object ToolButton20: TToolButton
-      Left = 493
+      Left = 421
       Top = 2
       Action = actTracksReload
     end
     object ToolButton19: TToolButton
-      Left = 421
+      Left = 349
       Top = 2
       Action = actTrackDelete
     end
     object ToolButton21: TToolButton
-      Left = 457
+      Left = 385
       Top = 2
       Action = actTrackEdit
     end
     object ToolButton22: TToolButton
-      Left = 261
+      Left = 189
       Top = 2
       Action = actAnalyse
     end
     object ToolButton23: TToolButton
-      Left = 341
+      Left = 269
       Height = 32
       Top = 2
       Caption = 'ToolButton23'
@@ -594,12 +583,6 @@ object frmMain: TfrmMain
       end
       object MenuItem12: TMenuItem
         Action = actConfig
-      end
-      object MenuItem11: TMenuItem
-        Action = actUpdate
-      end
-      object MenuItem10: TMenuItem
-        Action = actImport
       end
       object Separator1: TMenuItem
         Caption = '-'
@@ -750,18 +733,6 @@ object frmMain: TfrmMain
       Hint = 'Konfiguration des Hardwareloggers'
       ImageIndex = 24
       OnExecute = actConfigExecute
-    end
-    object actUpdate: TAction
-      Category = 'Datei'
-      Caption = 'Update'
-      Hint = 'Update der Loggerfirmware'
-      ImageIndex = 20
-    end
-    object actImport: TAction
-      Category = 'Datei'
-      Caption = 'Import'
-      ImageIndex = 21
-      OnExecute = actImportExecute
     end
     object actAnalyse: TAction
       Category = 'Tools'

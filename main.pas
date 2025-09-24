@@ -18,7 +18,6 @@ type
   TfrmMain = class(TForm)
     actAnalyse: TAction;
     actConfig: TAction;
-    actImport: TAction;
     actAdd2Track: TAction;
     actExport: TAction;
     actAbout: TAction;
@@ -33,7 +32,6 @@ type
     actMapShow: TAction;
     actSDManagement: TAction;
     actPreferences: TAction;
-    actUpdate: TAction;
     actUpload: TAction;
     ActionList1: TActionList;
     cbAutoAnalyse: TCheckBox;
@@ -59,8 +57,6 @@ type
     MainMenu1: TMainMenu;
     MapView1: TMapView;
     MenuItem1: TMenuItem;
-    MenuItem10: TMenuItem;
-    MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
     MenuItem14: TMenuItem;
@@ -110,7 +106,6 @@ type
     ToolButton1: TToolButton;
     ToolButton10: TToolButton;
     ToolButton11: TToolButton;
-    ToolButton12: TToolButton;
     ToolButton13: TToolButton;
     ToolButton14: TToolButton;
     ToolButton15: TToolButton;
@@ -132,7 +127,6 @@ type
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
     ToolButton6: TToolButton;
-    ToolButton7: TToolButton;
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
     TrayIcon1: TTrayIcon;
@@ -141,7 +135,6 @@ type
     procedure actAnalyseExecute(Sender: TObject);
     procedure actConfigExecute(Sender: TObject);
     procedure actExportExecute(Sender: TObject);
-    procedure actImportExecute(Sender: TObject);
     procedure actMapShowExecute(Sender: TObject);
     procedure actMapZoomAreaExecute(Sender: TObject);
     procedure actNewTrackExecute(Sender: TObject);
@@ -555,14 +548,17 @@ end;
 
 procedure TfrmMain.actUploadExecute(Sender: TObject);
 begin
-  ShowMessage('Nicht implementiert!');
+  ShowMessage('Upload noch nicht implementiert.');
 end;
 
 procedure TfrmMain.actConfigExecute(Sender: TObject);
 var
-  mr: integer;
+  mr, vid: integer;
 begin
   frmLoggerConfig.SetLoggerCFG(HWLogger.LoggerCFG());
+  vid := JSONPropStorage1.ReadInteger(VESSEL_ID, 0);
+  if (frmLoggerConfig.VesselID = 0) and (vid <> 0) then
+     frmLoggerConfig.VesselID:= vid;
   mr := frmLoggerConfig.ShowModal();
   if mr = mrOk then
   begin
@@ -572,11 +568,6 @@ begin
 end;
 
 procedure TfrmMain.actExportExecute(Sender: TObject);
-begin
-  ShowMessage('Nicht implementiert!');
-end;
-
-procedure TfrmMain.actImportExecute(Sender: TObject);
 begin
   ShowMessage('Nicht implementiert!');
 end;
