@@ -15,6 +15,8 @@ const
   UPLOAD_URL = 'upload.url';
   TRACK_STOREPATH = 'track.storepath';
   VESSEL_ID = 'vesselid';
+  DEBUG_FILE = 'debug.file';
+  DEBUG = 'debug.active';
 
 type
 

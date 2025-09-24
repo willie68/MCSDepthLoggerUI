@@ -12,7 +12,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, lazcontrols, tachartlazaruspkg, main, uPreferences, uloggerconfig,
   MCSAbout, ufsinfo, umcslogger, uconst, usdcardimages, uwait, ugomapproxy,
-  utilecacheutils, utrackedit;
+  utilecacheutils, utrackedit, uEditor;
 
 {$R *.res}
 
@@ -29,6 +29,7 @@ begin
   Application.CreateForm(TfrmLoggerConfig, frmLoggerConfig);
   Application.CreateForm(TfrmSDCard, frmSDCard);
   Application.CreateForm(TfrmWait, frmWait);
+  Application.CreateForm(TfrmEditor, frmEditor);
   Infobox.AppTitel:= 'MCS Depth Logger UI';
   Infobox.AppID:= 64;
   Infobox.CopyRight:= '(C) MCS 2025';

@@ -5,7 +5,7 @@ unit umcslogger;
 interface
 
 uses
-  Classes, Process, SysUtils, fpjson, jsonparser, Forms;
+  Classes, Process, SysUtils, fpjson, jsonparser, Forms, MCSDBGLog;
 
 type
   TProcessStringArray = array of TProcessString;
@@ -69,10 +69,16 @@ type
     Finish: TLoggerWaypoint;
   end;
 
+  TLoggerGeneralResult = record
+    Result: boolean;
+    Messages: TStringArray;
+  end;
+
   { TMCSLogger }
 
   TMCSLogger = class
   private
+    FLog: TLogger;
     FLoggerCard: boolean;
     FDataFileCount: integer;
     FDataFiles: array of TLoggerDataFile;
@@ -86,6 +92,7 @@ type
     procedure HasCfg();
   public
     constructor Create();
+    destructor Destroy();
     function Version(): string;
     procedure Read();
     procedure Write();
@@ -97,6 +104,7 @@ type
     procedure Backup(backupFolder: string);
     procedure Restore(filename: string);
     procedure NewTrack(path: string; filenames: TStrings; track: TLoggerTrackInfo);
+    procedure Touch(filenames: TStrings);
   published
     property IsLoggerCard: boolean read FLoggerCard;
     property SDRoot: string read FRootpath write InitCard;
@@ -109,6 +117,8 @@ type
 function ParseTimestamp(const S: string): TDateTime;
 procedure AddParam(var params: TProcessStringArray; Value: string);
 function ConvertWaypoint(way: TJSONObject): TLoggerWaypoint;
+function ParseLoggerGeneralResult(const JSONText: string): TLoggerGeneralResult;
+function StringArrayToMessageString(const Arr: TStringArray): string;
 
 procedure CreateMCSLogger();
 
@@ -118,6 +128,7 @@ type
 
   TExecOSMLThread = class(TThread)
   private
+    FLog : TLogger;
     FParams: TProcessStringArray;
     FOutput: string;
     FOk: boolean;
@@ -125,6 +136,7 @@ type
     procedure Execute; override;
   public
     constructor Create(params: TProcessStringArray);
+    destructor Destroy();
     property Output: string read FOutput;
     property OK: boolean read FOk;
   end;
@@ -294,8 +306,14 @@ end;
 constructor TMCSLogger.Create();
 begin
   inherited Create();
+  FLog := TLogger.Create('MCSLogger');
   FLastError := '';
   FHasError := False;
+end;
+
+destructor TMCSLogger.Destroy();
+begin
+  FLog.Free();
 end;
 
 function TMCSLogger.LoggerCFG(): TLoggerConfig;
@@ -325,6 +343,7 @@ begin
 
   if FLoggerCard then
   begin
+    FLog.Debug('starting check');
     exec := TExecOSMLThread.Create(['check', '-s', filename]);
     try
       exec.WaitFor;
@@ -663,11 +682,65 @@ begin
   end;
 end;
 
+procedure TMCSLogger.Touch(filenames: TStrings);
+var
+  osmlResult: TLoggerGeneralResult;
+  filename: string;
+  params: TProcessStringArray;
+  exec: TExecOSMLThread;
+  i: integer;
+begin
+  if FLoggerCard then
+  begin
+    SetLength(params, 3);
+    params[0] := 'touch';
+    params[1] := '-s';
+    params[2] := SDRoot;
+    for i := 0 to filenames.Count - 1 do
+    begin
+      filename := ExtractFileName(filenames[i]);
+      AddParam(params, '-f');
+      AddParam(params, filename);
+    end;
+
+    exec := TExecOSMLThread.Create(params);
+    try
+      exec.WaitFor;
+      if exec.Ok then
+      begin
+        try
+          osmlResult := ParseLoggerGeneralResult(exec.Output);
+        except
+          on e: Exception do
+            MessageDlg('Fehler beim Parsen der osml Antwort.' +
+              sLineBreak + exec.Output + sLineBreak + e.Message, mtError, [mbOK], 0);
+        end;
+        if osmlResult.Result then
+          MessageDlg('Zeitstempel erfolgreich gesetzt, OSML Meldung:' +
+            sLineBreak + StringArrayToMessageString(osmlResult.Messages),
+            mtInformation, [mbOK], 0)
+        else
+          MessageDlg('Zeitstempel nicht erfolgreich gesetzt, OSML Meldung:' +
+            sLineBreak + StringArrayToMessageString(osmlResult.Messages),
+            mtError, [mbOK], 0);
+
+      end
+      else
+        MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+          sLineBreak + exec.Output, mtError, [mbOK], 0);
+    finally
+      exec.Free();
+    end;
+  end;
+end;
+
 { TExecOSMLThread }
 
 procedure TExecOSMLThread.Execute;
 begin
   AddParam(FParams, '--json');
+
+  FLog.Debugf('starting osml %s', [MCSDBGLog.StringArray2String(FParams)]);
   FOK := RunCommand('osml', FParams, FOutput, [poNoConsole]);
 end;
 
@@ -676,7 +749,13 @@ begin
   inherited Create(True);
   FParams := params;
   FOK := False;
+  FLog := TLogger.Create('OSML');
   Start();
+end;
+
+destructor TExecOSMLThread.Destroy();
+begin
+  FLog.Free();
 end;
 
 function ParseTimestamp(const S: string): TDateTime;
@@ -712,6 +791,43 @@ begin
   pos := length(params);
   SetLength(params, pos + 1);
   params[pos] := Value;
+end;
+
+function ParseLoggerGeneralResult(const JSONText: string): TLoggerGeneralResult;
+var
+  Data: TJSONData;
+  Obj: TJSONObject;
+  MsgArray: TJSONArray;
+  i: integer;
+begin
+  Data := GetJSON(JSONText);
+  try
+    Obj := TJSONObject(Data);
+
+    // Parse "result"
+    Result.Result := Obj.Get('result', False);
+
+    // Parse "message" array
+    MsgArray := Obj.Arrays['message'];
+    SetLength(Result.Messages, MsgArray.Count);
+    for i := 0 to MsgArray.Count - 1 do
+      Result.Messages[i] := MsgArray.Strings[i];
+  finally
+    Data.Free;
+  end;
+end;
+
+function StringArrayToMessageString(const Arr: TStringArray): string;
+var
+  i: integer;
+begin
+  Result := '';
+  for i := 0 to High(Arr) do
+  begin
+    Result := Result + Arr[i];
+    if i < High(Arr) then
+      Result := Result + sLineBreak;
+  end;
 end;
 
 end.

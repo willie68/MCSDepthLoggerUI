@@ -30,7 +30,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="23"/>
+      <BuildNr Value="24"/>
       <Language Value="0407"/>
       <Attributes pvaDebug="True" pvaPreRelease="True"/>
       <StringTable CompanyName="MCS Music" InternalName="MCSDLUI" ProductName="MCS Depth Logger" ProductVersion="0.1.0"/>
@@ -46,6 +46,12 @@
       <FormatVersion Value="2"/>
     </RunParams>
     <RequiredPackages>
+      <Item>
+        <PackageName Value="SynEditDsgn"/>
+      </Item>
+      <Item>
+        <PackageName Value="SynEdit"/>
+      </Item>
       <Item>
         <PackageName Value="FCL"/>
       </Item>
@@ -151,6 +157,14 @@
       <Unit>
         <Filename Value="udbglog.pas"/>
         <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ueditor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmEditor"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uEditor"/>
       </Unit>
     </Units>
   </ProjectOptions>

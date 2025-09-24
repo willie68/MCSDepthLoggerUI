@@ -8,8 +8,8 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
   mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, CheckLst,
-  TAGraph, TASeries, TAIntervalSources, umcslogger, mvTypes, mvGPSObj,
-  ugomapproxy, utilecacheutils, LazLogger, MCSDBGLog;
+  LazHelpHTML, TAGraph, TASeries, TAIntervalSources, umcslogger, mvTypes,
+  mvGPSObj, ugomapproxy, utilecacheutils, LazLogger, MCSDBGLog, ueditor;
 
 type
 
@@ -21,6 +21,7 @@ type
     actAdd2Track: TAction;
     actExport: TAction;
     actAbout: TAction;
+    actEdit: TAction;
     actMapZoomArea: TAction;
     acZoomIn: TAction;
     acZoomOut: TAction;
@@ -46,6 +47,8 @@ type
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     actHelp: THelpAction;
+    HTMLBrowserHelpViewer1: THTMLBrowserHelpViewer;
+    HTMLHelpDatabase1: THTMLHelpDatabase;
     ImageList: TImageList;
     ilStatus: TImageList;
     JSONPropStorage1: TJSONPropStorage;
@@ -115,7 +118,6 @@ type
     ToolButton19: TToolButton;
     ToolButton2: TToolButton;
     ToolButton20: TToolButton;
-    ToolButton21: TToolButton;
     tbtnZoomIn: TToolButton;
     tbtnZoomOut: TToolButton;
     tbMapsSeamarks: TToolButton;
@@ -127,6 +129,7 @@ type
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
     ToolButton6: TToolButton;
+    ToolButton7: TToolButton;
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
     TrayIcon1: TTrayIcon;
@@ -134,6 +137,7 @@ type
     procedure actAdd2TrackExecute(Sender: TObject);
     procedure actAnalyseExecute(Sender: TObject);
     procedure actConfigExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
     procedure actExportExecute(Sender: TObject);
     procedure actMapShowExecute(Sender: TObject);
     procedure actMapZoomAreaExecute(Sender: TObject);
@@ -211,7 +215,7 @@ var
 implementation
 
 uses fileinfo, uPreferences, uloggerconfig, MCSAbout, ufsinfo, LazStringUtils,
-  uconst, usdcardimages, mvDrawingEngine, mvMapProvider, uwait, utrackedit;
+  uconst, usdcardimages, mvDrawingEngine, mvMapProvider, uwait, utrackedit, LCLIntf;
   {$R *.lfm}
 
 type
@@ -493,6 +497,9 @@ begin
   frmPreferences.Bootloader := JSONPropStorage1.ReadInteger(LOGGER_BOOTLOADER, 1);
   frmPreferences.TilesMaxAge := JSONPropStorage1.ReadInteger(TILES_MAXAGE, 30);
   frmPreferences.VesselID := JSONPropStorage1.ReadInteger(VESSEL_ID, 0);
+  frmPreferences.Debug := JSONPropStorage1.ReadBoolean(DEBUG, False);
+  frmPreferences.DebugFile := JSONPropStorage1.ReadString(DEBUG_FILE,
+    ConcatPaths([AppConfig.Appdata, 'debug.log']));
   mr := frmPreferences.ShowModal();
   if mr = mrOk then
   begin
@@ -504,6 +511,8 @@ begin
     JSONPropStorage1.WriteInteger(LOGGER_BOOTLOADER, frmPreferences.Bootloader);
     JSONPropStorage1.WriteInteger(TILES_MAXAGE, frmPreferences.TilesMaxAge);
     JSONPropStorage1.WriteInteger(VESSEL_ID, frmPreferences.VesselID);
+    JSONPropStorage1.WriteBoolean(DEBUG, frmPreferences.Debug);
+    JSONPropStorage1.WriteString(DEBUG_FILE, frmPreferences.DebugFile);
     JSONPropStorage1RestoringProperties(Sender);
   end;
 end;
@@ -514,8 +523,29 @@ begin
 end;
 
 procedure TfrmMain.actTimestampExecute(Sender: TObject);
+var
+  track: TLoggerTrackinfo;
+  fn: TStringList;
+  i: integer;
+  path: string;
 begin
-  ShowMessage('Nicht implementiert!');
+  if sgFiles.Row >= 1 then
+  begin
+    frmWait.Show();
+    fn := TStringList.Create();
+    try
+      for i := 0 to sgFiles.RowCount - 1 do
+      begin
+        if sgFiles.IsCellSelected[0, i] then
+          fn.Add(sgFiles.Cells[0, i]);
+      end;
+      HWLogger.Touch(fn);
+      PopulateFilesGrid();
+    finally
+      frmWait.Hide();
+      fn.Free();
+    end;
+  end;
 end;
 
 procedure TfrmMain.actTrackDeleteExecute(Sender: TObject);
@@ -523,13 +553,19 @@ var
   track: string;
 begin
   track := stvTracks.GetPathFromNode(stvTracks.Selected);
-  if MessageDlg('Track löschen', 'Soll der Track ' + sLineBreak +
-    track + sLineBreak + ' wirklich gelöscht werden?', mtConfirmation,
-    mbOKCancel, '') = mrOk then
+  if track <> '' then
   begin
-    DeleteFile(track);
-    actTracksReload.Execute;
-  end;
+    if MessageDlg('Track löschen', 'Soll der Track ' + sLineBreak +
+      track + sLineBreak + ' wirklich gelöscht werden?', mtConfirmation,
+      mbOKCancel, '') = mrOk then
+    begin
+      DeleteFile(track);
+      actTracksReload.Execute;
+    end;
+  end
+  else
+    MessageDlg('Track löschen', 'Kein Track markiert', mtInformation,
+      [mbOK], '');
 end;
 
 procedure TfrmMain.SyncFrmTrack();
@@ -558,12 +594,31 @@ begin
   frmLoggerConfig.SetLoggerCFG(HWLogger.LoggerCFG());
   vid := JSONPropStorage1.ReadInteger(VESSEL_ID, 0);
   if (frmLoggerConfig.VesselID = 0) and (vid <> 0) then
-     frmLoggerConfig.VesselID:= vid;
+    frmLoggerConfig.VesselID := vid;
   mr := frmLoggerConfig.ShowModal();
   if mr = mrOk then
   begin
     HWLogger.SetLoggerCFG(frmLoggerConfig.LoggerCFG());
     HWLogger.Write();
+  end;
+end;
+
+procedure TfrmMain.actEditExecute(Sender: TObject);
+var filename : string;
+  i : integer;
+begin
+    if sgFiles.Row > 0 then
+  begin
+     for i := 0 to sgFiles.RowCount - 1 do
+    begin
+      if sgFiles.IsCellSelected[0, i] then
+      begin
+        filename := sgFiles.Cells[0, i];
+        Break;
+      end;
+    end;
+    frmEditor.Filename := filename;
+    frmEditor.ShowModal;
   end;
 end;
 
@@ -596,10 +651,16 @@ begin
 end;
 
 procedure TfrmMain.actAdd2TrackExecute(Sender: TObject);
+var
+  track: string;
 begin
   SyncFrmTrack();
-  if frmTrackEdit.ShowModal = mrOk then
-    ShowMessage('Nicht implementiert!');
+  track := stvTracks.GetPathFromNode(stvTracks.Selected);
+  if track <> '' then
+    ShowMessage('Nicht implementiert!')
+  else
+    MessageDlg('Track löschen', 'Kein Track markiert', mtInformation,
+      [mbOK], '');
 end;
 
 procedure TfrmMain.actNewTrackExecute(Sender: TObject);
@@ -665,9 +726,7 @@ end;
 
 procedure TfrmMain.actHelpExecute(Sender: TObject);
 begin
-  frmWait.Show;
-  ShowMessage('Keine Hilfe vorhanden');
-  frmWait.Hide;
+  OpenURL('http://rcarduino.de/doku.php?id=arduino:oseam:mcsdlui');
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -682,6 +741,14 @@ var
   mapProvider: string;
   i: integer;
 begin
+  if JSONPropStorage1.ReadBoolean(DEBUG, False) then
+  begin
+    DebugLogger.LogName := JSONPropStorage1.ReadString(DEBUG_FILE, 'debug.log');
+    MCSDBGLog.Active := True;
+    MCSDBGLog.LogLevel := TLogLevel.LvlDebug;
+    if Sender.ClassNameIs('TJSONPropStorage') then
+      FLog.Info('Application started');
+  end;
   for i := 0 to sgFiles.ColCount - 1 do
   begin
     sgFiles.ColWidths[i] := JSONPropStorage1.ReadInteger(
@@ -701,6 +768,7 @@ begin
   SetMapProvider();
   if frmTrackEdit <> nil then
     frmTrackEdit.Root := AppConfig.Trackspath;
+  FLog.Info('Restoring Configuration finnished');
 end;
 
 procedure TfrmMain.JSONPropStorage1SavingProperties(Sender: TObject);
@@ -718,10 +786,6 @@ end;
 procedure TfrmMain.sgFilesClick(Sender: TObject);
 begin
   FTrackSelected := False;
-  if cbAutoMap.Checked then
-  begin
-    actMapShowExecute(Sender);
-  end;
 end;
 
 procedure TfrmMain.sgFilesSelection(Sender: TObject; aCol, aRow: integer);

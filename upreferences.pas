@@ -15,10 +15,13 @@ type
   TfrmPreferences = class(TForm)
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
+    cbDebug: TCheckBox;
     deDatafolder: TDirectoryEdit;
     edtPassword: TEditButton;
     edtURL: TEdit;
     edtUsername: TEdit;
+    fneDebug: TFileNameEdit;
+    GroupBox1: TGroupBox;
     Image1: TImage;
     ImageList1: TImageList;
     Label1: TLabel;
@@ -38,6 +41,7 @@ type
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
+    procedure cbDebugChange(Sender: TObject);
     procedure edtPasswordButtonClick(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -49,6 +53,8 @@ type
     FBootloader: integer;
     FTilesMaxAge: integer;
     FVesselID: integer;
+    FDebug: boolean;
+    FDebugFile: string;
 
     procedure SetData(datapath: string);
   public
@@ -60,6 +66,8 @@ type
     property Bootloader: integer read FBootloader write FBootloader;
     property TilesMaxAge: integer read FTilesMaxAge write FTilesMaxAge;
     property VesselID: integer read FVesselID write FVesselID;
+    property Debug: boolean read FDebug write FDebug;
+    property DebugFile: string read FDebugFile write FDebugFile;
   end;
 
 var
@@ -80,7 +88,10 @@ begin
   PageControl1.ActivePageIndex := 0;
   rgBootloader.ItemIndex := FBootloader;
   sedTilesMaaxAge.Value := FTilesMaxAge;
-  sedVesselID.Value:= FVesselID;
+  sedVesselID.Value := FVesselID;
+  cbDebug.Checked:= FDebug;
+  fneDebug.Text := FDebugFile;
+  cbDebugChange(Sender);
 end;
 
 procedure TfrmPreferences.edtPasswordButtonClick(Sender: TObject);
@@ -91,6 +102,11 @@ begin
     edtPassword.PasswordChar := '#';
 end;
 
+procedure TfrmPreferences.cbDebugChange(Sender: TObject);
+begin
+  fneDebug.Enabled := cbDebug.Checked;
+end;
+
 procedure TfrmPreferences.FormHide(Sender: TObject);
 begin
   FData := deDatafolder.Text;
@@ -99,7 +115,9 @@ begin
   FPassword := edtPassword.Text;
   FBootloader := rgBootloader.ItemIndex;
   FTilesMaxAge := sedTilesMaaxAge.Value;
-  FVesselID:= sedVesselID.Value;
+  FVesselID := sedVesselID.Value;
+  FDebug := cbDebug.Checked;
+  FDebugFile := fneDebug.Text;
 end;
 
 procedure TfrmPreferences.SetData(datapath: string);
