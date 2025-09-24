@@ -4,7 +4,7 @@
 
 #define MyAppName "MCS Depth Logger UI"
 #define MyAppPublisher "MCS"
-#define MyAppURL "http://www.rcarduino.de/"
+#define MyAppURL "https://wkla.no-ip.biz/ArduinoWiki//doku.php?id=arduino:oseam:mcsdlui"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
