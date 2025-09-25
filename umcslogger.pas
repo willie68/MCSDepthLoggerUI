@@ -314,6 +314,7 @@ end;
 destructor TMCSLogger.Destroy();
 begin
   FLog.Free();
+  inherited Destroy;
 end;
 
 function TMCSLogger.LoggerCFG(): TLoggerConfig;

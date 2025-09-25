@@ -8,6 +8,7 @@ object frmMain: TfrmMain
   Caption = 'MCS Depth Logger UI'
   ClientHeight = 579
   ClientWidth = 1092
+  DesignTimePPI = 120
   Menu = MainMenu1
   SessionProperties = 'cbAutoAnalyse.Checked;cbAutoMap.Checked;Height;Left;pLeft.Width;pMapBottom.Height;pRight.Width;Top;Width;pTop.Height'
   ShowHint = True
@@ -17,8 +18,8 @@ object frmMain: TfrmMain
   OnDestroy = FormDestroy
   object sbMain: TStatusBar
     Left = 0
-    Height = 23
-    Top = 556
+    Height = 29
+    Top = 550
     Width = 1092
     Panels = <    
       item
@@ -43,13 +44,13 @@ object frmMain: TfrmMain
   end
   object pCenter: TPanel
     Left = 176
-    Height = 518
+    Height = 512
     Top = 38
     Width = 410
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pCenter'
-    ClientHeight = 518
+    ClientHeight = 512
     ClientWidth = 410
     TabOrder = 1
     object pTop: TPanel
@@ -65,7 +66,7 @@ object frmMain: TfrmMain
       TabOrder = 0
       object Label2: TLabel
         Left = 0
-        Height = 15
+        Height = 20
         Top = 0
         Width = 410
         Align = alTop
@@ -75,8 +76,8 @@ object frmMain: TfrmMain
       end
       object sgFiles: TStringGrid
         Left = 0
-        Height = 195
-        Top = 15
+        Height = 190
+        Top = 20
         Width = 410
         Align = alClient
         AutoEdit = False
@@ -106,19 +107,19 @@ object frmMain: TfrmMain
     end
     object pBottom: TPanel
       Left = 0
-      Height = 302
+      Height = 296
       Top = 216
       Width = 410
       Align = alClient
       BevelOuter = bvNone
       Caption = 'pBottom'
-      ClientHeight = 302
+      ClientHeight = 296
       ClientWidth = 410
       TabOrder = 1
       object stvTracks: TShellTreeView
         Left = 0
-        Height = 287
-        Top = 15
+        Height = 276
+        Top = 20
         Width = 410
         HelpType = htKeyword
         HelpKeyword = 'html/doku.php?id=arduino:oseam:mcsdlui#tracks'
@@ -134,7 +135,7 @@ object frmMain: TfrmMain
       end
       object Label3: TLabel
         Left = 0
-        Height = 15
+        Height = 20
         Top = 0
         Width = 410
         Align = alTop
@@ -155,12 +156,12 @@ object frmMain: TfrmMain
   end
   object pLeft: TPanel
     Left = 0
-    Height = 518
+    Height = 512
     Top = 38
     Width = 170
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 518
+    ClientHeight = 512
     ClientWidth = 170
     Constraints.MinWidth = 80
     TabOrder = 2
@@ -171,14 +172,14 @@ object frmMain: TfrmMain
       Width = 156
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Karteninformation'
-      ClientHeight = 135
+      ClientHeight = 130
       ClientWidth = 152
       Font.Style = [fsUnderline]
       ParentFont = False
       TabOrder = 0
       object lblCardInfo: TLabel
         Left = 5
-        Height = 125
+        Height = 120
         Top = 5
         Width = 142
         Align = alClient
@@ -193,14 +194,14 @@ object frmMain: TfrmMain
       Width = 156
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Dateiinformation'
-      ClientHeight = 158
+      ClientHeight = 153
       ClientWidth = 152
       Font.Style = [fsUnderline]
       ParentFont = False
       TabOrder = 1
       object lblFileInfo: TLabel
         Left = 5
-        Height = 148
+        Height = 143
         Top = 5
         Width = 142
         Align = alClient
@@ -220,11 +221,11 @@ object frmMain: TfrmMain
     end
     object cbRootDrives: TComboBox
       Left = 8
-      Height = 23
+      Height = 28
       Top = 23
       Width = 156
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 15
+      ItemHeight = 20
       Style = csDropDownList
       TabOrder = 3
       OnChange = cbRootDrivesChange
@@ -232,9 +233,9 @@ object frmMain: TfrmMain
     end
     object Label1: TLabel
       Left = 8
-      Height = 15
+      Height = 20
       Top = 0
-      Width = 96
+      Width = 122
       Caption = 'SD Kartenlaufwerk'
       Font.Style = [fsUnderline]
       ParentFont = False
@@ -253,25 +254,25 @@ object frmMain: TfrmMain
   end
   object spLEft: TSplitter
     Left = 170
-    Height = 518
+    Height = 512
     Top = 38
     Width = 6
   end
   object pRight: TPanel
     Left = 592
-    Height = 518
+    Height = 512
     Top = 38
     Width = 500
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 518
+    ClientHeight = 512
     ClientWidth = 500
     Constraints.MinWidth = 10
     TabOrder = 4
     object pMapBottom: TPanel
       Left = 0
       Height = 119
-      Top = 399
+      Top = 393
       Width = 500
       Align = alBottom
       BevelOuter = bvSpace
@@ -327,17 +328,17 @@ object frmMain: TfrmMain
     end
     object pMapClient: TPanel
       Left = 0
-      Height = 393
+      Height = 387
       Top = 0
       Width = 500
       Align = alClient
       Caption = 'pMapClient'
-      ClientHeight = 393
+      ClientHeight = 387
       ClientWidth = 500
       TabOrder = 1
       object MapView1: TMapView
         Left = 1
-        Height = 353
+        Height = 347
         Top = 39
         Width = 498
         Align = alClient
@@ -366,10 +367,10 @@ object frmMain: TfrmMain
         OnResize = tbMapResize
         object cbProvider: TComboBox
           Left = 1
-          Height = 23
+          Height = 28
           Top = 2
           Width = 173
-          ItemHeight = 15
+          ItemHeight = 20
           Style = csDropDownList
           TabOrder = 0
           OnChange = cbProviderChange
@@ -430,7 +431,7 @@ object frmMain: TfrmMain
       Cursor = crVSplit
       Left = 0
       Height = 6
-      Top = 393
+      Top = 387
       Width = 500
       Align = alBottom
       ResizeAnchor = akBottom
@@ -438,7 +439,7 @@ object frmMain: TfrmMain
   end
   object spRight: TSplitter
     Left = 586
-    Height = 518
+    Height = 512
     Top = 38
     Width = 6
     Align = alRight

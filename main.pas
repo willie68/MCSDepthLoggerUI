@@ -584,7 +584,7 @@ end;
 
 procedure TfrmMain.actUploadExecute(Sender: TObject);
 begin
-  ShowMessage('Upload noch nicht implementiert.');
+  OpenURL('https://depth.openseamap.org/');
 end;
 
 procedure TfrmMain.actConfigExecute(Sender: TObject);

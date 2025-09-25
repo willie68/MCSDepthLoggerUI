@@ -20,10 +20,9 @@
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="512"/>
-        <CursorPos X="16" Y="540"/>
-        <FoldState Value=" T3mN0I21215 pjemB0M0112432421149 pk6r80E[Y4]O PiXkV0!"/>
+        <TopLine Value="585"/>
+        <CursorPos X="32" Y="609"/>
+        <FoldState Value=" T3mN0I21215 pjemB0M0112211324]649 pk3r80E[a4]Q PiXkV0Y"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -35,7 +34,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uPreferences"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="99"/>
         <CursorPos X="3" Y="107"/>
         <UsageCount Value="200"/>
@@ -64,7 +63,7 @@
         <ComponentName Value="frmLoggerConfig"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="101"/>
         <CursorPos X="47" Y="112"/>
         <UsageCount Value="206"/>
@@ -82,15 +81,17 @@
       <Unit>
         <Filename Value="umcslogger.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <CursorPos X="40" Y="11"/>
+        <TopLine Value="313"/>
+        <CursorPos X="20" Y="317"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uconst.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <CursorPos X="24" Y="19"/>
         <UsageCount Value="209"/>
         <Loaded Value="True"/>
@@ -101,7 +102,7 @@
         <ComponentName Value="frmSDCard"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="40"/>
         <CursorPos X="27" Y="105"/>
         <UsageCount Value="207"/>
@@ -122,7 +123,7 @@
       <Unit>
         <Filename Value="ugomapproxy.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="42"/>
         <CursorPos X="99" Y="58"/>
         <UsageCount Value="136"/>
@@ -139,7 +140,7 @@
       <Unit>
         <Filename Value="utilecacheutils.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <CursorPos X="53" Y="6"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
@@ -263,11 +264,10 @@
       </Unit>
       <Unit>
         <Filename Value="D:\Sprachen\pascal\lazarus\fpc\3.2.2\source\packages\fcl-process\src\processbody.inc"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="23"/>
         <CursorPos X="4" Y="39"/>
         <UsageCount Value="18"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="E:\Sprachen\lazarus\fpc\3.2.2\source\packages\fcl-process\src\processbody.inc"/>
@@ -322,7 +322,7 @@
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\MCSTools.pas"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="196"/>
         <CursorPos X="21" Y="213"/>
         <UsageCount Value="57"/>
@@ -519,7 +519,7 @@
       </Unit>
       <Unit>
         <Filename Value="..\Lazarus_Libraries\MCSIO.pas"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="205"/>
         <CursorPos Y="712"/>
         <UsageCount Value="29"/>
@@ -586,22 +586,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="ueditor.pas"/>
-        <Caret Line="62" TopLine="40"/>
-      </Position>
-      <Position>
-        <Filename Value="ueditor.pas"/>
-        <Caret Line="57" TopLine="40"/>
-      </Position>
-      <Position>
-        <Filename Value="ueditor.pas"/>
-        <Caret Line="62" TopLine="40"/>
-      </Position>
-      <Position>
-        <Filename Value="ueditor.pas"/>
-        <Caret Line="57" TopLine="40"/>
-      </Position>
       <Position>
         <Filename Value="ueditor.pas"/>
         <Caret Line="58" TopLine="41"/>
@@ -705,6 +689,22 @@
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="539" Column="16" TopLine="511"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="540" Column="16" TopLine="721"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="609" Column="32" TopLine="585"/>
+      </Position>
+      <Position>
+        <Filename Value="umcslogger.pas"/>
+        <Caret Line="743" Column="46" TopLine="731"/>
+      </Position>
+      <Position>
+        <Filename Value="umcslogger.pas"/>
+        <Caret Line="95" Column="16" TopLine="82"/>
       </Position>
     </JumpHistory>
     <RunParams>
