@@ -49,6 +49,7 @@ type
     procedure actExplorerExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure actRestoreExecute(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
   private
 
@@ -63,7 +64,7 @@ implementation
 
 {$R *.lfm}
 
-uses uconst, uwait, LCLIntf, LCLProc;
+uses uconst, uwait, LCLIntf, LCLProc, LCLType;
 
   { TfrmSDCard }
 
@@ -92,6 +93,12 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TfrmSDCard.FormKeyPress(Sender: TObject; var Key: char);
+begin
+  if Ord(Key) = VK_ESCAPE then
+    ModalResult := mrCancel;
 end;
 
 procedure TfrmSDCard.actBackupExecute(Sender: TObject);

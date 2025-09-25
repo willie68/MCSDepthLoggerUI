@@ -6,7 +6,9 @@ object frmEditor: TfrmEditor
   Caption = 'frmEditor'
   ClientHeight = 543
   ClientWidth = 694
+  KeyPreview = True
   Position = poMainFormCenter
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   object Panel2: TPanel
     Left = 0
@@ -35,8 +37,6 @@ object frmEditor: TfrmEditor
       Top = 8
       Width = 98
       Anchors = [akRight, akBottom]
-      Cancel = True
-      Default = True
       DefaultCaption = True
       Kind = bkCancel
       ModalResult = 2

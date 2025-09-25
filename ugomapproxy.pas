@@ -20,7 +20,7 @@ type
   protected
   public
     constructor Create(config: string);
-    destructor Destroy();
+    destructor Destroy(); override;
     procedure Start();
     procedure Stop();
   published

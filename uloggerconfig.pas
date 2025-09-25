@@ -37,6 +37,7 @@ type
     sedVesselID: TSpinEdit;
     procedure btnDefaultClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
   private
     FLoggerConfig: TLoggerConfig;
@@ -46,7 +47,7 @@ type
     function LoggerCFG(): TLoggerConfig;
     procedure SetLoggerCFG(newcfg: TLoggerConfig);
   published
-    property VesselID : integer read GetVesselID write SetVesselID;
+    property VesselID: integer read GetVesselID write SetVesselID;
   end;
 
 function BaudToIndex(baud: integer): integer;
@@ -56,6 +57,10 @@ var
   frmLoggerConfig: TFrmLoggerConfig;
 
 implementation
+
+{$R *.lfm}
+
+uses LCLType;
 
 function BaudToIndex(baud: integer): integer;
 begin
@@ -83,23 +88,25 @@ begin
   end;
 end;
 
-{$R *.lfm}
-
-{ TForm3 }
-
 { TFrmLoggerConfig }
 
 procedure TFrmLoggerConfig.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if ModalResult = mrOk then
   begin
-    FLoggerConfig.BaudA:= IndexToBaud(cbBaudA.ItemIndex);
-    FLoggerConfig.BaudB:= IndexToBaud(cbBaudB.ItemIndex);
-    FLoggerConfig.SeaTalk:= cbSeatalk.Checked;
-    FLoggerConfig.Gyro:= cbGyro.Checked;
-    FLoggerConfig.Supply:= cbSupply.Checked;
+    FLoggerConfig.BaudA := IndexToBaud(cbBaudA.ItemIndex);
+    FLoggerConfig.BaudB := IndexToBaud(cbBaudB.ItemIndex);
+    FLoggerConfig.SeaTalk := cbSeatalk.Checked;
+    FLoggerConfig.Gyro := cbGyro.Checked;
+    FLoggerConfig.Supply := cbSupply.Checked;
     FLoggerConfig.VesselID := sedVesselID.Value;
   end;
+end;
+
+procedure TFrmLoggerConfig.FormKeyPress(Sender: TObject; var Key: char);
+begin
+  if Ord(Key) = VK_ESCAPE then
+    ModalResult := mrCancel;
 end;
 
 procedure TFrmLoggerConfig.btnDefaultClick(Sender: TObject);
@@ -114,8 +121,8 @@ end;
 
 procedure TFrmLoggerConfig.FormShow(Sender: TObject);
 begin
-  cbBaudA.ItemIndex:= BaudToIndex(FLoggerConfig.BaudA);
-  cbBaudB.ItemIndex:= BaudToIndex(FLoggerConfig.BaudB);
+  cbBaudA.ItemIndex := BaudToIndex(FLoggerConfig.BaudA);
+  cbBaudB.ItemIndex := BaudToIndex(FLoggerConfig.BaudB);
   cbSeatalk.Checked := FLoggerConfig.SeaTalk;
   cbGyro.Checked := FLoggerConfig.Gyro;
   cbSupply.Checked := FLoggerConfig.Supply;
@@ -124,12 +131,12 @@ end;
 
 function TFrmLoggerConfig.GetVesselID: integer;
 begin
-  result := FLoggerConfig.VesselID;
+  Result := FLoggerConfig.VesselID;
 end;
 
 procedure TFrmLoggerConfig.SetVesselID(AValue: integer);
 begin
-  FLoggerConfig.VesselID:= AValue;
+  FLoggerConfig.VesselID := AValue;
 end;
 
 function TFrmLoggerConfig.LoggerCFG(): TLoggerConfig;

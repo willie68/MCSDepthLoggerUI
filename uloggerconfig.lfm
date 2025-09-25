@@ -7,8 +7,10 @@ object frmLoggerConfig: TfrmLoggerConfig
   Caption = 'Konfiguration des Loggers'
   ClientHeight = 427
   ClientWidth = 443
+  KeyPreview = True
   Position = poMainFormCenter
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   object Panel2: TPanel
     Left = 0

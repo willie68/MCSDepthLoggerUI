@@ -7,8 +7,10 @@ object frmPreferences: TfrmPreferences
   Caption = 'Einstellungen'
   ClientHeight = 407
   ClientWidth = 505
+  KeyPreview = True
   Position = poMainFormCenter
   OnHide = FormHide
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   object Panel1: TPanel
     Left = 0

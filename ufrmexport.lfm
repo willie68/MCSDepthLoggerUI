@@ -1,66 +1,31 @@
-object frmTrackEdit: TfrmTrackEdit
-  Left = 315
-  Height = 409
+object frmExport: TfrmExport
+  Left = 355
+  Height = 306
   Top = 250
-  Width = 437
+  Width = 519
   BorderStyle = bsToolWindow
-  Caption = 'Track anlegen'
-  ClientHeight = 409
-  ClientWidth = 437
+  Caption = 'Track exportieren'
+  ClientHeight = 306
+  ClientWidth = 519
   KeyPreview = True
   Position = poMainFormCenter
-  OnHide = FormHide
+  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
-  OnShow = FormShow
-  object Panel2: TPanel
-    Left = 0
-    Height = 50
-    Top = 359
-    Width = 437
-    Align = alBottom
-    ClientHeight = 50
-    ClientWidth = 437
-    TabOrder = 0
-    object btnOK: TBitBtn
-      Left = 250
-      Height = 32
-      Top = 9
-      Width = 86
-      Anchors = [akTop, akRight]
-      DefaultCaption = True
-      Kind = bkOK
-      ModalResult = 1
-      TabOrder = 0
-    end
-    object BitBtn2: TBitBtn
-      Left = 340
-      Height = 32
-      Top = 9
-      Width = 86
-      Anchors = [akTop, akRight]
-      DefaultCaption = True
-      Kind = bkCancel
-      ModalResult = 2
-      TabOrder = 1
-    end
-  end
   object Panel1: TPanel
     Left = 0
     Height = 146
     Top = 0
-    Width = 437
+    Width = 519
     Align = alTop
     ClientHeight = 146
-    ClientWidth = 437
+    ClientWidth = 519
     ParentBackground = False
-    TabOrder = 1
+    TabOrder = 0
     object Image1: TImage
       Left = 5
-      Height = 131
+      Height = 139
       Top = 5
-      Width = 173
-      Anchors = [akTop, akLeft, akRight, akBottom]
-      AutoSize = True
+      Width = 179
       Picture.Data = {
         07544269746D617036840300424D368403000000000036000000280000004001
         0000F0000000010018000000000000840300120B0000120B0000000000000000
@@ -7272,101 +7237,127 @@ object frmTrackEdit: TfrmTrackEdit
       Left = 186
       Height = 131
       Top = 5
-      Width = 236
+      Width = 318
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Around = 2
       BorderSpacing.InnerBorder = 2
-      Caption = 'Hier kannst du die Daten für deinen Track anlegen bzw. ändern.'
+      Caption = 'Dein Track kann in verschiedene Formate exportiert werden.'
       WordWrap = True
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 50
+    Top = 256
+    Width = 519
+    Align = alBottom
+    ClientHeight = 50
+    ClientWidth = 519
+    TabOrder = 1
+    object btnOK: TBitBtn
+      Left = 305
+      Height = 32
+      Top = 8
+      Width = 98
+      Anchors = [akRight, akBottom]
+      DefaultCaption = True
+      Kind = bkOK
+      ModalResult = 1
+      TabOrder = 0
+    end
+    object btnCancel: TBitBtn
+      Left = 406
+      Height = 30
+      Top = 8
+      Width = 98
+      Anchors = [akRight, akBottom]
+      Default = True
+      DefaultCaption = True
+      Kind = bkCancel
+      ModalResult = 2
+      TabOrder = 1
     end
   end
   object Panel3: TPanel
     Left = 0
-    Height = 213
+    Height = 110
     Top = 146
-    Width = 437
+    Width = 519
     Align = alClient
-    ClientHeight = 213
-    ClientWidth = 437
+    ClientHeight = 110
+    ClientWidth = 519
     TabOrder = 2
-    object Label1: TLabel
-      Left = 137
-      Height = 15
-      Top = 40
-      Width = 32
-      Alignment = taRightJustify
-      Caption = 'Name'
-      FocusControl = edName
-    end
-    object Label7: TLabel
-      Left = 118
-      Height = 15
-      Top = 165
-      Width = 51
-      Alignment = taRightJustify
-      Caption = 'Schiffs-ID'
-      FocusControl = sedVesselID
-    end
-    object Label8: TLabel
-      Left = 183
-      Height = 15
-      Top = 192
-      Width = 236
-      Caption = 'Parameter mit * sind Loggervoreinstellungen'
-    end
-    object sedVesselID: TSpinEdit
-      Left = 179
-      Height = 23
-      Top = 165
-      Width = 230
-      TabOrder = 3
-    end
-    object edName: TEdit
-      Left = 179
-      Height = 23
-      Hint = 'Name des Tracks'
-      Top = 40
-      Width = 230
-      TabOrder = 1
-    end
-    object Label4: TLabel
-      Left = 130
-      Height = 15
+    object StaticText1: TStaticText
+      Left = 96
+      Height = 17
       Top = 8
-      Width = 39
-      Alignment = taRightJustify
-      Caption = 'Gruppe'
-      FocusControl = cbGroup
-    end
-    object cbGroup: TComboBox
-      Left = 179
-      Height = 23
-      Top = 8
-      Width = 230
-      ItemHeight = 15
+      Width = 408
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'StaticText1'
       TabOrder = 0
     end
-    object Label5: TLabel
-      Left = 97
+    object Label1: TLabel
+      Left = 56
       Height = 15
-      Top = 72
-      Width = 72
-      Alignment = taRightJustify
-      Caption = 'Beschreibung'
+      Top = 8
+      Width = 31
+      Anchors = [akTop, akRight]
+      Caption = 'Track:'
     end
-    object mmDescription: TMemo
-      Left = 179
-      Height = 74
+    object cbFormat: TComboBox
+      Left = 96
+      Height = 23
+      Top = 40
+      Width = 410
+      Anchors = [akTop, akLeft, akRight]
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'GPX (*.gpx)'
+        'GEOJSON (*.geojson)'
+        'KML (*.kml)'
+        'NMEA (*.nmea)'
+        'JSON (*.json)'
+      )
+      Style = csDropDownList
+      TabOrder = 1
+      Text = 'GPX (*.gpx)'
+      OnChange = cbFormatChange
+    end
+    object Label3: TLabel
+      Left = 46
+      Height = 15
+      Top = 44
+      Width = 41
+      Anchors = [akTop, akRight]
+      Caption = 'Format:'
+    end
+    object Label4: TLabel
+      Left = 12
+      Height = 15
+      Top = 76
+      Width = 75
+      Anchors = [akTop, akRight]
+      Caption = 'Ausgabedatei:'
+    end
+    object fnOutput: TFileNameEdit
+      Left = 97
+      Height = 23
       Top = 72
-      Width = 230
+      Width = 407
+      FileName = 'track'
+      DialogKind = dkSave
+      DialogTitle = 'Track exportieren'
+      Filter = 'GPX|*.gpx|GEOJSON|*.geojson|KML|*.kml|NMEA|*.nmea|JSON|*.json'
+      FilterIndex = 0
+      DefaultExt = '.gpx'
+      HideDirectories = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      MaxLength = 0
       TabOrder = 2
+      Text = 'track'
     end
-  end
-  object Label3: TLabel
-    Left = 23
-    Height = 1
-    Top = 9
-    Width = 1
   end
 end

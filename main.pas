@@ -7,9 +7,9 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, JSONPropStorage, ActnList, StdActns, StdCtrls, Buttons, mvMapViewer,
-  mvPluginCommon, mvGeoNames, mvPlugins, Grids, ShellCtrls, CheckLst,
+  mvPluginCommon, mvPlugins, Grids, ShellCtrls, CheckLst,
   LazHelpHTML, TAGraph, TASeries, TAIntervalSources, umcslogger, mvTypes,
-  mvGPSObj, ugomapproxy, utilecacheutils, LazLogger, MCSDBGLog, ueditor;
+  mvGPSObj, ugomapproxy, utilecacheutils, LazLogger, MCSDBGLog, ueditor, ufrmexport;
 
 type
 
@@ -215,7 +215,8 @@ var
 implementation
 
 uses fileinfo, uPreferences, uloggerconfig, MCSAbout, ufsinfo, LazStringUtils,
-  uconst, usdcardimages, mvDrawingEngine, mvMapProvider, uwait, utrackedit, LCLIntf;
+  uconst, usdcardimages, mvDrawingEngine, mvMapProvider, uwait, utrackedit,
+  LCLIntf, LazFileUtils;
   {$R *.lfm}
 
 type
@@ -383,7 +384,7 @@ begin
     for fsInfo in fileCollector.FileInfos do
     begin
       if fsInfo.DriveType = 2 then
-        cbRootDrives.AddItem(fsInfo.Name + ' (' + fsInfo.DeviceID + ') ', fsInfo);
+        cbRootDrives.AddItem(fsInfo.Name + ' (' + fsInfo.DeviceID + ') ', fsInfo.Clone());
     end;
   finally
     fileCollector.Free;
@@ -458,7 +459,7 @@ procedure TfrmMain.cbRootDrivesChange(Sender: TObject);
 var
   fsInfo: TFileSystemInfo;
 begin
-  if cbRootDrives.ItemIndex >= 0 then
+  if (cbRootDrives.ItemIndex >= 0) and (cbRootDrives.Items.Count > cbRootDrives.ItemIndex) then
   begin
     fsInfo := cbRootDrives.Items.Objects[cbRootDrives.ItemIndex] as TFileSystemInfo;
     HWLogger.SDRoot := fsInfo.DeviceID;
@@ -475,7 +476,8 @@ begin
           sLineBreak + HWLogger.LastError,
           mtError, [mbOK], 0);
     end;
-  end;
+  end
+  else cbRootDrives.ItemIndex := -1;
 end;
 
 procedure TfrmMain.actPreferencesExecute(Sender: TObject);
@@ -516,10 +518,8 @@ end;
 
 procedure TfrmMain.actTimestampExecute(Sender: TObject);
 var
-  track: TLoggerTrackinfo;
   fn: TStringList;
   i: integer;
-  path: string;
 begin
   if sgFiles.Row >= 1 then
   begin
@@ -569,8 +569,8 @@ end;
 procedure TfrmMain.actTracksReloadExecute(Sender: TObject);
 var
   SelectedPath: string;
-  i : integer;
-  node : TShellTreeNode;
+  i: integer;
+  node: TShellTreeNode;
 begin
   SelectedPath := stvTracks.GetPathFromNode(stvTracks.Selected);
   stvTracks.BeginUpdate;
@@ -634,8 +634,21 @@ begin
 end;
 
 procedure TfrmMain.actExportExecute(Sender: TObject);
+var
+  track: string;
 begin
-  ShowMessage('Nicht implementiert!');
+  track := stvTracks.GetPathFromNode(stvTracks.Selected);
+  if track <> '' then
+  begin
+    frmExport.Name := ExtractFileNameOnly(track);
+    if frmExport.ShowModal = mrOk then
+    begin
+      HWLogger.ExportTrack(track, frmExport.Path, frmExport.Format);
+    end;
+  end
+  else
+    MessageDlg('Track exportieren', 'Kein Track markiert', mtInformation,
+      [mbOK], '');
 end;
 
 procedure TfrmMain.actMapShowExecute(Sender: TObject);
@@ -672,7 +685,6 @@ var
   track: string;
   fn: TStringList;
   i: integer;
-  path: string;
 begin
   SyncFrmTrack();
   track := stvTracks.GetPathFromNode(stvTracks.Selected);
@@ -985,8 +997,6 @@ begin
 end;
 
 procedure TfrmMain.PopulateLayers();
-var
-  mp: TMapProvider;
 begin
   RegisterMapProvider('OpenSeaMap Seamarks', ptEPSG3857,
     'https://tiles.openseamap.org/seamark/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);

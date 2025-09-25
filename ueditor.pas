@@ -6,8 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
-  Buttons, StdCtrls, Spin, Menus, SynEdit, SynPopupMenu, SynHighlighterAny,
-  umcslogger;
+  Buttons, StdCtrls, Menus, SynEdit, SynPopupMenu, SynHighlighterAny;
 
 type
 
@@ -30,10 +29,11 @@ type
     procedure btnDefaultClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure edFileChange(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
   private
     FFilename: string;
-    FChanges : boolean;
+    FChanges: boolean;
     procedure SetFilename(AValue: string);
   public
 
@@ -48,13 +48,15 @@ implementation
 
 {$R *.lfm}
 
-{ TfrmEditor }
+uses LCLType;
+
+  { TfrmEditor }
 
 procedure TfrmEditor.FormShow(Sender: TObject);
 begin
   StaticText1.Caption := FFilename;
   edFile.Lines.LoadFromFile(FFilename);
-  FChanges:=False;
+  FChanges := False;
 end;
 
 procedure TfrmEditor.btnOKClick(Sender: TObject);
@@ -65,12 +67,18 @@ end;
 procedure TfrmEditor.btnDefaultClick(Sender: TObject);
 begin
   edFile.Lines.LoadFromFile(FFilename);
-  FChanges:=False;
+  FChanges := False;
 end;
 
 procedure TfrmEditor.edFileChange(Sender: TObject);
 begin
-  FChanges := true;
+  FChanges := True;
+end;
+
+procedure TfrmEditor.FormKeyPress(Sender: TObject; var Key: char);
+begin
+  if Ord(Key) = VK_ESCAPE then
+    ModalResult := mrCancel;
 end;
 
 procedure TfrmEditor.SetFilename(AValue: string);

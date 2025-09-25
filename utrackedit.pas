@@ -31,13 +31,14 @@ type
     Panel3: TPanel;
     sedVesselID: TSpinEdit;
     procedure FormHide(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
   private
     FRoot: string;
     FVesselID: integer;
     function GetGrouppath: string;
     procedure SetRoot(root: string);
-    function GetName:string;
+    function GetName: string;
   public
     function GetTrackinfo: TLoggerTrackInfo;
   published
@@ -56,11 +57,19 @@ implementation
 
 {$R *.lfm}
 
-{ TfrmTrackEdit }
+uses LCLType;
+
+  { TfrmTrackEdit }
 
 procedure TfrmTrackEdit.FormHide(Sender: TObject);
 begin
   FVesselID := sedVesselID.Value;
+end;
+
+procedure TfrmTrackEdit.FormKeyPress(Sender: TObject; var Key: char);
+begin
+  if Ord(Key) = VK_ESCAPE then
+    ModalResult := mrCancel;
 end;
 
 procedure TfrmTrackEdit.FormShow(Sender: TObject);
@@ -82,11 +91,11 @@ end;
 
 function StringsToRawByteArray(List: TStrings): TStringArray;
 var
-  i: Integer;
+  i: integer;
 begin
   SetLength(Result, List.Count);
   for i := 0 to List.Count - 1 do
-    Result[i] := RawByteString(List[i]); // Explicit conversion
+    Result[i] := rawbytestring(List[i]); // Explicit conversion
 end;
 
 function TfrmTrackEdit.GetGrouppath: string;
@@ -107,9 +116,9 @@ end;
 
 function TfrmTrackEdit.GetTrackinfo: TLoggerTrackInfo;
 begin
-  Result.Name:=edName.Text;
-  Result.Description:=mmDescription.Text;
-  Result.VesselID:=sedVesselID.Value;
+  Result.Name := edName.Text;
+  Result.Description := mmDescription.Text;
+  Result.VesselID := sedVesselID.Value;
 end;
 
 procedure GetSubdirectories(const RootDir, Name: string; List: TStrings);

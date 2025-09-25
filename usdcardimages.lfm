@@ -7,8 +7,10 @@ object frmSDCard: TfrmSDCard
   Caption = 'frmSDCard'
   ClientHeight = 423
   ClientWidth = 517
+  KeyPreview = True
   Position = poMainFormCenter
   ShowHint = True
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   object Panel1: TPanel
     Left = 0
@@ -7290,13 +7292,13 @@ object frmSDCard: TfrmSDCard
         ImageIndex = 0
       end
       object ToolButton4: TToolButton
-        Left = 157
+        Left = 161
         Top = 2
         Action = actExplorer
         ImageIndex = 29
       end
       object ToolButton5: TToolButton
-        Left = 115
+        Left = 117
         Top = 2
         Action = actRefresh
         ImageIndex = 9
@@ -7315,7 +7317,7 @@ object frmSDCard: TfrmSDCard
         Style = tbsSeparator
       end
       object ToolButton9: TToolButton
-        Left = 151
+        Left = 153
         Height = 32
         Top = 2
         Caption = 'ToolButton9'

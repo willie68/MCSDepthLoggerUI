@@ -92,7 +92,7 @@ type
     procedure HasCfg();
   public
     constructor Create();
-    destructor Destroy();
+    destructor Destroy();override;
     function Version(): string;
     procedure Read();
     procedure Write();
@@ -106,6 +106,7 @@ type
     procedure NewTrack(path: string; filenames: TStrings; track: TLoggerTrackInfo);
     procedure Touch(filenames: TStrings);
     procedure Add2Track(track: string; filenames: TStrings);
+    procedure ExportTrack(track, output, format: string);
   published
     property IsLoggerCard: boolean read FLoggerCard;
     property SDRoot: string read FRootpath write InitCard;
@@ -129,7 +130,7 @@ type
 
   TExecOSMLThread = class(TThread)
   private
-    FLog : TLogger;
+    FLog: TLogger;
     FParams: TProcessStringArray;
     FOutput: string;
     FOk: boolean;
@@ -137,7 +138,7 @@ type
     procedure Execute; override;
   public
     constructor Create(params: TProcessStringArray);
-    destructor Destroy();
+    destructor Destroy(); override;
     property Output: string read FOutput;
     property OK: boolean read FOk;
   end;
@@ -787,6 +788,53 @@ begin
       end
       else
         MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+          sLineBreak + exec.Output, mtError, [mbOK], 0);
+    finally
+      exec.Free();
+    end;
+  end;
+end;
+
+procedure TMCSLogger.ExportTrack(track, output, format: string);
+var
+  params: TProcessStringArray;
+  exec: TExecOSMLThread;
+  osmlResult: TLoggerGeneralResult;
+begin
+  if FLoggerCard then
+  begin
+    SetLength(params, 7);
+    params[0] := 'export';
+    params[1] := '-t';
+    params[2] := track;
+    params[3] := '-o';
+    params[4] := output;
+    params[5] := '--format';
+    params[6] := format;
+
+    exec := TExecOSMLThread.Create(params);
+    try
+      exec.WaitFor;
+      if exec.Ok then
+      begin
+        try
+          osmlResult := ParseLoggerGeneralResult(exec.Output);
+        except
+          on e: Exception do
+            MessageDlg('Fehler beim Parsen der osml Antwort.' +
+              sLineBreak + exec.Output + sLineBreak + e.Message, mtError, [mbOK], 0);
+        end;
+        if osmlResult.Result then
+          MessageDlg('Track erfolgreich exportiert, OSML Meldung:' +
+            sLineBreak + StringArrayToMessageString(osmlResult.Messages),
+            mtInformation, [mbOK], 0)
+        else
+          MessageDlg('Track nicht erfolgreich exportiert, OSML Meldung:' +
+            sLineBreak + StringArrayToMessageString(osmlResult.Messages),
+            mtError, [mbOK], 0);
+      end
+      else
+        MessageDlg('Genereller Fehler!' + sLineBreak +
           sLineBreak + exec.Output, mtError, [mbOK], 0);
     finally
       exec.Free();

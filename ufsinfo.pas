@@ -13,6 +13,8 @@ uses
 
 type
 
+  { TFileSystemInfo }
+
   TFileSystemInfo = class
     DeviceID: string;
     Name: string;
@@ -21,6 +23,8 @@ type
     Size: int64;
     FileSystem: string;
     FsType: string;
+  public
+    function Clone(): TFileSystemInfo;
   end;
 
   TFileInfoList = specialize TFPGObjectList<TFileSystemInfo>;
@@ -34,7 +38,7 @@ type
     procedure DoRun;
   public
     constructor Create;
-    destructor Destroy;
+    destructor Destroy; override;
     procedure Refresh;
   published
     property FileInfos: TFileInfoList read FFileSystemInfos;
@@ -57,6 +61,17 @@ var
   FWbemObjectSet: olevariant;
   FWbemObject: olevariant;
   oEnum: IEnumvariant;
+
+function TFileSystemInfo.Clone(): TFileSystemInfo;
+begin
+  Result := TFileSystemInfo.Create;
+  Result.Name := Name;
+  Result.DeviceID := DeviceID;
+  Result.DriveType := DriveType;
+  Result.FileSystem := FileSystem;
+  Result.FreeSpace := FreeSpace;
+  Result.FsType := FSType;
+end;
 
 procedure TFileSystemInfoCollector.DoRun;
 var

@@ -44,6 +44,7 @@ type
     procedure cbDebugChange(Sender: TObject);
     procedure edtPasswordButtonClick(Sender: TObject);
     procedure FormHide(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
   private
     FData: string;
@@ -77,7 +78,9 @@ implementation
 
 {$R *.lfm}
 
-{ TfrmPreferences }
+uses LCLType;
+
+  { TfrmPreferences }
 
 procedure TfrmPreferences.FormShow(Sender: TObject);
 begin
@@ -89,7 +92,7 @@ begin
   rgBootloader.ItemIndex := FBootloader;
   sedTilesMaaxAge.Value := FTilesMaxAge;
   sedVesselID.Value := FVesselID;
-  cbDebug.Checked:= FDebug;
+  cbDebug.Checked := FDebug;
   fneDebug.Text := FDebugFile;
   cbDebugChange(Sender);
 end;
@@ -118,6 +121,12 @@ begin
   FVesselID := sedVesselID.Value;
   FDebug := cbDebug.Checked;
   FDebugFile := fneDebug.Text;
+end;
+
+procedure TfrmPreferences.FormKeyPress(Sender: TObject; var Key: char);
+begin
+  if Ord(Key) = VK_ESCAPE then
+    ModalResult := mrCancel;
 end;
 
 procedure TfrmPreferences.SetData(datapath: string);
