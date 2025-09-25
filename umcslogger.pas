@@ -105,6 +105,7 @@ type
     procedure Restore(filename: string);
     procedure NewTrack(path: string; filenames: TStrings; track: TLoggerTrackInfo);
     procedure Touch(filenames: TStrings);
+    procedure Add2Track(track: string; filenames: TStrings);
   published
     property IsLoggerCard: boolean read FLoggerCard;
     property SDRoot: string read FRootpath write InitCard;
@@ -725,6 +726,64 @@ begin
             sLineBreak + StringArrayToMessageString(osmlResult.Messages),
             mtError, [mbOK], 0);
 
+      end
+      else
+        MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +
+          sLineBreak + exec.Output, mtError, [mbOK], 0);
+    finally
+      exec.Free();
+    end;
+  end;
+end;
+
+procedure TMCSLogger.Add2Track(track: string; filenames: TStrings);
+var
+  Data: TJSONData;
+  Obj: TJSONObject;
+  filename: string;
+  params: TProcessStringArray;
+  exec: TExecOSMLThread;
+  i: integer;
+begin
+  if FLoggerCard then
+  begin
+    SetLength(params, 4);
+    params[0] := 'track';
+    params[1] := 'add';
+    params[2] := '-s';
+    params[3] := SDRoot;
+    for i := 0 to filenames.Count - 1 do
+    begin
+      filename := ExtractFileName(filenames[i]);
+      AddParam(params, '-f');
+      AddParam(params, filename);
+    end;
+    AddParam(params, '-t');
+    AddParam(params, track);
+
+    exec := TExecOSMLThread.Create(params);
+    try
+      exec.WaitFor;
+      if exec.Ok then
+      begin
+        try
+          try
+            Data := GetJSON(exec.Output);
+            if Data.JSONType = jtObject then
+            begin
+              Obj := TJSONObject(Data);
+              filename := Obj.Get('filename', '');
+            end;
+          except
+            on e: Exception do
+              MessageDlg('Fehler beim Parsen der osml Antwort.' +
+                sLineBreak + exec.Output + sLineBreak + e.Message, mtError, [mbOK], 0);
+          end;
+        finally
+          Data.Free;
+        end;
+        MessageDlg('Daten erfolgreich hinzugefügt' + sLineBreak + sLineBreak + filename,
+          mtInformation, [mbOK], 0);
       end
       else
         MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak +

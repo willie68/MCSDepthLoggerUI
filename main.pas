@@ -349,7 +349,6 @@ procedure TfrmMain.SetMapProvider();
 var
   mapName: string;
   legal: string;
-  germany: TRealPoint;
 begin
   MapView1.Active := False;
   mapName := cbProvider.Text;
@@ -368,14 +367,7 @@ begin
     end;
     MvPluginManager1LegalNoticePlugin1.LegalNotice := legal;
     MapView1.Active := True;
-    if FAreaSelected then
-      MapView1.ZoomOnArea(FArea)
-    else
-    begin
-      germany.InitXY(10.0, 51.0);
-      MapView1.Center := Germany;
-      MapView1.Zoom := 6;
-    end;
+    actMapZoomAreaExecute(nil);
   end;
 end;
 
@@ -575,10 +567,28 @@ begin
 end;
 
 procedure TfrmMain.actTracksReloadExecute(Sender: TObject);
+var
+  SelectedPath: string;
+  i : integer;
+  node : TShellTreeNode;
 begin
+  SelectedPath := stvTracks.GetPathFromNode(stvTracks.Selected);
   stvTracks.BeginUpdate;
   stvTracks.Root := '';
   stvTracks.Root := AppConfig.Trackspath;
+
+  if SelectedPath <> '' then
+  begin
+    for i := 0 to stvTracks.Items.Count - 1 do
+    begin
+      Node := TShellTreeNode(stvTracks.Items[i]);
+      if SameText(Node.FullFilename, SelectedPath) then
+      begin
+        stvTracks.Selected := Node;
+        Break;
+      end;
+    end;
+  end;
   stvTracks.EndUpdate;
 end;
 
@@ -604,12 +614,13 @@ begin
 end;
 
 procedure TfrmMain.actEditExecute(Sender: TObject);
-var filename : string;
-  i : integer;
+var
+  filename: string;
+  i: integer;
 begin
-    if sgFiles.Row > 0 then
+  if sgFiles.Row > 0 then
   begin
-     for i := 0 to sgFiles.RowCount - 1 do
+    for i := 0 to sgFiles.RowCount - 1 do
     begin
       if sgFiles.IsCellSelected[0, i] then
       begin
@@ -637,12 +648,18 @@ begin
 end;
 
 procedure TfrmMain.actMapZoomAreaExecute(Sender: TObject);
+var
+  germany: TRealPoint;
 begin
   if FAreaSelected then
+    MapView1.ZoomOnArea(FArea)
+  else
   begin
-    MapView1.ZoomOnArea(FArea);
-    MapView1.Redraw;
+    germany.InitXY(10.0, 51.0);
+    MapView1.Center := Germany;
+    MapView1.Zoom := 6;
   end;
+  MapView1.Redraw;
 end;
 
 procedure TfrmMain.actAboutExecute(Sender: TObject);
@@ -653,14 +670,36 @@ end;
 procedure TfrmMain.actAdd2TrackExecute(Sender: TObject);
 var
   track: string;
+  fn: TStringList;
+  i: integer;
+  path: string;
 begin
   SyncFrmTrack();
   track := stvTracks.GetPathFromNode(stvTracks.Selected);
   if track <> '' then
-    ShowMessage('Nicht implementiert!')
-  else
-    MessageDlg('Track löschen', 'Kein Track markiert', mtInformation,
-      [mbOK], '');
+    if sgFiles.Row >= 1 then
+    begin
+      SyncFrmTrack();
+      frmWait.Show();
+      fn := TStringList.Create();
+      try
+        for i := 0 to sgFiles.RowCount - 1 do
+        begin
+          if sgFiles.IsCellSelected[0, i] then
+            fn.Add(sgFiles.Cells[0, i]);
+        end;
+        //        path := ConcatPaths([AppConfig.Trackspath, frmTrackEdit.Grouppath,
+        //          frmTrackEdit.Trackname + '.zip']);
+        HWLogger.Add2Track(track, fn);
+        actTracksReloadExecute(Sender)
+      finally
+        frmWait.Hide();
+        fn.Free();
+      end;
+    end
+    else
+      MessageDlg('Daten hinzufügen', 'Kein Track markiert', mtInformation,
+        [mbOK], '');
 end;
 
 procedure TfrmMain.actNewTrackExecute(Sender: TObject);
@@ -1065,6 +1104,9 @@ begin
   FTrackLayer.Visible := False;
   FTrackLayer.PointsOfInterest.Clear;
   FTrackLayer.Tracks.Clear;
+  FAreaSelected := False;
+  MapView1.Invalidate;
+  actMapZoomAreaExecute(nil);
 end;
 
 
