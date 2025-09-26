@@ -92,7 +92,7 @@ type
     procedure HasCfg();
   public
     constructor Create();
-    destructor Destroy();override;
+    destructor Destroy(); override;
     function Version(): string;
     procedure Read();
     procedure Write();
@@ -121,6 +121,7 @@ procedure AddParam(var params: TProcessStringArray; Value: string);
 function ConvertWaypoint(way: TJSONObject): TLoggerWaypoint;
 function ParseLoggerGeneralResult(const JSONText: string): TLoggerGeneralResult;
 function StringArrayToMessageString(const Arr: TStringArray): string;
+procedure WriteJsonOutput(Value: string);
 
 procedure CreateMCSLogger();
 
@@ -150,7 +151,7 @@ implementation
 
 { TMCSLogger }
 uses
-  LCLProc, Dialogs, FileUtil, DateUtils, LazFileUtils;
+  LCLProc, Dialogs, FileUtil, DateUtils, LazFileUtils, MCSIO, uconst;
 
 procedure CreateMCSLogger();
 begin
@@ -180,6 +181,7 @@ begin
     if RunCommand('osml', ['logger', 'read', '-s', FRootpath, '--json'],
       Output, [poNoConsole]) then
     begin
+      WriteJsonOutput(Output);
       Data := GetJSON(Output);
       try
         if Data.JSONType = jtObject then
@@ -343,6 +345,7 @@ begin
   Result.FirstTimeStamp := Now();
   Result.Version := 'n.N.';
   Result.ErrorCount := -1;
+  Result.Size:=-1;
 
   if FLoggerCard then
   begin
@@ -352,6 +355,7 @@ begin
       exec.WaitFor;
       if exec.Ok then
       begin
+        WriteJsonOutput(exec.Output);
         Data := GetJSON(exec.Output);
         Name := ExtractFileName(filename);
         try
@@ -371,6 +375,7 @@ begin
               Result.ErrorA := jo.Get('errorA', 0);
               Result.ErrorB := jo.Get('errorB', 0);
               Result.ErrorI := jo.Get('errorI', 0);
+              Result.Size := jo.Get('size', -1);
             end;
           except
             on e: Exception do
@@ -767,6 +772,7 @@ begin
       exec.WaitFor;
       if exec.Ok then
       begin
+        WriteJsonOutput(exec.Output);
         try
           try
             Data := GetJSON(exec.Output);
@@ -834,8 +840,8 @@ begin
             mtError, [mbOK], 0);
       end
       else
-        MessageDlg('Genereller Fehler!' + sLineBreak +
-          sLineBreak + exec.Output, mtError, [mbOK], 0);
+        MessageDlg('Genereller Fehler!' + sLineBreak + sLineBreak +
+          exec.Output, mtError, [mbOK], 0);
     finally
       exec.Free();
     end;
@@ -936,6 +942,14 @@ begin
     if i < High(Arr) then
       Result := Result + sLineBreak;
   end;
+end;
+
+procedure WriteJsonOutput(Value: string);
+var
+  jsonFile: string;
+begin
+  jsonFile := ConcatPaths([AppConfig.Temp, 'osml_res.json']);
+  MCSIO.StrToFile(jsonFile, Value);
 end;
 
 end.

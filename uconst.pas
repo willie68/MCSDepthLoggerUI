@@ -37,6 +37,7 @@ type
     property Tilescache: string read FTilesCache;
     property Backuppath: string read FBackuppath;
     property Trackspath: string read FTrackspath;
+    property Temp: string read FTemp;
   end;
 
 procedure CreateConfigPathes(rootfolder: string);
