@@ -83,6 +83,7 @@ type
     MvPluginManager1: TMvPluginManager;
     MvPluginManager1LegalNoticePlugin1: TLegalNoticePlugin;
     Panel1: TPanel;
+    Panel2: TPanel;
     pMapBottom: TPanel;
     pMapClient: TPanel;
     pCenter: TPanel;
@@ -451,17 +452,21 @@ end;
 procedure TfrmMain.cbRootDrivesChange(Sender: TObject);
 var
   fsInfo: TFileSystemInfo;
+  svalue: string;
 begin
   if (cbRootDrives.ItemIndex >= 0) and (cbRootDrives.Items.Count >
     cbRootDrives.ItemIndex) then
   begin
     fsInfo := cbRootDrives.Items.Objects[cbRootDrives.ItemIndex] as TFileSystemInfo;
     HWLogger.SDRoot := fsInfo.DeviceID;
+    svalue := 'keine';
+    if HWLogger.IsLoggerCard then svalue:='vorhanden';
     lblCardInfo.Caption := 'Name: ' + cbRootDrives.Text + LineEnding +
       'Gesamtspeicher: ' + FormatBytes(fsInfo.Size) + LineEnding +
       'Freier Speicher: ' + FormatBytes(fsInfo.FreeSpace) + LineEnding +
       'Dateisystem: ' + fsInfo.FileSystem + LineEnding +
-      'Anzahl der Datendateien: ' + IntToStr(HWLogger.DataFileCount);
+      'Anzahl der Datendateien: ' + IntToStr(HWLogger.DataFileCount) + sLineBreak +
+      'Konfiguration: ' + svalue;
     PopulateFilesGrid();
     if HWLogger.HasError then
     begin

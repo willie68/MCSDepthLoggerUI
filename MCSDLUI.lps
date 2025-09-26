@@ -20,8 +20,9 @@
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="875"/>
-        <CursorPos Y="887"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="459"/>
+        <CursorPos X="33" Y="469"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -62,7 +63,6 @@
         <ComponentName Value="frmLoggerConfig"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <TopLine Value="38"/>
         <CursorPos X="26" Y="53"/>
@@ -84,7 +84,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="9"/>
         <TopLine Value="91"/>
-        <CursorPos X="18" Y="106"/>
+        <CursorPos X="15" Y="111"/>
         <FoldState Value=" T3zS0j016 PiVk30l"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -127,7 +127,7 @@
         <EditorIndex Value="15"/>
         <TopLine Value="6"/>
         <CursorPos X="36" Y="23"/>
-        <UsageCount Value="169"/>
+        <UsageCount Value="170"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -136,14 +136,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="27"/>
         <CursorPos X="28" Y="43"/>
-        <UsageCount Value="156"/>
+        <UsageCount Value="157"/>
       </Unit>
       <Unit>
         <Filename Value="utilecacheutils.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="14"/>
         <CursorPos X="53" Y="6"/>
-        <UsageCount Value="133"/>
+        <UsageCount Value="134"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -155,7 +155,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="81"/>
         <CursorPos X="19" Y="96"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="129"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -165,7 +165,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="39"/>
         <CursorPos Y="56"/>
-        <UsageCount Value="126"/>
+        <UsageCount Value="127"/>
       </Unit>
       <Unit>
         <Filename Value="ueditor.pas"/>
@@ -176,7 +176,7 @@
         <UnitName Value="uEditor"/>
         <EditorIndex Value="2"/>
         <CursorPos X="69" Y="9"/>
-        <UsageCount Value="70"/>
+        <UsageCount Value="71"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -189,7 +189,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="65"/>
         <CursorPos X="33" Y="72"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -578,46 +578,6 @@
     </Units>
     <JumpHistory HistoryIndex="29">
       <Position>
-        <Filename Value="umcslogger.pas"/>
-        <Caret Line="390" TopLine="379"/>
-      </Position>
-      <Position>
-        <Filename Value="umcslogger.pas"/>
-        <Caret Line="391" TopLine="379"/>
-      </Position>
-      <Position>
-        <Filename Value="umcslogger.pas"/>
-        <Caret Line="339" TopLine="327"/>
-      </Position>
-      <Position>
-        <Filename Value="umcslogger.pas"/>
-        <Caret Line="393" TopLine="382"/>
-      </Position>
-      <Position>
-        <Filename Value="umcslogger.pas"/>
-        <Caret Line="339" TopLine="327"/>
-      </Position>
-      <Position>
-        <Filename Value="umcslogger.pas"/>
-        <Caret Line="393" TopLine="382"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Lazarus_Libraries\MCSIO.pas"/>
-        <Caret Line="220" Column="11" TopLine="205"/>
-      </Position>
-      <Position>
-        <Filename Value="umcslogger.pas"/>
-        <Caret Line="770" Column="15" TopLine="764"/>
-      </Position>
-      <Position>
-        <Filename Value="umcslogger.pas"/>
-        <Caret Line="153" Column="61" TopLine="142"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="245" TopLine="240"/>
-      </Position>
-      <Position>
         <Filename Value="main.pas"/>
         <Caret Line="487" Column="25" TopLine="468"/>
       </Position>
@@ -697,6 +657,46 @@
         <Filename Value="uloggerconfig.pas"/>
         <Caret Line="40" Column="46" TopLine="24"/>
       </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="887" TopLine="875"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="886" Column="10" TopLine="876"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="58" Column="12" TopLine="47"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="460" Column="18" TopLine="455"/>
+      </Position>
+      <Position>
+        <Filename Value="umcslogger.pas"/>
+        <Caret Line="112" Column="14" TopLine="101"/>
+      </Position>
+      <Position>
+        <Filename Value="umcslogger.pas"/>
+        <Caret Line="90" Column="15" TopLine="83"/>
+      </Position>
+      <Position>
+        <Filename Value="umcslogger.pas"/>
+        <Caret Line="264" Column="9" TopLine="259"/>
+      </Position>
+      <Position>
+        <Filename Value="umcslogger.pas"/>
+        <Caret Line="92" Column="21" TopLine="82"/>
+      </Position>
+      <Position>
+        <Filename Value="umcslogger.pas"/>
+        <Caret Line="308" Column="3" TopLine="301"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="463" Column="54" TopLine="448"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -733,7 +733,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="495"/>
+        <Line Value="500"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
