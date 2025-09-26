@@ -121,7 +121,7 @@ procedure AddParam(var params: TProcessStringArray; Value: string);
 function ConvertWaypoint(way: TJSONObject): TLoggerWaypoint;
 function ParseLoggerGeneralResult(const JSONText: string): TLoggerGeneralResult;
 function StringArrayToMessageString(const Arr: TStringArray): string;
-procedure WriteJsonOutput(Value: string);
+procedure DebugWriteJsonOutput(Value: string);
 
 procedure CreateMCSLogger();
 
@@ -181,7 +181,7 @@ begin
     if RunCommand('osml', ['logger', 'read', '-s', FRootpath, '--json'],
       Output, [poNoConsole]) then
     begin
-      WriteJsonOutput(Output);
+      DebugWriteJsonOutput(Output);
       Data := GetJSON(Output);
       try
         if Data.JSONType = jtObject then
@@ -236,6 +236,7 @@ begin
 
   if RunCommand('osml', params, Output, [poNoConsole]) then
   begin
+    DebugWriteJsonOutput(Output);
     Data := GetJSON(Output);
     try
       if Data.JSONType = jtObject then
@@ -345,7 +346,7 @@ begin
   Result.FirstTimeStamp := Now();
   Result.Version := 'n.N.';
   Result.ErrorCount := -1;
-  Result.Size:=-1;
+  Result.Size := -1;
 
   if FLoggerCard then
   begin
@@ -355,7 +356,6 @@ begin
       exec.WaitFor;
       if exec.Ok then
       begin
-        WriteJsonOutput(exec.Output);
         Data := GetJSON(exec.Output);
         Name := ExtractFileName(filename);
         try
@@ -772,7 +772,6 @@ begin
       exec.WaitFor;
       if exec.Ok then
       begin
-        WriteJsonOutput(exec.Output);
         try
           try
             Data := GetJSON(exec.Output);
@@ -856,6 +855,8 @@ begin
 
   FLog.Debugf('starting osml %s', [MCSDBGLog.StringArray2String(FParams)]);
   FOK := RunCommand('osml', FParams, FOutput, [poNoConsole]);
+
+  DebugWriteJsonOutput(FOutput);
 end;
 
 constructor TExecOSMLThread.Create(params: TProcessStringArray);
@@ -944,12 +945,15 @@ begin
   end;
 end;
 
-procedure WriteJsonOutput(Value: string);
+procedure DebugWriteJsonOutput(Value: string);
 var
   jsonFile: string;
 begin
-  jsonFile := ConcatPaths([AppConfig.Temp, 'osml_res.json']);
-  MCSIO.StrToFile(jsonFile, Value);
+  if LogLevel <= LvlDebug then
+  begin
+    jsonFile := ConcatPaths([AppConfig.Temp, 'osml_res.json']);
+    MCSIO.StrToFile(jsonFile, Value);
+  end;
 end;
 
 end.

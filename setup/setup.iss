@@ -39,6 +39,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
 Source: "..\MCSDLUI.exe"; DestDir: "{app}"; Flags: 
+Source: "..\documentation\MCS Depth Logger UI.pdf"; DestDir: "{app}"; Flags: 
 Source: "..\tools\osml.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\tools\gomapproxy.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\config.yaml"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs

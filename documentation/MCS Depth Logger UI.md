@@ -43,87 +43,120 @@ Zunächst aber einmal eine kurze knappe Auflistung von dem, was das Tool so kann
 
 ![Toolbar](sc02_toolbar.png)
 
-- ![Upload](cloud10_ico.png) **Upload:** Hier gelangst du zu zu der Uploadseite des OpenSeaMap Projektes.
+- ![Upload](cloud10_ico.png) **Upload:** Hier gelangst du zu zu der Uploadseite des OpenSeaMap Projektes.
 
-- ![Konfiguration](settings2_ico.png) **Konfiguration Hardwarelogger:** Damit der Hardwarelogger richtig funktioniert, muss eine Konfiguration auf der SD Karte hinterlegt werden.  Mit diesem Knopf kannst du entweder die aktuelle Konfiguration bearbeiten oder eine neue erzeugen, je nachdem, ob bereits eine Konfiguration auf der Karte vorhanden war. Siehe [Logger Konfiguration](#Konfiguration)
+- ![Konfiguration](settings2_ico.png) **Konfiguration Hardwarelogger:** Damit der Hardwarelogger richtig funktioniert, muss eine Konfiguration auf der SD Karte hinterlegt werden.  Mit diesem Knopf kannst du entweder die aktuelle Konfiguration bearbeiten oder eine neue erzeugen, je nachdem, ob bereits eine Konfiguration auf der Karte vorhanden war. Siehe [Logger Konfiguration](#Konfiguration)
 
-- ![stiffy_ico](stiffy_ico.png) **Verwaltung der SD Karten:** Hiermit erscheint der Dialog zur Verwaltung deiner SD Karten. Siehe [SD Karten Verwaltung](#Verwaltung)
+- ![stiffy_ico](stiffy_ico.png) **Verwaltung der SD Karten:** Hiermit erscheint der Dialog zur Verwaltung deiner SD Karten. Siehe [SD Karten Verwaltung](#Verwaltung)
 
-- ![clock3_ico](clock3_ico.png)**Zeitstempel aktualisieren:** Das Programm versucht anhand der Loggerdaten in der Datei, den Zeitstempel der Datei (Änderungsdatum) auf den richtigen Wert zu setzten.
+- ![clock3_ico](clock3_ico.png)**Zeitstempel aktualisieren:** Das Programm versucht anhand der Loggerdaten in der Datei, den Zeitstempel der Datei (Änderungsdatum) auf den richtigen Wert zu setzten.
 
-- ![outgoing_ico](outgoing_ico.png)**Track exportieren:** Hier kann der selektierte Track in ein anderes Format zur externen Verwendung exportiert werden. Siehe: [Datenexport](#Export) 
+- ![outgoing_ico](outgoing_ico.png)**Track exportieren:** Hier kann der selektierte Track in ein anderes Format zur externen Verwendung exportiert werden. Siehe: [Datenexport](#Export) 
 
 - ![vinyl_ico](vinyl_ico.png)**Daten analysieren: **startet die Datenanalyse. Die Ergebnisse werden in der Box Dateiinformation dargestellt. Siehe: [Datenanalyse](#Datenanalyse)
 
-- ![compose_ico](compose_ico.png)**Daten ändern:** startet einen Editor, mit dem Daten geändert werden können. siehe [Dateneditor](#Dateneditor)
+- ![compose_ico](compose_ico.png)**Daten ändern:** startet einen Editor, mit dem Daten geändert werden können. siehe [Dateneditor](#Dateneditor)
 
-- ![map2_ico](map2_ico.png)**Karte:** die zuletzt markierte Datei/Track wird auf der Karte dargestellt. [Karte](#Kartenansicht) 
+- ![map2_ico](map2_ico.png)**Karte:** die zuletzt markierte Datei/Track wird auf der Karte dargestellt. [Karte](#Kartenansicht) 
 
-- ![plus3_ico](plus3_ico.png)**neuer Track:** Alle aktuell markierten Datendateien werden zu einem neuen Track zusammen gefasst.  Siehe: [Track erstellen](#Erstellen)
+- ![plus3_ico](plus3_ico.png)**neuer Track:** Alle aktuell markierten Datendateien werden zu einem neuen Track zusammen gefasst.  Siehe: [Track erstellen](#Erstellen)
 
-- ![inbox2_ico](inbox2_ico.png)**zu Track hinzufügen:** fügt die aktuell markierte Datendatei dem Track hinzu und aktualisiert den Gesamttrack. Siehe: [Track hinzufügen](#Daten hinzufügen)
+- ![inbox2_ico](inbox2_ico.png)**zu Track hinzufügen:** fügt die aktuell markierte Datendatei dem Track hinzu und aktualisiert den Gesamttrack. Siehe: [Track hinzufügen](#Daten hinzufügen)
 
-- ![bin3_ico](bin3_ico.png)**Track löschen:** Löscht, nach Nachfrage, den aktuell markierten Track.
+- ![bin3_ico](bin3_ico.png)**Track löschen:** Löscht, nach Nachfrage, den aktuell markierten Track.
 
-- ![refresh1_ico](refresh1_ico.png)**Tracks aktualisieren:** Aktualisiert die Ansicht der Tracks.
+- ![refresh1_ico](refresh1_ico.png)**Tracks aktualisieren:** Aktualisiert die Ansicht der Tracks.
 
-- ![settings_ico](settings_ico.png)**Einstellungen:** ruft den Einstellungsdialog auf. Siehe: [Einstellungen](#Einstellungen)
+- ![settings_ico](settings_ico.png)**Einstellungen:** ruft den Einstellungsdialog auf. Siehe: [Einstellungen](#Einstellungen)
 
-- ![power5_ico](power5_ico.png)**Programm beenden:** Beendet das Programm.
+- ![power5_ico](power5_ico.png)**Programm beenden:** Beendet das Programm.
 
-- ![spam_ico](spam_ico.png)**About Dialog:** zeigt den Über Dialog an. 
+- ![spam_ico](spam_ico.png)**About Dialog:** zeigt den Über Dialog an. 
 
-- ![support2_ico](support2_ico.png)**Hilfe:** zeigt diese Hilfedatei an.
+- ![support2_ico](support2_ico.png)**Hilfe:** zeigt diese Hilfedatei an.
 
 
 
 ## Logger
 
+![HWLogger](HWLogger.jpg)
 
+Das ist der [Hardwarelogger](https://wiki.openseamap.org/wiki/OpenSeaMap-dev:HW-logger/OSeaM-Manual). Dieser benötigt für eine Konfiguration. Diese wird auf der vorbereiteten SD Karte dem Logger zur Verfügung gestellt. Das kann einerseits über das Online-Tool erfolgen: http://rcarduino.de/doku.php?id=arduino:oseam:config 
+
+Oder aber du verwendest die in diesem Programm eingebaute Funktion.
 
 ### Konfiguration
 
+![](lg_settings.png)
 
+Zunächst musst du die Baudrate des Gerätes an Port A angeben. Falls dein Geräte Seatalk verwendet, selektiere bitte die Checkbox Seatalk, verwende zusätzlich am Anschluss A den Seatalk Treiber und steck im Geräte den Jumper um. Eine Baudrate brauchst du nicht einzustellen. Die Default Baudrate liegt bei 4800 Baud.
+
+Auch für den Anschluss B musst du eine Baudrate einstellen. Hängt dort kein Geräte dran, wähle bitte `deaktiviert`. Der B Anschluss kann System bedingt nicht mehr als 4800 Baud.
+
+Mit den Beiden Optionen `schreibe Gyrodaten` und `schreibe Versorgungsspannungsdaten` können zusätzliche Daten mit in die Loggerdatei geschrieben werden. Gyrodaten beinhalten Lage und Position des Fahrzeuges. Damit kann die, falls der Tiefenmesser nicht bereits eine entsprechende Anpassung hat, die tatsächliche Tiefe berechnet werden.
+
+Versorgungsspannungsdaten dienen der Analyse von Probleme bei der Spannungsversorgung des Logger. Dieser werden für den Normalbetrieb nicht benötigt.  
+
+**Schiffs-ID**
+(optional) Wenn dein Schiff auf der OpenSeaMap Seite  registriert ist, kannst du hier deine Schiffs-ID eingeben. Diese ID wird  dann im Logger gespeichert und mit in die Datendateien geschrieben.
+
+Über Werkseinstellungen setzt du deine gemachten Einstellungen wieder auf den Standard zurück. Mit OK werden die Daten auf die SD Karte geschrieben, Abbrechen bricht den Vorgang ab.
 
 ## SD Karten
 
+Für den Logger werden SD Karten benötigt. Diesen müssen mit FAT32 formatiert sein. Und es muss eine gültige Konfigurationsdatei auf der Karte vorhanden sein. (Siehe: [Konfiguration](#Konfiguration)) 
 
+Die auf der Karte vorhandenen Datendateien werden in der Dateiliste dargestellt. 
 
 ### Datendateien
 
+Der Logger schreibt fortlaufend Datendateien in einem speziellen proprietärem Format. 
+
 #### Datenanalyse
+
+Wenn du eine Datei selektierst, kannst du diese Analysieren lassen. (![vinyl_ico](vinyl_ico.png)Dabei wird die Datei komplett eingelesen und der Inhalt analysiert. In der linken Box erhältst du dann das Ergebnis der Analyse. Dazu zählt die Dateigröße und die Anzahl enthaltenen lesbarer Datagramme (NMEA Sentences). Zusätzlich wird eine Fehleranalyse gemacht und ausgegeben, wieviele Fehler es gibt, gesamt und für jeden Kanal noch einmal extra.
 
 
 
 ### Verwaltung
 
+![image-20250926143513956](sc03_sdcardmanager.png)
 
+Mit Hilfe dieses Dialoges kannst du Backups deiner SD Karte machen. ![stiffy_ico](stiffy_ico.png)
 
-#### Backup
+Hier kannst du auch alte Backup wieder zurück auf eine Karte schreiben.  ![revert_ico](revert_ico.png)
 
+Und du kannst ein altes Backup löschen. ![bin3_ico](bin3_ico.png)
 
-
-#### Restore
-
-
+![refresh1_ico](refresh1_ico.png) Refreshed die Ansicht und ![folder8_ico](folder8_ico.png) startet den Explorer in dem Backupverzeichnis. Ein Backup kann auch auf einer anderen SD Karte (z.B: mit mehr Speicherplatz) wiederhergestellt werden. Backups sind einfache Zipdateien mit allen Dateien, die sich auf der SD Karte beim Backup befanden. (No Magic behind)
 
 ## Tracks
 
-
+Du kannst mit Hilfe dieses Programm, deine Fahrten aufzeichnen und als Tracks verwalten. Da der Logger bei jedem Restart und jede Stunde eine neue Datendatei anlegt, musst du diese Daten zuerst zu einem Track zusammen fassen.  
 
 ### Erstellen
 
+Du kannst mit Hilfe dieses Programm, deine Fahrten aufzeichnen und als Tracks verwalten. Da der Logger bei jedem Restart und jede Stunde eine neue Datendatei anlegt, musst du diese Daten zuerst zu einem Track zusammen fassen. Markiere dazu die Datendateien, die du gerne zusammenfassen möchtest und drücke auf `neuen Track erzeugen`![plus3_ico](plus3_ico.png)Keine Sorge, wenn du mal eine Datei vergessen hast. Diese kannst du später immer noch hinzufügen.
 
+![new track](sc04_newtrack.png)
+
+Gib jetzt die erforderlichen Daten ein. Die **Gruppe** ist dabei das Verzeichnis, wo die Datei abgelegt werden soll, **Name** gibt den Tracknamen an, und ist auch gleichzeitig der Dateiname. **Beschreibung** läßt dir die Möglichkeit für den Track eine Beschreibung anzugeben. Die **Schiffs-ID** ist wiederum später wichtig, wenn du Tracks zu OpenSeaMap hochladen möchtest. Alle diese Daten werden in der Trackdatei (auch eine einfache ZIP Datei) als `track.json` gespeichert. Weiterhin sind alle ausgewählten Datendatei in der ZIP enthalten und eine spezielle `track.nmea` Datei, die alle relevanten Daten für diesen Track enthält.
 
 ### Daten hinzufügen
 
-
+Solltest du doch einmal eine oder mehrere Datendateien vergessen haben, ist das kein Problem. Markiere den gewünschten Track und die fehlenden Daten und drück auf ![inbox2_ico](inbox2_ico.png) und schon werden die Daten dem Track hinzugefügt.
 
 ### Export
 
+Über den Export Knopf ![outgoing_ico](outgoing_ico.png) kannst du deinen Track in ein anderes Format exportieren. Möglich sind folgende Formate: GPX, KML, GEOJSON, NMEA und ein eigenes proprietäres JSON-Format. 
 
+![Export](sc05_export.png)
+
+Oben im Dialog steht noch einmal der Name des Tracks. Dann folgt eine Box mit den möglichen Formaten. Darunter kannst du die Ausgabedatei festlegen. Über den ![Auswahlknopf](sc05_export_path.png) Knopf kannst du dir das Verzeichnis und den Dateinamen aussuchen.
 
 ## Kartenansicht
+
+
 
 ## Dateneditor
 

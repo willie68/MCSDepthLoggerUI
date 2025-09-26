@@ -154,8 +154,6 @@ type
     procedure cbProviderChange(Sender: TObject);
     procedure cbRootDrivesChange(Sender: TObject);
     procedure cbRootDrivesGetItems(Sender: TObject);
-    procedure DateTimeIntervalChartSource1DateTimeStepChange(Sender: TObject;
-      ASteps: TDateTimeStep);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actHelpExecute(Sender: TObject);
@@ -328,12 +326,6 @@ begin
   RefreshRootDrives();
 end;
 
-procedure TfrmMain.DateTimeIntervalChartSource1DateTimeStepChange(Sender: TObject;
-  ASteps: TDateTimeStep);
-begin
-
-end;
-
 procedure TfrmMain.FormActivate(Sender: TObject);
 begin
   MapView1.MapProvider := cbProvider.Text;
@@ -384,7 +376,8 @@ begin
     for fsInfo in fileCollector.FileInfos do
     begin
       if fsInfo.DriveType = 2 then
-        cbRootDrives.AddItem(fsInfo.Name + ' (' + fsInfo.DeviceID + ') ', fsInfo.Clone());
+        cbRootDrives.AddItem(fsInfo.Name + ' (' + fsInfo.DeviceID +
+          ') ', fsInfo.Clone());
     end;
   finally
     fileCollector.Free;
@@ -459,7 +452,8 @@ procedure TfrmMain.cbRootDrivesChange(Sender: TObject);
 var
   fsInfo: TFileSystemInfo;
 begin
-  if (cbRootDrives.ItemIndex >= 0) and (cbRootDrives.Items.Count > cbRootDrives.ItemIndex) then
+  if (cbRootDrives.ItemIndex >= 0) and (cbRootDrives.Items.Count >
+    cbRootDrives.ItemIndex) then
   begin
     fsInfo := cbRootDrives.Items.Objects[cbRootDrives.ItemIndex] as TFileSystemInfo;
     HWLogger.SDRoot := fsInfo.DeviceID;
@@ -477,7 +471,8 @@ begin
           mtError, [mbOK], 0);
     end;
   end
-  else cbRootDrives.ItemIndex := -1;
+  else
+    cbRootDrives.ItemIndex := -1;
 end;
 
 procedure TfrmMain.actPreferencesExecute(Sender: TObject);
@@ -691,22 +686,27 @@ begin
   if track <> '' then
     if sgFiles.Row >= 1 then
     begin
-      SyncFrmTrack();
-      frmWait.Show();
-      fn := TStringList.Create();
-      try
-        for i := 0 to sgFiles.RowCount - 1 do
-        begin
-          if sgFiles.IsCellSelected[0, i] then
-            fn.Add(sgFiles.Cells[0, i]);
+      if MessageDlg('Daten hinzufügen', 'Soll die Daten dem Track ' +
+        sLineBreak + track + sLineBreak + ' hinzugefügt werden?',
+        mtConfirmation, mbOKCancel, '') = mrOk then
+      begin
+        SyncFrmTrack();
+        frmWait.Show();
+        fn := TStringList.Create();
+        try
+          for i := 0 to sgFiles.RowCount - 1 do
+          begin
+            if sgFiles.IsCellSelected[0, i] then
+              fn.Add(sgFiles.Cells[0, i]);
+          end;
+          //        path := ConcatPaths([AppConfig.Trackspath, frmTrackEdit.Grouppath,
+          //          frmTrackEdit.Trackname + '.zip']);
+          HWLogger.Add2Track(track, fn);
+          actTracksReloadExecute(Sender)
+        finally
+          frmWait.Hide();
+          fn.Free();
         end;
-        //        path := ConcatPaths([AppConfig.Trackspath, frmTrackEdit.Grouppath,
-        //          frmTrackEdit.Trackname + '.zip']);
-        HWLogger.Add2Track(track, fn);
-        actTracksReloadExecute(Sender)
-      finally
-        frmWait.Hide();
-        fn.Free();
       end;
     end
     else
@@ -1094,18 +1094,20 @@ var
 begin
   if stvTracks.Selected <> nil then
   begin
-    FilePath := TShellTreeNode(stvTracks.Selected).FullFilename;
-    track := HWLogger.ConvertFile(FilePath);
-    if length(track.Waypoints) > 0 then
-      ShowTrackOnMap(track)
-    else
-    if cbAutoMap.Checked then
-      StatusMsg('Keine kartenrelevanten Daten in der Datei gefunden.')
-    else
-      MessageDlg('Information',
-        'Keine kartenrelevanten Daten in der Datei gefunden.',
-        mtWarning, [mbOK], 0);
-
+    if not TShellTreeNode(stvTracks.Selected).IsDirectory then
+    begin
+      FilePath := TShellTreeNode(stvTracks.Selected).FullFilename;
+      track := HWLogger.ConvertFile(FilePath);
+      if length(track.Waypoints) > 0 then
+        ShowTrackOnMap(track)
+      else
+      if cbAutoMap.Checked then
+        StatusMsg('Keine kartenrelevanten Daten in der Datei gefunden.')
+      else
+        MessageDlg('Information',
+          'Keine kartenrelevanten Daten in der Datei gefunden.',
+          mtWarning, [mbOK], 0);
+    end;
   end;
 end;
 
