@@ -1,29 +1,30 @@
 object frmEditor: TfrmEditor
   Left = 355
-  Height = 543
+  Height = 679
   Top = 250
-  Width = 694
-  Caption = 'frmEditor'
-  ClientHeight = 543
-  ClientWidth = 694
+  Width = 868
+  Caption = 'Editor'
+  ClientHeight = 679
+  ClientWidth = 868
+  DesignTimePPI = 120
   KeyPreview = True
   Position = poMainFormCenter
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   object Panel2: TPanel
     Left = 0
-    Height = 50
-    Top = 493
-    Width = 694
+    Height = 62
+    Top = 617
+    Width = 868
     Align = alBottom
-    ClientHeight = 50
-    ClientWidth = 694
+    ClientHeight = 62
+    ClientWidth = 868
     TabOrder = 0
     object btnOK: TBitBtn
-      Left = 480
-      Height = 32
-      Top = 8
-      Width = 98
+      Left = 601
+      Height = 40
+      Top = 10
+      Width = 122
       Anchors = [akRight, akBottom]
       DefaultCaption = True
       Kind = bkOK
@@ -32,21 +33,22 @@ object frmEditor: TfrmEditor
       OnClick = btnOKClick
     end
     object btnCancel: TBitBtn
-      Left = 581
-      Height = 30
-      Top = 8
-      Width = 98
+      Left = 727
+      Height = 40
+      Top = 9
+      Width = 122
       Anchors = [akRight, akBottom]
-      DefaultCaption = True
+      Cancel = True
+      Caption = 'Abbrechen'
       Kind = bkCancel
       ModalResult = 2
       TabOrder = 1
     end
     object btnDefault: TBitBtn
-      Left = 381
-      Height = 32
-      Top = 8
-      Width = 98
+      Left = 477
+      Height = 40
+      Top = 10
+      Width = 122
       Anchors = [akRight, akBottom]
       Caption = 'neu laden'
       Kind = bkRetry
@@ -56,19 +58,19 @@ object frmEditor: TfrmEditor
   end
   object Panel1: TPanel
     Left = 0
-    Height = 146
+    Height = 182
     Top = 0
-    Width = 694
+    Width = 868
     Align = alTop
-    ClientHeight = 146
-    ClientWidth = 694
+    ClientHeight = 182
+    ClientWidth = 868
     ParentBackground = False
     TabOrder = 1
     object Image1: TImage
-      Left = 5
-      Height = 131
-      Top = 5
-      Width = 174
+      Left = 6
+      Height = 164
+      Top = 6
+      Width = 218
       Anchors = [akTop, akLeft, akRight, akBottom]
       AutoSize = True
       Picture.Data = {
@@ -7279,10 +7281,10 @@ object frmEditor: TfrmEditor
       Proportional = True
     end
     object Label2: TLabel
-      Left = 186
-      Height = 131
-      Top = 5
-      Width = 493
+      Left = 232
+      Height = 164
+      Top = 6
+      Width = 617
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Around = 2
@@ -7293,22 +7295,22 @@ object frmEditor: TfrmEditor
   end
   object Panel3: TPanel
     Left = 0
-    Height = 347
-    Top = 146
-    Width = 694
+    Height = 435
+    Top = 182
+    Width = 868
     Align = alClient
     Caption = 'Panel3'
-    ClientHeight = 347
-    ClientWidth = 694
+    ClientHeight = 435
+    ClientWidth = 868
     TabOrder = 2
     inline edFile: TSynEdit
       Left = 1
-      Height = 312
-      Top = 34
-      Width = 692
+      Height = 392
+      Top = 42
+      Width = 866
       Align = alClient
       Anchors = []
-      Font.Height = -13
+      Font.Height = -16
       Font.Name = 'Courier New'
       Font.Pitch = fpFixed
       Font.Quality = fqNonAntialiased
@@ -7316,7 +7318,7 @@ object frmEditor: TfrmEditor
       ParentFont = False
       PopupMenu = sPopup
       TabOrder = 0
-      Gutter.Width = 57
+      Gutter.Width = 72
       Gutter.MouseActions = <>
       RightGutter.Width = 0
       RightGutter.MouseActions = <>
@@ -7766,13 +7768,13 @@ object frmEditor: TfrmEditor
       OnChange = edFileChange
       inline SynLeftGutterPartList1: TSynGutterPartList
         object SynGutterMarks1: TSynGutterMarks
-          Width = 24
+          Width = 30
           MouseActions = <>
           MaxExtraMarksColums = 0
           Options = [sgmoDeDuplicateMarksOnOverflow]
         end
         object SynGutterLineNumber1: TSynGutterLineNumber
-          Width = 17
+          Width = 21
           MouseActions = <>
           MarkupInfo.Background = clBtnFace
           MarkupInfo.Foreground = clNone
@@ -7782,18 +7784,19 @@ object frmEditor: TfrmEditor
           LeadingZeros = False
         end
         object SynGutterChanges1: TSynGutterChanges
-          Width = 4
+          Width = 5
           MouseActions = <>
           ModifiedColor = 59900
           SavedColor = clGreen
         end
         object SynGutterSeparator1: TSynGutterSeparator
-          Width = 2
+          Width = 3
           MouseActions = <>
           MarkupInfo.Background = clWhite
           MarkupInfo.Foreground = clGray
         end
         object SynGutterCodeFolding1: TSynGutterCodeFolding
+          Width = 13
           MouseActions = <>
           MarkupInfo.Background = clNone
           MarkupInfo.Foreground = clGray
@@ -7804,34 +7807,34 @@ object frmEditor: TfrmEditor
     end
     object Panel4: TPanel
       Left = 1
-      Height = 33
+      Height = 41
       Top = 1
-      Width = 692
+      Width = 866
       Align = alTop
       Caption = 'Panel4'
-      ClientHeight = 33
-      ClientWidth = 692
+      ClientHeight = 41
+      ClientWidth = 866
       TabOrder = 1
       object StaticText1: TStaticText
-        Left = 51
-        Height = 17
-        Top = 8
-        Width = 624
+        Left = 64
+        Height = 21
+        Top = 10
+        Width = 781
         Anchors = [akTop, akLeft, akRight]
         Caption = 'StaticText1'
         TabOrder = 0
       end
       object Label1: TLabel
-        Left = 5
-        Height = 15
-        Top = 8
-        Width = 27
+        Left = 6
+        Height = 20
+        Top = 10
+        Width = 36
         Caption = 'Datei'
       end
     end
   end
   object sPopup: TSynPopupMenu
-    Left = 341
-    Top = 312
+    Left = 426
+    Top = 390
   end
 end

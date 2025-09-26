@@ -172,8 +172,46 @@ In der Mitte sieht man natürlich die Karte. Und wenn man einen Track aktiv hat,
 
 ![trackmap](sc08_trackmap.png)
 
-Start und Ende werden mit kleinen Fähnchen markiert. Weiß für den Start und schwarz für das Ende des tracks.
+Start und Ende werden mit kleinen Fähnchen markiert. Unausgefüllt für den Start und schwarz für das Ende des Tracks.
+
+Unter dem Track befindet sich dann die Tiefenansicht. Du kannst, wie auch bei anderen Elementen in der Oberfläche die Größe des Elementes einstellen. Dazu gibt es zwischen der Karte und der Tiefenanzeige einen kleinen Schieber (das Dingen mit den kleinen Punkten) Auf der X-Asche siehst du die Uhrzeiten auf der Y-Achse die jeweilige Wassertiefe. (Normalerweise im negativen Bereich)
+
+![image-20250926164056232](sc09_trackmap.png)
 
 ## Dateneditor
 
+Möchtest du eine Datendatei editieren oder dir anschauen, geht das mit dem ![compose_ico](compose_ico.png)Knopf. 
+
+![Editor](sc10_editor.png)Hier siehst du einen einfachen Texteditor. Du kannst jetzt die Datei editieren. Mit OK speicherst du die Datei. Abbrechen schließt den Editor ohne zu speichern. Mit neu laden kannst du die Datei erneut laden. Deine Änderungen sind dann natürlich weg.
+
 ## Einstellungen
+
+In die Einstellungen gelangst du mit dem ![settings_ico](settings_ico.png)Knopf. 
+
+![Allgemein](sc11_set1.png)
+
+Es gibt verschiedene Reiter mit Einstellungen. 
+
+Allgemein enthält allgemeine Einstellungen zum Programm. Hier findest du das grundlegende Datenverzeichnis. Hier werden alle deine Daten, wie Backups, Tracks, temporäre Daten gespeichert. 
+
+Schiffs-ID: Wenn du bereits auf OpenSeaMap dein Fahrzeug registriert hast, kannst du hier deine ID hinter legen. Diese wird dann, bei den verschiedenen Funktionen verwendet.  
+
+Debug: Mit Logdatei aktivieren sagst du dem Programm das es eine zusätzlich Datei mit Logdaten erzeugen soll. Das kann bei der Fehlersuche helfen.  
+
+![image-20250926170106044](sc12_set2.png)
+
+Auf dem Reiter Karten gibt es Einstellungen zur Kartenansicht. 
+
+Kachelalter: Aus Performanzgründen werden die Anzeigeelemente der Karte (Kacheln genannt) zwischen gespeichert. Mit dieser Einstellung kannst du bestimmen, wie alt die Kacheln maximal sein dürfen. Den Speicherort für diese Kacheln findest du im Datenverzeichnis unter `tilescache`. 
+
+# Epilog
+
+So nun hab ich dir die wichtigsten Dinge in dem Programm gezeigt. 
+
+Falls du weitere Fragen hast, oder du auf einen Programm-Fehler gestoßen bist, dann meld dich doch einfach hier: https://github.com/willie68/MCSDepthLoggerUI/issues
+
+Neue Versionen gibt es hier unter Releases: https://github.com/willie68/MCSDepthLoggerUI
+
+Und nun wünsche ich dir noch viel Spaß.
+
+Willie

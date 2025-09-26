@@ -20,7 +20,6 @@
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="1109"/>
         <CursorPos X="121" Y="1129"/>
         <UsageCount Value="201"/>
@@ -34,6 +33,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uPreferences"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="63"/>
         <CursorPos Y="82"/>
@@ -127,7 +127,7 @@
         <EditorIndex Value="15"/>
         <TopLine Value="6"/>
         <CursorPos X="36" Y="23"/>
-        <UsageCount Value="171"/>
+        <UsageCount Value="172"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -136,14 +136,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="27"/>
         <CursorPos X="28" Y="43"/>
-        <UsageCount Value="158"/>
+        <UsageCount Value="159"/>
       </Unit>
       <Unit>
         <Filename Value="utilecacheutils.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="14"/>
         <CursorPos X="53" Y="6"/>
-        <UsageCount Value="135"/>
+        <UsageCount Value="136"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -155,7 +155,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="81"/>
         <CursorPos X="19" Y="96"/>
-        <UsageCount Value="130"/>
+        <UsageCount Value="131"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -165,7 +165,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="39"/>
         <CursorPos Y="56"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="129"/>
       </Unit>
       <Unit>
         <Filename Value="ueditor.pas"/>
@@ -176,7 +176,7 @@
         <UnitName Value="uEditor"/>
         <EditorIndex Value="2"/>
         <CursorPos X="69" Y="9"/>
-        <UsageCount Value="72"/>
+        <UsageCount Value="73"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -189,7 +189,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="65"/>
         <CursorPos X="33" Y="72"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -301,7 +301,7 @@
         <EditorIndex Value="10"/>
         <TopLine Value="71"/>
         <CursorPos X="10" Y="83"/>
-        <UsageCount Value="74"/>
+        <UsageCount Value="75"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -420,7 +420,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="43"/>
         <CursorPos X="6" Y="39"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -490,7 +490,7 @@
         <EditorIndex Value="12"/>
         <TopLine Value="358"/>
         <CursorPos X="20" Y="363"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="47"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
