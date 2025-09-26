@@ -460,13 +460,13 @@ begin
     fsInfo := cbRootDrives.Items.Objects[cbRootDrives.ItemIndex] as TFileSystemInfo;
     HWLogger.SDRoot := fsInfo.DeviceID;
     svalue := 'keine';
-    if HWLogger.IsLoggerCard then svalue:='vorhanden';
+    if HWLogger.IsLoggerCard then svalue := 'vorhanden';
     lblCardInfo.Caption := 'Name: ' + cbRootDrives.Text + LineEnding +
       'Gesamtspeicher: ' + FormatBytes(fsInfo.Size) + LineEnding +
       'Freier Speicher: ' + FormatBytes(fsInfo.FreeSpace) + LineEnding +
       'Dateisystem: ' + fsInfo.FileSystem + LineEnding +
-      'Anzahl der Datendateien: ' + IntToStr(HWLogger.DataFileCount) + sLineBreak +
-      'Konfiguration: ' + svalue;
+      'Anzahl der Datendateien: ' + IntToStr(HWLogger.DataFileCount) +
+      sLineBreak + 'Konfiguration: ' + svalue;
     PopulateFilesGrid();
     if HWLogger.HasError then
     begin
@@ -1124,6 +1124,7 @@ begin
   FAreaSelected := False;
   MapView1.Invalidate;
   actMapZoomAreaExecute(nil);
+  Depth.Clear;
 end;
 
 
