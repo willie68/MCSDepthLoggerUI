@@ -783,7 +783,7 @@ end;
 
 procedure TfrmMain.actHelpExecute(Sender: TObject);
 begin
-  OpenURL('http://rcarduino.de/doku.php?id=arduino:oseam:mcsdlui');
+  OpenURL('MCS Depth Logger UI.pdf');
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);

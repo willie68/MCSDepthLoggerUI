@@ -20,8 +20,9 @@
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="1109"/>
-        <CursorPos X="121" Y="1129"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="783"/>
+        <CursorPos X="35" Y="786"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -33,7 +34,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uPreferences"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="63"/>
         <CursorPos Y="82"/>
@@ -127,7 +127,7 @@
         <EditorIndex Value="15"/>
         <TopLine Value="6"/>
         <CursorPos X="36" Y="23"/>
-        <UsageCount Value="172"/>
+        <UsageCount Value="173"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -136,14 +136,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="27"/>
         <CursorPos X="28" Y="43"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="160"/>
       </Unit>
       <Unit>
         <Filename Value="utilecacheutils.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="14"/>
         <CursorPos X="53" Y="6"/>
-        <UsageCount Value="136"/>
+        <UsageCount Value="137"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -155,7 +155,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="81"/>
         <CursorPos X="19" Y="96"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -165,7 +165,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="39"/>
         <CursorPos Y="56"/>
-        <UsageCount Value="129"/>
+        <UsageCount Value="130"/>
       </Unit>
       <Unit>
         <Filename Value="ueditor.pas"/>
@@ -176,7 +176,7 @@
         <UnitName Value="uEditor"/>
         <EditorIndex Value="2"/>
         <CursorPos X="69" Y="9"/>
-        <UsageCount Value="73"/>
+        <UsageCount Value="74"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -189,7 +189,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="65"/>
         <CursorPos X="33" Y="72"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -579,14 +579,6 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="umcslogger.pas"/>
-        <Caret Line="947" Column="11" TopLine="923"/>
-      </Position>
-      <Position>
-        <Filename Value="umcslogger.pas"/>
-        <Caret Line="562" TopLine="550"/>
-      </Position>
-      <Position>
-        <Filename Value="umcslogger.pas"/>
         <Caret Line="139" Column="18" TopLine="129"/>
       </Position>
       <Position>
@@ -696,6 +688,14 @@
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="1128" Column="121" TopLine="1108"/>
+      </Position>
+      <Position>
+        <Filename Value="upreferences.pas"/>
+        <Caret Line="82" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="501" TopLine="491"/>
       </Position>
     </JumpHistory>
     <RunParams>
