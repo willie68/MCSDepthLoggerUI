@@ -156,7 +156,23 @@ Oben im Dialog steht noch einmal der Name des Tracks. Dann folgt eine Box mit de
 
 ## Kartenansicht
 
+![Kartenansicht](sc06_mapview.png)
 
+In der Kartenansicht kannst du dir die gesammelten Daten anschauen. Du kannst auch mehrere Dateien markieren und mit dem ![map2_ico](map2_ico.png) Knopf anzeigen lassen. Oder du wählst einen Track aus und schaust dir das Ergebnis an. In der Ausklappliste oben Links findest du verschiedene Kartendienste.
+
+In der gleichen Zeile findest du noch die Zoom-Tasten (![zoom11_ico](zoom11_ico.png)![zoom10_ico](zoom10_ico.png)) sowie einen Knopf, um die Karte auf den Ausschnitt des Tracks zurück zu stellen.  ![expand7_ico](expand7_ico.png)
+
+Danach folgen verschiedene Kartenoverlays. Zunächst der Seamark Layer, der Seezeichen, also Tonnen, Leuchttürme usw. enthält. ![boat_ico](boat_ico.png)
+
+![big53_ico](big53_ico.png) ist der Sportslayer von OpenSeaMap.
+
+Mit ![wifi10_ico](wifi10_ico.png) wird der Seetiefenlayer gestartet. Dieser Service ist im Gegensatz zu allen anderen kein klassischer TMS Service, sonder ein sog. WMS Service. Um diesen darzustellen wird automatisch ein kleines Programm gestartet, gomapproxy, dass zwischen der Kartenansicht und dem Server vermittelt. Wenn dieses Programm läuft, wird in der Statusbar ebenfalls ein ![wifi10_ico](wifi10_ico.png) dargestellt. ![map proxy](sc07_mapproxy.png) 
+
+In der Mitte sieht man natürlich die Karte. Und wenn man einen Track aktiv hat, wird dieser auf der Karte dargestellt. 
+
+![trackmap](sc08_trackmap.png)
+
+Start und Ende werden mit kleinen Fähnchen markiert. Weiß für den Start und schwarz für das Ende des tracks.
 
 ## Dateneditor
 

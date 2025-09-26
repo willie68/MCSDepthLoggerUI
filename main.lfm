@@ -414,7 +414,7 @@ object frmMain: TfrmMain
           Action = actMapZoomArea
         end
         object tbMapsSeamarks: TToolButton
-          Left = 308
+          Left = 316
           Hint = 'Seezeichen anzeigen'
           Top = 2
           Caption = 'Seezeichen'
@@ -423,7 +423,7 @@ object frmMain: TfrmMain
           OnClick = tbMapsSeamarksClick
         end
         object tbMapSports: TToolButton
-          Left = 344
+          Left = 352
           Hint = 'zeige Sportoverlay'
           Top = 2
           Caption = 'Sportoverlay'
@@ -432,13 +432,20 @@ object frmMain: TfrmMain
           OnClick = tbMapSportsClick
         end
         object tbMapDepth: TToolButton
-          Left = 380
+          Left = 388
           Hint = 'zeige Wassertiefen'
           Top = 2
           Caption = 'Tiefen'
           ImageIndex = 25
           Style = tbsCheck
           OnClick = tbMapDepthClick
+        end
+        object ToolButton12: TToolButton
+          Left = 308
+          Height = 32
+          Top = 2
+          Caption = 'ToolButton12'
+          Style = tbsSeparator
         end
       end
     end
