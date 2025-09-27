@@ -123,7 +123,7 @@ type
     tbtnZoomIn: TToolButton;
     tbtnZoomOut: TToolButton;
     tbMapsSeamarks: TToolButton;
-    tbMapSports: TToolButton;
+    tbMapHabour: TToolButton;
     tbMapDepth: TToolButton;
     ToolButton22: TToolButton;
     ToolButton23: TToolButton;
@@ -167,6 +167,7 @@ type
     procedure sbMainDrawPanel(Statusbar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
     procedure sbMainResize(Sender: TObject);
+    procedure spHorizontal1Moved(Sender: TObject);
     procedure stvTracksClick(Sender: TObject);
     procedure stvTracksSelectionChanged(Sender: TObject);
     procedure timAfterStartTimer(Sender: TObject);
@@ -175,7 +176,7 @@ type
       const AFileInfo: TSearchRec; var CanAdd: boolean);
     procedure tbMainResize(Sender: TObject);
     procedure tbMapResize(Sender: TObject);
-    procedure tbMapSportsClick(Sender: TObject);
+    procedure tbMapHabourClick(Sender: TObject);
     procedure timRefreshRootTimer(Sender: TObject);
     procedure tbMapsSeamarksClick(Sender: TObject);
     procedure tbMapDepthClick(Sender: TObject);
@@ -189,7 +190,7 @@ type
     FMapProxy: TExecProxy;
     FDepthlayer: TMapLayer;
     FSeamarkslayer: TMapLayer;
-    FSportslayer: TMapLayer;
+    FHabourlayer: TMapLayer;
     FTrackLayer: TMapLayer;
     FCleanupThread: TFileCleanupThread;
 
@@ -896,6 +897,11 @@ begin
   sbMain.Panels[2].Width := size;
 end;
 
+procedure TfrmMain.spHorizontal1Moved(Sender: TObject);
+begin
+  actMapZoomAreaExecute(Sender);
+end;
+
 procedure TfrmMain.stvTracksClick(Sender: TObject);
 begin
   FTrackSelected := True;
@@ -981,9 +987,9 @@ begin
   timRefreshRoot.Enabled := True;
 end;
 
-procedure TfrmMain.tbMapSportsClick(Sender: TObject);
+procedure TfrmMain.tbMapHabourClick(Sender: TObject);
 begin
-  FSportslayer.Visible := tbMapSports.Down;
+  FHabourlayer.Visible := tbMapHabour.Down;
 end;
 
 procedure TfrmMain.tbMapsSeamarksClick(Sender: TObject);
@@ -1014,8 +1020,8 @@ procedure TfrmMain.PopulateLayers();
 begin
   RegisterMapProvider('OpenSeaMap Seamarks', ptEPSG3857,
     'https://tiles.openseamap.org/seamark/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
-  RegisterMapProvider('OpenSeaMap Sports', ptEPSG3857,
-    'https://tiles.openseamap.org/sports/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
+  RegisterMapProvider('OpenSeaMap Habour', ptEPSG3857,
+    'https://t1.openseamap.org/habour/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
   RegisterMapProvider('OpenSeaMap Gebco', ptEPSG3857,
     'http://localhost:8580/gebco/tms/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
 
@@ -1029,10 +1035,10 @@ begin
   FSeamarkslayer.MapProvider := 'OpenSeaMap Seamarks';
   FSeamarkslayer.DrawMode := idmUseSourceAlpha;
 
-  FSportslayer := MapView1.Layers.Add as TMapLayer;
-  FSportslayer.Visible := False;
-  FSportslayer.MapProvider := 'OpenSeaMap Sports';
-  FSportslayer.DrawMode := idmUseSourceAlpha;
+  FHabourlayer := MapView1.Layers.Add as TMapLayer;
+  FHabourlayer.Visible := False;
+  FHabourlayer.MapProvider := 'OpenSeaMap Habour';
+  FHabourlayer.DrawMode := idmUseSourceAlpha;
 
   FTrackLayer := MapView1.Layers.Add as TMapLayer;
   FTrackLayer.Visible := False;

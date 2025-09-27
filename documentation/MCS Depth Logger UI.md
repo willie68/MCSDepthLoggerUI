@@ -1,6 +1,6 @@
 # MCS Depth Logger UI
 
-![Hauptbildschirm](./sc01.png)
+![Hauptfenster](C:\e-platte\daten\git-sourcen\MCSDepthLoggerUI\documentation\sc01.png)
 
 Hallo, 
 
@@ -177,7 +177,7 @@ In der Kartenansicht kannst du dir die gesammelten Daten anschauen. Du kannst au
 
 In der gleichen Zeile findest du noch die Zoom-Tasten (![zoom11_ico](zoom11_ico.png)![zoom10_ico](zoom10_ico.png)) sowie einen Knopf, um die Karte auf den Ausschnitt des Tracks zurück zu stellen.  ![expand7_ico](expand7_ico.png)
 
-Danach folgen verschiedene Kartenoverlays. Zunächst der Seamark Layer, der die Seezeichen, also Tonnen, Leuchttürme usw. enthält. ![boat_ico](boat_ico.png) (Quelle: https://wiki.openseamap.org/wiki/OpenSeaMap-dev:Layers)
+Danach folgen verschiedene Kartenoverlays. Zunächst der Seamark Layer, der die Seezeichen, also Tonnen, Leuchttürme usw. enthält. ![lighthouse](lighthouse.png) (Quelle: https://wiki.openseamap.org/wiki/OpenSeaMap-dev:Layers)
 
 Mit ![wifi10_ico](wifi10_ico.png) wird der Seetiefenlayer gestartet. Dieser Service ist im Gegensatz zu allen anderen kein klassischer TMS Service, sonder ein sog. WMS Service. Um diesen darzustellen wird automatisch ein kleines Programm gestartet, gomapproxy, dass zwischen der Kartenansicht und dem Server vermittelt. Wenn dieses Programm läuft, wird in der Statusbar ebenfalls ein ![wifi10_ico](wifi10_ico.png) dargestellt. ![map proxy](sc07_mapproxy.png) 
 
@@ -189,7 +189,7 @@ Start und Ende werden mit kleinen Fähnchen markiert. Unausgefüllt für den Sta
 
 Unter dem Track befindet sich dann die Tiefenansicht. Du kannst, wie auch bei anderen Elementen in der Oberfläche die Größe des Elementes einstellen. Dazu gibt es zwischen der Karte und der Tiefenanzeige einen kleinen Schieber (das Dingen mit den kleinen Punkten) Auf der X-Asche siehst du die Uhrzeiten auf der Y-Achse die jeweilige Wassertiefe. (Normalerweise im negativen Bereich)
 
-![image-20250926164056232](sc09_trackmap.png)
+![](sc09_trackmap.png)
 
 ## Dateneditor
 
