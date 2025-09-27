@@ -12,6 +12,7 @@ object frmMain: TfrmMain
   Menu = MainMenu1
   SessionProperties = 'cbAutoAnalyse.Checked;cbAutoMap.Checked;Height;Left;pLeft.Width;pMapBottom.Height;pRight.Width;Top;Width;pTop.Height'
   ShowHint = True
+  LCLVersion = '4.2.0.0'
   Scaled = False
   OnActivate = FormActivate
   OnCreate = FormCreate
@@ -442,7 +443,7 @@ object frmMain: TfrmMain
         end
         object ToolButton12: TToolButton
           Left = 308
-          Height = 32
+          Height = 8
           Top = 2
           Caption = 'ToolButton12'
           Style = tbsSeparator
@@ -517,7 +518,7 @@ object frmMain: TfrmMain
     end
     object ToolButton10: TToolButton
       Left = 109
-      Height = 32
+      Height = 8
       Top = 2
       Caption = 'ToolButton10'
       Style = tbsSeparator
@@ -534,7 +535,7 @@ object frmMain: TfrmMain
     end
     object ToolButton14: TToolButton
       Left = 261
-      Height = 32
+      Height = 8
       Top = 2
       Caption = 'ToolButton14'
       Style = tbsSeparator
@@ -556,7 +557,7 @@ object frmMain: TfrmMain
     end
     object ToolButton18: TToolButton
       Left = 457
-      Height = 32
+      Height = 8
       Top = 2
       Caption = 'ToolButton18'
       Style = tbsSeparator
@@ -588,7 +589,7 @@ object frmMain: TfrmMain
     end
     object ToolButton23: TToolButton
       Left = 305
-      Height = 32
+      Height = 8
       Top = 2
       Caption = 'ToolButton23'
       Style = tbsSeparator

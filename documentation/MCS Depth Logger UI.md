@@ -87,7 +87,7 @@ Oder aber du verwendest die in diesem Programm eingebaute Funktion.
 
 ### Konfiguration
 
-![](lg_settings.png)
+![Konfiguration](lg_settings.png)
 
 Zunächst musst du die Baudrate des Gerätes an Port A angeben. Falls dein Geräte Seatalk verwendet, selektiere bitte die Checkbox Seatalk, verwende zusätzlich am Anschluss A den Seatalk Treiber und steck im Geräte den Jumper um. Eine Baudrate brauchst du nicht einzustellen.
 Die Default-Baudrate liegt bei 4800 Baud.
@@ -100,6 +100,12 @@ Versorgungsspannungsdaten dienen der Analyse von Probleme bei der Spannungsverso
 
 **Fahrzeug-ID**
 (optional) Wenn dein Fahrzeug auf der OpenSeaMap Seite registriert ist, kannst du hier deine ID eingeben. Diese ID wird dann im Logger gespeichert und mit in die Datendateien geschrieben.
+
+**Optionen:** In den Optionen können spezielle zusätzliche Optionen gesetzt werden.
+
+**Kartenlabel:** Gib hier dein neues Kartenlabel ein. Das neue Label hat bis zu 11 Zeichen. 
+
+**SD Karte formatieren:** vor dem Schreiben der Konfiguration wird die SD Karte neu formatiert. ACHTUNG: Damit werden natürlich alle bisher vorhandenen Daten gelöscht.  
 
 Über Werkseinstellungen setzt du deine gemachten Einstellungen wieder auf den Standard zurück. Mit OK wird mit den eingegebenen Daten eine neue Konfiguration erzeugt und auf die SD Karte geschrieben, Abbrechen bricht den Vorgang ab.
 
@@ -129,7 +135,7 @@ Hier kannst du auch alte Backup wieder zurück auf eine Karte schreiben.  ![reve
 
 Und du kannst Backups löschen. ![bin3_ico](bin3_ico.png)
 
-![refresh1_ico](refresh1_ico.png) Refreshed die Ansicht und ![folder8_ico](folder8_ico.png) startet den Explorer in dem Backupverzeichnis. Ein Backup kann auch auf einer anderen SD Karte (z.B: mit mehr Speicherplatz) wiederhergestellt werden. Backups sind einfache Zipdateien mit allen Dateien, die sich auf der SD Karte beim Backup befanden. (No Magic behind)
+![refresh1_ico](refresh1_ico.png) Refreshed die Ansicht und ![folder8_ico](folder8_ico.png) startet den Explorer in dem Backupverzeichnis. Ein Backup kann auch auf einer anderen SD Karte (z.B: mit mehr Speicherplatz) wiederhergestellt werden. Backups sind einfache Zipdateien mit allen Dateien, die sich auf der SD Karte beim Backup befanden. (No Magic behind)
 
 ## Tracks
 
@@ -139,11 +145,16 @@ Du kannst mit Hilfe dieses Programm, deine Fahrten als Tracks verwalten. Da der 
 
 Um einen neuen Track zu erzeugen, markiere die Datendateien, die du gerne zusammenfassen möchtest und drücke auf `neuen Track erzeugen`![plus3_ico](plus3_ico.png)Keine Sorge, wenn du mal eine Datei vergessen hast. Diese kannst du später immer noch hinzufügen.
 
-![new track](sc04_newtrack.png)
+![new Track](sc04_newtrack.png)
 
-Gib jetzt die erforderlichen Daten ein. Die **Gruppe** ist dabei das Verzeichnis (ab dem Trackdatenverzeichnis), wo die Datei abgelegt werden soll. Möchtest du eine neue GRuppe anlegen, gibt einfach in dem Feld Gruppe den neuen Namen an. Für die hierachische Unterteilung verwende bitte / oder \. 
+Gib jetzt die erforderlichen Daten ein. 
+
+Die **Gruppe** ist dabei das Verzeichnis (ab dem Trackdatenverzeichniss), wo die Datei abgelegt werden soll. Möchtest du eine neue Gruppe anlegen, gibt einfach in dem Feld Gruppe den neuen Namen an. Für die hierarchische Unterteilung verwende bitte / oder \. 
+
 **Name** gibt den Tracknamen an, und ist auch gleichzeitig der Dateiname. 
-**Beschreibung** läßt dir die Möglichkeit für den Track eine Beschreibung anzugeben. 
+
+**Beschreibung** lässt dir die Möglichkeit für den Track eine Beschreibung anzugeben. 
+
 Die **Fahrzeug-ID** ist wiederum später wichtig, wenn du Tracks zu OpenSeaMap hochladen möchtest. Alle diese Daten werden in der Trackdatei (auch eine einfache ZIP Datei) als `track.json` gespeichert. Weiterhin sind alle ausgewählten Datendatei in der ZIP enthalten und eine spezielle `track.nmea` Datei, die alle relevanten Datenpunkte für diesen Track enthält.
 
 ### Daten hinzufügen
@@ -156,7 +167,7 @@ Solltest du doch einmal eine oder mehrere Datendateien vergessen haben, ist das 
 
 ![Export](sc05_export.png)
 
-Oben im Dialog steht noch einmal der Name des Tracks. Dann folgt eine Box mit den möglichen Formaten. Darunter kannst du die Ausgabedatei festlegen. Über den ![Auswahlknopf](sc05_export_path.png) Knopf kannst du dir das Verzeichnis und den Dateinamen aussuchen.
+Oben im Dialog steht noch einmal der Name des Tracks. Dann folgt eine Box mit den möglichen Formaten. Darunter kannst du die Ausgabedatei festlegen. Über den ![Auswahlknopf](sc05_export_path.png) Knopf kannst du dir das Verzeichnis und den Dateinamen aussuchen.
 
 ## Kartenansicht
 
@@ -190,7 +201,7 @@ Möchtest du eine Datendatei anschauen oder editieren, geht das mit dem ![compos
 
 In die Einstellungen gelangst du mit dem ![settings_ico](settings_ico.png)Knopf. 
 
-![Allgemein](sc11_set1.png)
+![Einstellungen](sc11_set1.png)
 
 Es gibt verschiedene Reiter mit Einstellungen. 
 
