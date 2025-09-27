@@ -600,17 +600,25 @@ end;
 
 procedure TfrmMain.actConfigExecute(Sender: TObject);
 var
-  mr, vid: integer;
+  vid: integer;
 begin
   frmLoggerConfig.SetLoggerCFG(HWLogger.LoggerCFG());
   vid := JSONPropStorage1.ReadInteger(VESSEL_ID, 0);
   if (frmLoggerConfig.VesselID = 0) and (vid <> 0) then
     frmLoggerConfig.VesselID := vid;
-  mr := frmLoggerConfig.ShowModal();
-  if mr = mrOk then
+  if frmLoggerConfig.ShowModal() = mrOk then
   begin
-    HWLogger.SetLoggerCFG(frmLoggerConfig.LoggerCFG());
-    HWLogger.Write();
+    frmWait.Show();
+    Application.ProcessMessages;
+    try
+      HWLogger.SetLoggerCFG(frmLoggerConfig.LoggerCFG());
+      HWLogger.Write(frmLoggerConfig.Format, frmLoggerConfig.SDLabel);
+      MessageDlg('Konfiguration',
+        'Die neue Konfiguration wurde auf die Karte geschrieben.', mtInformation,
+        [mbOK], '');
+    finally
+      frmWait.Hide;
+    end;
   end;
 end;
 

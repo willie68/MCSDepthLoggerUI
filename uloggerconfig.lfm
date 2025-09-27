@@ -1,11 +1,11 @@
 object frmLoggerConfig: TfrmLoggerConfig
   Left = 604
-  Height = 534
+  Height = 586
   Top = 42
   Width = 554
   BorderStyle = bsToolWindow
   Caption = 'Konfiguration des Loggers'
-  ClientHeight = 534
+  ClientHeight = 586
   ClientWidth = 554
   DesignTimePPI = 120
   KeyPreview = True
@@ -16,7 +16,7 @@ object frmLoggerConfig: TfrmLoggerConfig
   object Panel2: TPanel
     Left = 0
     Height = 62
-    Top = 472
+    Top = 524
     Width = 554
     Align = alBottom
     ClientHeight = 62
@@ -57,19 +57,19 @@ object frmLoggerConfig: TfrmLoggerConfig
   end
   object Panel1: TPanel
     Left = 0
-    Height = 182
+    Height = 152
     Top = 0
     Width = 554
     Align = alTop
-    ClientHeight = 182
+    ClientHeight = 152
     ClientWidth = 554
     ParentBackground = False
     TabOrder = 1
     object Image1: TImage
       Left = 6
-      Height = 128
+      Height = 138
       Top = 6
-      Width = 224
+      Width = 186
       Anchors = [akTop, akLeft, akRight, akBottom]
       AutoSize = True
       Picture.Data = {
@@ -7280,11 +7280,11 @@ object frmLoggerConfig: TfrmLoggerConfig
       Proportional = True
     end
     object Label2: TLabel
-      Left = 246
-      Height = 164
-      Top = 11
-      Width = 303
-      Anchors = [akTop, akLeft, akRight]
+      Left = 206
+      Height = 135
+      Top = 6
+      Width = 343
+      Anchors = [akTop, akRight]
       AutoSize = False
       BorderSpacing.Around = 2
       BorderSpacing.InnerBorder = 2
@@ -7294,68 +7294,69 @@ object frmLoggerConfig: TfrmLoggerConfig
   end
   object Panel3: TPanel
     Left = 0
-    Height = 290
-    Top = 182
+    Height = 372
+    Top = 152
     Width = 554
     Align = alClient
-    ClientHeight = 290
+    ClientHeight = 372
     ClientWidth = 554
     TabOrder = 2
     object Label1: TLabel
-      Left = 98
+      Left = 71
       Height = 20
-      Top = 11
+      Top = 10
       Width = 115
       Alignment = taRightJustify
       Caption = 'Baudrate Kanal A'
       FocusControl = cbBaudA
     end
     object Label4: TLabel
-      Left = 164
+      Left = 138
       Height = 20
-      Top = 46
+      Top = 45
       Width = 48
       Alignment = taRightJustify
       Caption = 'Seatalk'
     end
     object Label5: TLabel
-      Left = 99
+      Left = 73
       Height = 20
-      Top = 80
+      Top = 79
       Width = 114
       Alignment = taRightJustify
       Caption = 'Baudrate Kanal B'
       FocusControl = cbBaudB
     end
     object Label6: TLabel
-      Left = 156
+      Left = 131
       Height = 20
-      Top = 120
+      Top = 117
       Width = 55
       Alignment = taRightJustify
       Caption = 'Features'
     end
     object Label7: TLabel
-      Left = 148
+      Left = 106
       Height = 20
-      Top = 206
-      Width = 64
+      Top = 205
+      Width = 80
       Alignment = taRightJustify
-      Caption = 'Schiffs-ID'
+      Caption = 'Fahrzeug-ID'
       FocusControl = sedVesselID
     end
     object Label8: TLabel
-      Left = 229
+      Left = 206
       Height = 20
-      Top = 240
+      Top = 237
       Width = 294
       Caption = 'Parameter mit * sind Loggervoreinstellungen'
     end
     object cbBaudA: TComboBox
-      Left = 222
+      Left = 206
       Height = 28
-      Top = 11
-      Width = 289
+      Top = 8
+      Width = 337
+      Anchors = [akTop, akLeft, akRight]
       ItemHeight = 20
       Items.Strings = (
         'deaktiviert'
@@ -7369,19 +7370,20 @@ object frmLoggerConfig: TfrmLoggerConfig
       TabOrder = 0
     end
     object cbSeatalk: TCheckBox
-      Left = 229
+      Left = 206
       Height = 24
       Hint = 'Seatalk für Kanal A aktiviert'
-      Top = 46
+      Top = 43
       Width = 126
       Caption = 'Seatalk aktiviert'
       TabOrder = 1
     end
     object cbBaudB: TComboBox
-      Left = 222
+      Left = 206
       Height = 28
-      Top = 80
-      Width = 289
+      Top = 77
+      Width = 337
+      Anchors = [akTop, akLeft, akRight]
       ItemHeight = 20
       Items.Strings = (
         'deaktiviert'
@@ -7393,20 +7395,23 @@ object frmLoggerConfig: TfrmLoggerConfig
       TabOrder = 2
     end
     object sedVesselID: TSpinEdit
-      Left = 224
+      Left = 208
       Height = 28
-      Top = 206
-      Width = 288
-      TabOrder = 3
+      Hint = 'Fahrzeug-ID'
+      Top = 203
+      Width = 336
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 4
     end
     object GroupBox1: TGroupBox
-      Left = 222
+      Left = 206
       Height = 91
-      Top = 109
-      Width = 289
+      Top = 106
+      Width = 337
+      Anchors = [akTop, akLeft, akRight]
       ClientHeight = 66
-      ClientWidth = 285
-      TabOrder = 4
+      ClientWidth = 333
+      TabOrder = 3
       object cbGyro: TCheckBox
         Left = 11
         Height = 24
@@ -7424,6 +7429,45 @@ object frmLoggerConfig: TfrmLoggerConfig
         Width = 256
         Caption = 'schreibe Versorgungspannugsdaten'
         TabOrder = 1
+      end
+    end
+    object GroupBox2: TGroupBox
+      Left = 208
+      Height = 88
+      Top = 272
+      Width = 335
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'Optionen'
+      ClientHeight = 63
+      ClientWidth = 331
+      TabOrder = 5
+      object cbFormat: TCheckBox
+        Left = 13
+        Height = 24
+        Hint = 'formatiert die SD Karte mit FAT32 neu. ACHTUNG: Datenverlust'
+        Top = 32
+        Width = 161
+        Caption = 'SD Karte formatieren'
+        TabOrder = 1
+        OnChange = cbFormatChange
+      end
+      object Label9: TLabel
+        Left = 13
+        Height = 20
+        Top = 2
+        Width = 76
+        Caption = 'Kartenlabel'
+      end
+      object edLabel: TEdit
+        Left = 96
+        Height = 28
+        Hint = 'neues Label für die SD Karte'
+        Top = 0
+        Width = 224
+        Anchors = [akTop, akLeft, akRight]
+        CharCase = ecUppercase
+        MaxLength = 11
+        TabOrder = 0
       end
     end
   end

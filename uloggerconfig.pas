@@ -21,7 +21,10 @@ type
     cbBaudA: TComboBox;
     cbGyro: TCheckBox;
     cbSupply: TCheckBox;
+    cbFormat: TCheckBox;
+    edLabel: TEdit;
     GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
     Image1: TImage;
     Label1: TLabel;
     Label2: TLabel;
@@ -31,16 +34,20 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
     sedVesselID: TSpinEdit;
     procedure btnDefaultClick(Sender: TObject);
+    procedure cbFormatChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
   private
     FLoggerConfig: TLoggerConfig;
+    FFormat: boolean;
+    FSDLabel: string;
     function GetVesselID: integer;
     procedure SetVesselID(AValue: integer);
   public
@@ -48,6 +55,8 @@ type
     procedure SetLoggerCFG(newcfg: TLoggerConfig);
   published
     property VesselID: integer read GetVesselID write SetVesselID;
+    property Format: boolean read FFormat;
+    property SDLabel: string read FSDLabel;
   end;
 
 function BaudToIndex(baud: integer): integer;
@@ -100,6 +109,8 @@ begin
     FLoggerConfig.Gyro := cbGyro.Checked;
     FLoggerConfig.Supply := cbSupply.Checked;
     FLoggerConfig.VesselID := sedVesselID.Value;
+    FFormat := cbFormat.Checked;
+    FSDLabel := edLabel.Text;
   end;
 end;
 
@@ -117,6 +128,19 @@ begin
   cbGyro.Checked := True;
   cbSupply.Checked := False;
   sedVesselID.Value := FLoggerConfig.VesselID;
+  edLabel.Text := '';
+  cbFormat.Checked := False;
+end;
+
+procedure TFrmLoggerConfig.cbFormatChange(Sender: TObject);
+begin
+  if cbFormat.Checked then
+  begin
+    if MessageDlg('Achtung', 'Mit diesem Schalter wird die SD Karte nue formatiert. Dadurch werden alle Daten gelöscht. Möchtest du das wirklich?', mtWarning, mbOKCancel, '' ) <> mrOK then
+    begin
+      cbFormat.Checked:= false;
+    end;
+  end;
 end;
 
 procedure TFrmLoggerConfig.FormShow(Sender: TObject);
@@ -127,6 +151,8 @@ begin
   cbGyro.Checked := FLoggerConfig.Gyro;
   cbSupply.Checked := FLoggerConfig.Supply;
   sedVesselID.Value := FLoggerConfig.VesselID;
+  edLabel.Text := '';
+  cbFormat.Checked := False;
 end;
 
 function TFrmLoggerConfig.GetVesselID: integer;

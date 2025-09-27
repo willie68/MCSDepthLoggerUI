@@ -7284,9 +7284,9 @@ object frmPreferences: TfrmPreferences
     Height = 265
     Top = 182
     Width = 631
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Align = alClient
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Allgemein'
@@ -7305,20 +7305,20 @@ object frmPreferences: TfrmPreferences
         TabOrder = 0
       end
       object Label1: TLabel
-        Left = 15
+        Left = 21
         Height = 20
-        Top = 22
-        Width = 121
-        Caption = 'Datenverzeichniss:'
+        Top = 23
+        Width = 112
+        Caption = 'Datenverzeichnis'
         FocusControl = deDatafolder
       end
       object Label7: TLabel
-        Left = 72
+        Left = 53
         Height = 20
-        Top = 58
-        Width = 64
+        Top = 60
+        Width = 80
         Alignment = taRightJustify
-        Caption = 'Schiffs-ID'
+        Caption = 'Fahrzeug-ID'
         FocusControl = sedVesselID
       end
       object sedVesselID: TSpinEdit
@@ -7341,7 +7341,7 @@ object frmPreferences: TfrmPreferences
           Left = 10
           Height = 24
           Hint = 'Schaltet das debuglog ein. (App-Restart erforderlich)'
-          Top = 10
+          Top = 12
           Width = 148
           Caption = 'Logdatei aktivieren'
           TabOrder = 0
@@ -7456,9 +7456,9 @@ object frmPreferences: TfrmPreferences
       ClientHeight = 232
       ClientWidth = 623
       object Label6: TLabel
-        Left = 11
+        Left = 40
         Height = 20
-        Top = 11
+        Top = 13
         Width = 74
         Caption = 'Kachelalter'
       end

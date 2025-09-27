@@ -95,7 +95,7 @@ type
     destructor Destroy(); override;
     function Version(): string;
     procedure Read();
-    procedure Write();
+    procedure Write(Format: boolean; SDLabel: string);
     function LoggerCFG(): TLoggerConfig;
     procedure SetLoggerCFG(newcfg: TLoggerConfig);
     function Check(filename: string): TLoggerCheckResult;
@@ -208,7 +208,7 @@ begin
 end;
 
 {Writing the actual configuration to the sd card }
-procedure TMCSLogger.Write();
+procedure TMCSLogger.Write(Format: boolean; SDLabel: string);
 var
   Output: string;
   Data: TJSONData;
@@ -232,6 +232,15 @@ begin
   begin
     AddParam(params, '--vesselid');
     AddParam(params, IntToStr(FCfg.VesselID));
+  end;
+  if SDLabel <> '' then
+  begin
+    AddParam(params, '--sdlabel');
+    AddParam(params, SDLabel);
+  end;
+  if Format then
+  begin
+    AddParam(params, '--sdformat');
   end;
 
   if RunCommand('osml', params, Output, [poNoConsole]) then
