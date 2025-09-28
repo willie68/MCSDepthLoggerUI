@@ -131,6 +131,7 @@ object frmMain: TfrmMain
         ObjectTypes = [otFolders, otNonFolders]
         OnAddItem = stvTracksAddItem
         OnClick = stvTracksClick
+        OnDblClick = stvTracksDblClick
         OnSelectionChanged = stvTracksSelectionChanged
       end
       object Label3: TLabel
@@ -390,12 +391,12 @@ object frmMain: TfrmMain
           TabOrder = 0
           OnChange = cbProviderChange
         end
-        object tbtnZoomOut: TToolButton
+        object tbMapZoomOut: TToolButton
           Left = 236
           Top = 2
           Action = acZoomOut
         end
-        object tbtnZoomIn: TToolButton
+        object tbMapZoomIn: TToolButton
           Left = 200
           Top = 2
           Action = acZoomIn
@@ -408,19 +409,19 @@ object frmMain: TfrmMain
           BevelOuter = bvNone
           TabOrder = 1
         end
-        object ToolButton3: TToolButton
+        object tbMapZoomOnArea: TToolButton
           Left = 272
           Top = 2
           Action = actMapZoomArea
         end
-        object tbMapsSeamarks: TToolButton
+        object tbMapSeamarks: TToolButton
           Left = 316
           Hint = 'Seezeichen anzeigen'
           Top = 2
           Caption = 'Seezeichen'
           ImageIndex = 31
           Style = tbsCheck
-          OnClick = tbMapsSeamarksClick
+          OnClick = tbMapSeamarksClick
         end
         object tbMapHabour: TToolButton
           Left = 352
@@ -480,40 +481,40 @@ object frmMain: TfrmMain
     Images = ImageList
     TabOrder = 6
     OnResize = tbMainResize
-    object ToolButton1: TToolButton
-      Left = 671
+    object tbExit: TToolButton
+      Left = 707
       Top = 2
       Action = actExit
     end
-    object ToolButton2: TToolButton
-      Left = 743
+    object tbHelp: TToolButton
+      Left = 779
       Top = 2
       Action = actHelp
       ImageIndex = 15
     end
-    object ToolButton4: TToolButton
-      Left = 707
+    object tbInfo: TToolButton
+      Left = 743
       Top = 2
       Action = actAbout
     end
-    object ToolButton5: TToolButton
+    object tbUpload: TToolButton
       Left = 1
       Top = 2
       Action = actUpload
     end
-    object ToolButton6: TToolButton
+    object tbLGConfig: TToolButton
       Left = 37
       Top = 2
       Action = actConfig
     end
-    object ToolButton8: TToolButton
+    object tbSDManagment: TToolButton
       Left = 73
       Top = 2
       Action = actSDManagement
       ImageIndex = 14
     end
-    object ToolButton9: TToolButton
-      Left = 269
+    object tbShowOnMap: TToolButton
+      Left = 233
       Top = 2
       Action = actMapShow
     end
@@ -524,47 +525,47 @@ object frmMain: TfrmMain
       Caption = 'ToolButton10'
       Style = tbsSeparator
     end
-    object ToolButton11: TToolButton
+    object tbTimeStampData: TToolButton
       Left = 117
       Top = 2
       Action = actTimestamp
     end
-    object ToolButton13: TToolButton
-      Left = 153
+    object rbExportTrack: TToolButton
+      Left = 385
       Top = 2
       Action = actExport
     end
     object ToolButton14: TToolButton
-      Left = 261
+      Left = 225
       Height = 32
       Top = 2
       Caption = 'ToolButton14'
       Style = tbsSeparator
     end
-    object ToolButton15: TToolButton
-      Left = 313
+    object tbNewTrack: TToolButton
+      Left = 277
       Top = 2
       Action = actNewTrack
     end
-    object ToolButton16: TToolButton
-      Left = 349
+    object tbAddTrack: TToolButton
+      Left = 313
       Top = 2
       Action = actAdd2Track
     end
-    object ToolButton17: TToolButton
-      Left = 465
+    object tbSettings: TToolButton
+      Left = 501
       Top = 2
       Action = actPreferences
     end
     object ToolButton18: TToolButton
-      Left = 457
+      Left = 493
       Height = 32
       Top = 2
       Caption = 'ToolButton18'
       Style = tbsSeparator
     end
     object Panel7: TPanel
-      Left = 501
+      Left = 537
       Height = 32
       Top = 2
       Width = 170
@@ -573,32 +574,37 @@ object frmMain: TfrmMain
       ParentBackground = False
       TabOrder = 0
     end
-    object ToolButton20: TToolButton
-      Left = 421
+    object tbReloadTracks: TToolButton
+      Left = 457
       Top = 2
       Action = actTracksReload
     end
-    object ToolButton19: TToolButton
-      Left = 385
+    object tbRemoveTrack: TToolButton
+      Left = 421
       Top = 2
       Action = actTrackDelete
     end
-    object ToolButton22: TToolButton
-      Left = 189
+    object tbAnalyseData: TToolButton
+      Left = 153
       Top = 2
       Action = actAnalyse
     end
     object ToolButton23: TToolButton
-      Left = 305
+      Left = 269
       Height = 32
       Top = 2
       Caption = 'ToolButton23'
       Style = tbsSeparator
     end
-    object ToolButton7: TToolButton
-      Left = 225
+    object tbEditData: TToolButton
+      Left = 189
       Top = 2
       Action = actEdit
+    end
+    object tbViewTrack: TToolButton
+      Left = 349
+      Top = 2
+      Action = actTrackView
     end
   end
   object MainMenu1: TMainMenu
@@ -876,6 +882,12 @@ object frmMain: TfrmMain
       ImageIndex = 8
       OnExecute = actEditExecute
     end
+    object actTrackView: TAction
+      Category = 'Tracks'
+      Caption = 'actTrackView'
+      ImageIndex = 30
+      OnExecute = actTrackViewExecute
+    end
   end
   object timRefreshRoot: TTimer
     Interval = 100
@@ -893,8 +905,8 @@ object frmMain: TfrmMain
   object DateTimeIntervalChartSource1: TDateTimeIntervalChartSource
     Params.Count = 100
     Params.MaxLength = 120
-    Left = 816
-    Top = 192
+    Left = 752
+    Top = 496
   end
   object timStatusbar: TTimer
     Interval = 3000
@@ -1190,8 +1202,8 @@ object frmMain: TfrmMain
     }
   end
   object ilStatus: TImageList
-    Left = 741
-    Top = 367
+    Left = 792
+    Top = 184
     Bitmap = {
       4C7A010000001000000010000000970100000000000078DA8D93BF4B02611CC6
       4F4AB02D6E081C3203C929CC2D22C443504F2468F17FB8391C6A106DD5C13F20
@@ -1208,18 +1220,5 @@ object frmMain: TfrmMain
       DE1AFD1D64AB4BCEAF4A6F8D3EFFC30AF8F1743957E8ADEAF7FB7D05F73C85FC
       107C0A436AF416F37FA68E89DE
     }
-  end
-  object HTMLHelpDatabase1: THTMLHelpDatabase
-    BaseURL = 'http://rcarduino.de'
-    AutoRegister = True
-    KeywordPrefix = 'html'
-    Left = 640
-    Top = 108
-  end
-  object HTMLBrowserHelpViewer1: THTMLBrowserHelpViewer
-    BrowserParams = '%s'
-    AutoRegister = True
-    Left = 704
-    Top = 108
   end
 end

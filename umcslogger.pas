@@ -23,6 +23,7 @@ type
     Filename: string;
     Size: int64;
     Date: TDateTime;
+    Hash: string;
   end;
 
   TLoggerDataFileArray = array of TLoggerDataFile;
@@ -60,6 +61,8 @@ type
     Name: string;
     Description: string;
     VesselID: integer;
+    Files: TLoggerDataFileArray;
+    Mapfile: string;
   end;
 
   TLoggerTrack = record
@@ -107,6 +110,7 @@ type
     procedure Touch(filenames: TStrings);
     procedure Add2Track(track: string; filenames: TStrings);
     procedure ExportTrack(track, output, format: string);
+    function ListTrack(track: string): TLoggerTrackInfo;
   published
     property IsLoggerCard: boolean read FLoggerCard;
     property SDRoot: string read FRootpath write InitCard;
@@ -661,7 +665,7 @@ begin
     AddParam(params, track.Name);
     AddParam(params, '-d');
     AddParam(params, track.Description);
-    AddParam(params, '-v');
+    AddParam(params, '--vesselid');
     AddParam(params, IntToStr(track.VesselID));
     AddParam(params, '-t');
     AddParam(params, path);
@@ -846,6 +850,69 @@ begin
           MessageDlg('Track nicht erfolgreich exportiert, OSML Meldung:' +
             sLineBreak + StringArrayToMessageString(osmlResult.Messages),
             mtError, [mbOK], 0);
+      end
+      else
+        MessageDlg('Genereller Fehler!' + sLineBreak + sLineBreak +
+          exec.Output, mtError, [mbOK], 0);
+    finally
+      exec.Free();
+    end;
+  end;
+end;
+
+function TMCSLogger.ListTrack(track: string): TLoggerTrackInfo;
+var
+  Data: TJSONData;
+  Obj: TJSONObject;
+  filename: string;
+  i: integer;
+  params: TProcessStringArray;
+  exec: TExecOSMLThread;
+  FilesArray: TJSONArray;
+  FileObj: TJSONObject;
+begin
+  if FLoggerCard then
+  begin
+    SetLength(params, 4);
+    params[0] := 'track';
+    params[1] := 'list';
+    params[2] := '-t';
+    params[3] := track;
+
+    exec := TExecOSMLThread.Create(params);
+    try
+      exec.WaitFor;
+      if exec.Ok then
+      begin
+        try
+          try
+            DebugWriteJsonOutput(exec.Output);
+            Data := GetJSON(exec.Output);
+            if Data.JSONType = jtObject then
+            begin
+              Obj := TJSONObject(Data);
+              Result.Name := Obj.Get('name', '');
+              Result.Description := Obj.Get('description', '');
+              Result.Mapfile := Obj.Get('map_file', '');
+              Result.VesselID := Obj.Get('vessel_id', 0);
+              FilesArray := Obj.Arrays['files'];
+              SetLength(Result.Files, FilesArray.Count);
+              for i := 0 to FilesArray.Count - 1 do
+              begin
+                FileObj := FilesArray.Objects[i];
+                Result.Files[i].Filename := FileObj.Get('file_name', '');
+                Result.Files[i].Size := FileObj.Get('size', -1);
+                Result.Files[i].Date := ISO8601ToDate(FileObj.Get('modified', '1970-01-01T00:00:00+00:00'));
+              end;
+            end;
+          except
+            on e: Exception do
+              MessageDlg('Fehler beim Parsen der osml Antwort.' +
+                sLineBreak + exec.Output + sLineBreak + e.Message, mtError, [mbOK], 0);
+          end;
+        finally
+          Data.Free;
+        end;
       end
       else
         MessageDlg('Genereller Fehler!' + sLineBreak + sLineBreak +
