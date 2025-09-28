@@ -1,64 +1,77 @@
 object frmTrackEdit: TfrmTrackEdit
   Left = 315
-  Height = 409
+  Height = 511
   Top = 250
-  Width = 437
+  Width = 546
   BorderStyle = bsToolWindow
   Caption = 'Track anlegen'
-  ClientHeight = 409
-  ClientWidth = 437
+  ClientHeight = 511
+  ClientWidth = 546
+  DesignTimePPI = 120
   KeyPreview = True
   Position = poMainFormCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnHide = FormHide
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   object Panel2: TPanel
     Left = 0
-    Height = 50
-    Top = 359
-    Width = 437
+    Height = 62
+    Top = 449
+    Width = 546
     Align = alBottom
-    ClientHeight = 50
-    ClientWidth = 437
+    ClientHeight = 62
+    ClientWidth = 546
     TabOrder = 0
     object btnOK: TBitBtn
-      Left = 250
-      Height = 32
-      Top = 9
-      Width = 86
+      Left = 312
+      Height = 40
+      Top = 11
+      Width = 108
       Anchors = [akTop, akRight]
-      DefaultCaption = True
+      Caption = '&Ok'
       Kind = bkOK
       ModalResult = 1
       TabOrder = 0
     end
-    object BitBtn2: TBitBtn
-      Left = 340
-      Height = 32
-      Top = 9
-      Width = 86
+    object btnCancel: TBitBtn
+      Left = 424
+      Height = 40
+      Top = 11
+      Width = 108
       Anchors = [akTop, akRight]
-      DefaultCaption = True
+      Caption = 'Abbrechen'
       Kind = bkCancel
       ModalResult = 2
       TabOrder = 1
     end
+    object btnClose: TBitBtn
+      Left = 200
+      Height = 40
+      Top = 11
+      Width = 108
+      Caption = '&Schließen'
+      Kind = bkClose
+      ModalResult = 11
+      TabOrder = 2
+    end
   end
   object Panel1: TPanel
     Left = 0
-    Height = 146
+    Height = 182
     Top = 0
-    Width = 437
+    Width = 546
     Align = alTop
-    ClientHeight = 146
-    ClientWidth = 437
+    ClientHeight = 182
+    ClientWidth = 546
     ParentBackground = False
     TabOrder = 1
     object Image1: TImage
-      Left = 5
-      Height = 131
-      Top = 5
-      Width = 173
+      Left = 6
+      Height = 164
+      Top = 6
+      Width = 216
       Anchors = [akTop, akLeft, akRight, akBottom]
       AutoSize = True
       Picture.Data = {
@@ -7269,10 +7282,10 @@ object frmTrackEdit: TfrmTrackEdit
       Proportional = True
     end
     object Label2: TLabel
-      Left = 186
-      Height = 131
-      Top = 5
-      Width = 236
+      Left = 232
+      Height = 164
+      Top = 6
+      Width = 295
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Around = 2
@@ -7281,92 +7294,138 @@ object frmTrackEdit: TfrmTrackEdit
       WordWrap = True
     end
   end
-  object Panel3: TPanel
+  object pcTracks: TPageControl
     Left = 0
-    Height = 213
-    Top = 146
-    Width = 437
+    Height = 267
+    Top = 182
+    Width = 546
+    ActivePage = tsFiles
     Align = alClient
-    ClientHeight = 213
-    ClientWidth = 437
+    TabIndex = 1
     TabOrder = 2
-    object Label1: TLabel
-      Left = 137
-      Height = 15
-      Top = 40
-      Width = 32
-      Alignment = taRightJustify
-      Caption = 'Name'
-      FocusControl = edName
+    object tsGeneral: TTabSheet
+      Caption = 'Allgemein'
+      ClientHeight = 234
+      ClientWidth = 538
+      object Panel3: TPanel
+        Left = 0
+        Height = 234
+        Top = 0
+        Width = 538
+        Align = alClient
+        ClientHeight = 234
+        ClientWidth = 538
+        TabOrder = 0
+        object Label1: TLabel
+          Left = 163
+          Height = 20
+          Top = 52
+          Width = 40
+          Alignment = taRightJustify
+          Anchors = [akTop, akRight]
+          Caption = 'Name'
+          FocusControl = edName
+        end
+        object Label7: TLabel
+          Left = 123
+          Height = 20
+          Top = 196
+          Width = 80
+          Alignment = taRightJustify
+          Anchors = [akTop, akRight]
+          Caption = 'Fahrzeug-ID'
+          FocusControl = sedVesselID
+        end
+        object sedVesselID: TSpinEdit
+          Left = 224
+          Height = 28
+          Top = 194
+          Width = 288
+          TabOrder = 3
+        end
+        object edName: TEdit
+          Left = 224
+          Height = 28
+          Hint = 'Name des Tracks'
+          Top = 50
+          Width = 288
+          TabOrder = 1
+        end
+        object Label4: TLabel
+          Left = 154
+          Height = 20
+          Top = 12
+          Width = 49
+          Alignment = taRightJustify
+          Anchors = [akTop, akRight]
+          Caption = 'Gruppe'
+          FocusControl = cbGroup
+        end
+        object cbGroup: TComboBox
+          Left = 224
+          Height = 28
+          Top = 10
+          Width = 288
+          ItemHeight = 20
+          TabOrder = 0
+        end
+        object Label5: TLabel
+          Left = 114
+          Height = 20
+          Top = 92
+          Width = 89
+          Alignment = taRightJustify
+          Anchors = [akTop, akRight]
+          Caption = 'Beschreibung'
+        end
+        object mmDescription: TMemo
+          Left = 224
+          Height = 92
+          Top = 90
+          Width = 288
+          TabOrder = 2
+        end
+      end
     end
-    object Label7: TLabel
-      Left = 118
-      Height = 15
-      Top = 165
-      Width = 51
-      Alignment = taRightJustify
-      Caption = 'Schiffs-ID'
-      FocusControl = sedVesselID
+    object tsFiles: TTabSheet
+      Caption = 'Dateien'
+      ClientHeight = 234
+      ClientWidth = 538
+      object sgFiles: TStringGrid
+        Left = 0
+        Height = 234
+        Top = 0
+        Width = 538
+        Align = alClient
+        AutoEdit = False
+        ColCount = 3
+        ColumnClickSorts = True
+        Columns = <        
+          item
+            Title.Caption = 'Name'
+            Width = 171
+          end        
+          item
+            SizePriority = 0
+            Title.Caption = 'Größe'
+            Width = 80
+          end        
+          item
+            SizePriority = 0
+            Title.Caption = 'Datum'
+            Width = 205
+          end>
+        FixedCols = 0
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goSmoothScroll, goSelectionActive, goRowHighlight]
+        RangeSelectMode = rsmMulti
+        RowCount = 1
+        TabOrder = 0
+        ColWidths = (
+          171
+          80
+          205
+        )
+      end
     end
-    object Label8: TLabel
-      Left = 183
-      Height = 15
-      Top = 192
-      Width = 236
-      Caption = 'Parameter mit * sind Loggervoreinstellungen'
-    end
-    object sedVesselID: TSpinEdit
-      Left = 179
-      Height = 23
-      Top = 165
-      Width = 230
-      TabOrder = 3
-    end
-    object edName: TEdit
-      Left = 179
-      Height = 23
-      Hint = 'Name des Tracks'
-      Top = 40
-      Width = 230
-      TabOrder = 1
-    end
-    object Label4: TLabel
-      Left = 130
-      Height = 15
-      Top = 8
-      Width = 39
-      Alignment = taRightJustify
-      Caption = 'Gruppe'
-      FocusControl = cbGroup
-    end
-    object cbGroup: TComboBox
-      Left = 179
-      Height = 23
-      Top = 8
-      Width = 230
-      ItemHeight = 15
-      TabOrder = 0
-    end
-    object Label5: TLabel
-      Left = 97
-      Height = 15
-      Top = 72
-      Width = 72
-      Alignment = taRightJustify
-      Caption = 'Beschreibung'
-    end
-    object mmDescription: TMemo
-      Left = 179
-      Height = 74
-      Top = 72
-      Width = 230
-      TabOrder = 2
-    end
-  end
-  object Label3: TLabel
-    Left = 23
-    Height = 1
-    Top = 9
-    Width = 1
   end
 end

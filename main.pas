@@ -22,6 +22,7 @@ type
     actExport: TAction;
     actAbout: TAction;
     actEdit: TAction;
+    actTrackView: TAction;
     actMapZoomArea: TAction;
     acZoomIn: TAction;
     acZoomOut: TAction;
@@ -47,8 +48,6 @@ type
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     actHelp: THelpAction;
-    HTMLBrowserHelpViewer1: THTMLBrowserHelpViewer;
-    HTMLHelpDatabase1: THTMLHelpDatabase;
     ImageList: TImageList;
     ilStatus: TImageList;
     JSONPropStorage1: TJSONPropStorage;
@@ -107,33 +106,34 @@ type
     tbMain: TToolBar;
     tbMap: TToolBar;
     timStatusbar: TTimer;
-    ToolButton1: TToolButton;
+    tbExit: TToolButton;
+    tbViewTrack: TToolButton;
     ToolButton10: TToolButton;
-    ToolButton11: TToolButton;
+    tbTimeStampData: TToolButton;
     ToolButton12: TToolButton;
-    ToolButton13: TToolButton;
+    rbExportTrack: TToolButton;
     ToolButton14: TToolButton;
-    ToolButton15: TToolButton;
-    ToolButton16: TToolButton;
-    ToolButton17: TToolButton;
+    tbNewTrack: TToolButton;
+    tbAddTrack: TToolButton;
+    tbSettings: TToolButton;
     ToolButton18: TToolButton;
-    ToolButton19: TToolButton;
-    ToolButton2: TToolButton;
-    ToolButton20: TToolButton;
-    tbtnZoomIn: TToolButton;
-    tbtnZoomOut: TToolButton;
-    tbMapsSeamarks: TToolButton;
-    tbMapSports: TToolButton;
+    tbRemoveTrack: TToolButton;
+    tbHelp: TToolButton;
+    tbReloadTracks: TToolButton;
+    tbMapZoomIn: TToolButton;
+    tbMapZoomOut: TToolButton;
+    tbMapSeamarks: TToolButton;
+    tbMapHabour: TToolButton;
     tbMapDepth: TToolButton;
-    ToolButton22: TToolButton;
+    tbAnalyseData: TToolButton;
     ToolButton23: TToolButton;
-    ToolButton3: TToolButton;
-    ToolButton4: TToolButton;
-    ToolButton5: TToolButton;
-    ToolButton6: TToolButton;
-    ToolButton7: TToolButton;
-    ToolButton8: TToolButton;
-    ToolButton9: TToolButton;
+    tbMapZoomOnArea: TToolButton;
+    tbInfo: TToolButton;
+    tbUpload: TToolButton;
+    tbLGConfig: TToolButton;
+    tbEditData: TToolButton;
+    tbSDManagment: TToolButton;
+    tbShowOnMap: TToolButton;
     TrayIcon1: TTrayIcon;
     procedure actAboutExecute(Sender: TObject);
     procedure actAdd2TrackExecute(Sender: TObject);
@@ -150,6 +150,7 @@ type
     procedure actTrackDeleteExecute(Sender: TObject);
     procedure actTrackEditExecute(Sender: TObject);
     procedure actTracksReloadExecute(Sender: TObject);
+    procedure actTrackViewExecute(Sender: TObject);
     procedure actUploadExecute(Sender: TObject);
     procedure acZoomInExecute(Sender: TObject);
     procedure acZoomOutExecute(Sender: TObject);
@@ -167,7 +168,9 @@ type
     procedure sbMainDrawPanel(Statusbar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
     procedure sbMainResize(Sender: TObject);
+    procedure spHorizontal1Moved(Sender: TObject);
     procedure stvTracksClick(Sender: TObject);
+    procedure stvTracksDblClick(Sender: TObject);
     procedure stvTracksSelectionChanged(Sender: TObject);
     procedure timAfterStartTimer(Sender: TObject);
     procedure timStatusbarTimer(Sender: TObject);
@@ -175,9 +178,9 @@ type
       const AFileInfo: TSearchRec; var CanAdd: boolean);
     procedure tbMainResize(Sender: TObject);
     procedure tbMapResize(Sender: TObject);
-    procedure tbMapSportsClick(Sender: TObject);
+    procedure tbMapHabourClick(Sender: TObject);
     procedure timRefreshRootTimer(Sender: TObject);
-    procedure tbMapsSeamarksClick(Sender: TObject);
+    procedure tbMapSeamarksClick(Sender: TObject);
     procedure tbMapDepthClick(Sender: TObject);
   private
     FLog: TLogger;
@@ -189,9 +192,10 @@ type
     FMapProxy: TExecProxy;
     FDepthlayer: TMapLayer;
     FSeamarkslayer: TMapLayer;
-    FSportslayer: TMapLayer;
+    FHabourlayer: TMapLayer;
     FTrackLayer: TMapLayer;
     FCleanupThread: TFileCleanupThread;
+    FDataFiles: TLoggerDataFileArray;
 
     procedure SetMapProvider();
     procedure RefreshRootDrives();
@@ -389,15 +393,15 @@ end;
 procedure TfrmMain.PopulateFilesGrid();
 var
   i: integer;
-  dfa: TLoggerDataFileArray;
   df: TLoggerDataFile;
 begin
   sgFiles.Clean;
   sgFiles.RowCount := HWLogger.DataFileCount + 1;
-  dfa := HWLogger.DataFiles;
-  for i := 1 to length(dfa) do
+  Finalize(FDataFiles);
+  FDataFiles := HWLogger.DataFiles;
+  for i := 1 to length(FDataFiles) do
   begin
-    df := dfa[i - 1];
+    df := FDataFiles[i - 1];
     sgFiles.Cells[0, i] := df.Filename;
     sgFiles.Cells[1, i] := FormatBytes(df.Size);
     sgFiles.Cells[2, i] := FormatDateTime('yyyy-mm-dd hh:mm:ss', df.Date);
@@ -593,6 +597,30 @@ begin
   stvTracks.EndUpdate;
 end;
 
+procedure TfrmMain.actTrackViewExecute(Sender: TObject);
+var
+  FilePath: string;
+  GroupPath: string;
+begin
+  if (stvTracks.Selected <> nil) and not
+    TShellTreeNode(stvTracks.Selected).IsDirectory then
+  begin
+    FilePath := TShellTreeNode(stvTracks.Selected).FullFilename;
+    GroupPath := ExtractFilePath(FilePath);
+    GroupPath := StringReplace(GroupPath, AppConfig.Trackspath, '', [rfIgnoreCase]);
+    GroupPath := StringReplace(GroupPath, '\', '/', [rfIgnoreCase, rfReplaceAll]);
+
+    frmTrackEdit.ReadOnly := True;
+    frmTrackEdit.Edit := False;
+
+    frmTrackEdit.Grouppath := GroupPath;
+    frmTrackEdit.SetTrackInfo(HWLogger.ListTrack(FilePath));
+    frmTrackEdit.ShowModal;
+  end
+  else
+    MessageDlg('Information', 'Kein Track selektiert.', mtWarning, [mbOK], 0);
+end;
+
 procedure TfrmMain.actUploadExecute(Sender: TObject);
 begin
   OpenURL('https://depth.openseamap.org/');
@@ -600,17 +628,25 @@ end;
 
 procedure TfrmMain.actConfigExecute(Sender: TObject);
 var
-  mr, vid: integer;
+  vid: integer;
 begin
   frmLoggerConfig.SetLoggerCFG(HWLogger.LoggerCFG());
   vid := JSONPropStorage1.ReadInteger(VESSEL_ID, 0);
   if (frmLoggerConfig.VesselID = 0) and (vid <> 0) then
     frmLoggerConfig.VesselID := vid;
-  mr := frmLoggerConfig.ShowModal();
-  if mr = mrOk then
+  if frmLoggerConfig.ShowModal() = mrOk then
   begin
-    HWLogger.SetLoggerCFG(frmLoggerConfig.LoggerCFG());
-    HWLogger.Write();
+    frmWait.Show();
+    Application.ProcessMessages;
+    try
+      HWLogger.SetLoggerCFG(frmLoggerConfig.LoggerCFG());
+      HWLogger.Write(frmLoggerConfig.Format, frmLoggerConfig.SDLabel);
+      MessageDlg('Konfiguration',
+        'Die neue Konfiguration wurde auf die Karte geschrieben.', mtInformation,
+        [mbOK], '');
+    finally
+      frmWait.Hide;
+    end;
   end;
 end;
 
@@ -724,38 +760,65 @@ procedure TfrmMain.actNewTrackExecute(Sender: TObject);
 var
   track: TLoggerTrackinfo;
   fn: TStringList;
-  i: integer;
+  fp: TLoggerDataFileArray;
+  i, x, selCount: integer;
   path: string;
 begin
   if sgFiles.Row >= 1 then
   begin
     SyncFrmTrack();
-    if frmTrackEdit.ShowModal = mrOk then
-    begin
-      frmWait.Show();
-      fn := TStringList.Create();
-      try
-        for i := 0 to sgFiles.RowCount - 1 do
+    fn := TStringList.Create();
+    try
+      selCount := 0;
+      for i := 0 to sgFiles.RowCount - 1 do
+      begin
+        if sgFiles.IsCellSelected[0, i] then
         begin
-          if sgFiles.IsCellSelected[0, i] then
-            fn.Add(sgFiles.Cells[0, i]);
+          fn.Add(sgFiles.Cells[0, i]);
+          Inc(selCount);
         end;
-        path := ConcatPaths([AppConfig.Trackspath, frmTrackEdit.Grouppath,
-          frmTrackEdit.Trackname + '.zip']);
-        track := frmTrackEdit.GetTrackinfo;
-        HWLogger.NewTrack(path, fn, track);
-        actTracksReloadExecute(Sender)
-      finally
-        frmWait.Hide();
-        fn.Free();
       end;
+      frmTrackEdit.ReadOnly := False;
+      frmTrackEdit.Edit := False;
+      SetLength(track.Files, selCount);
+      x := 0;
+      for i := 0 to sgFiles.RowCount - 1 do
+      begin
+        if sgFiles.IsCellSelected[0, i] then
+        begin
+          track.Files[x] := FDataFiles[i - 1];
+          Inc(x);
+        end;
+      end;
+      track.VesselID := JSONPropStorage1.ReadInteger(VESSEL_ID, 0);
+      frmTrackEdit.SetTrackInfo(track);
+      if frmTrackEdit.ShowModal = mrOk then
+      begin
+        frmWait.Show();
+        try
+          path := ConcatPaths([AppConfig.Trackspath, frmTrackEdit.Grouppath,
+            frmTrackEdit.Trackname + '.zip']);
+          track := frmTrackEdit.GetTrackinfo;
+          HWLogger.NewTrack(path, fn, track);
+          actTracksReloadExecute(Sender)
+        finally
+          frmWait.Hide();
+        end;
+      end;
+    finally
+      fn.Free();
     end;
   end;
 end;
 
 procedure TfrmMain.actTrackEditExecute(Sender: TObject);
+var
+  ti: TLoggerTrackInfo;
 begin
   SyncFrmTrack();
+  frmTrackEdit.ReadOnly := False;
+  frmTrackEdit.Edit := True;
+
   if frmTrackEdit.ShowModal = mrOk then
     ShowMessage('Nicht implementiert!');
 end;
@@ -888,6 +951,11 @@ begin
   sbMain.Panels[2].Width := size;
 end;
 
+procedure TfrmMain.spHorizontal1Moved(Sender: TObject);
+begin
+  actMapZoomAreaExecute(Sender);
+end;
+
 procedure TfrmMain.stvTracksClick(Sender: TObject);
 begin
   FTrackSelected := True;
@@ -895,6 +963,11 @@ begin
   begin
     actMapShowExecute(Sender);
   end;
+end;
+
+procedure TfrmMain.stvTracksDblClick(Sender: TObject);
+begin
+  actTrackViewExecute(Sender);
 end;
 
 procedure TfrmMain.stvTracksSelectionChanged(Sender: TObject);
@@ -973,14 +1046,14 @@ begin
   timRefreshRoot.Enabled := True;
 end;
 
-procedure TfrmMain.tbMapSportsClick(Sender: TObject);
+procedure TfrmMain.tbMapHabourClick(Sender: TObject);
 begin
-  FSportslayer.Visible := tbMapSports.Down;
+  FHabourlayer.Visible := tbMapHabour.Down;
 end;
 
-procedure TfrmMain.tbMapsSeamarksClick(Sender: TObject);
+procedure TfrmMain.tbMapSeamarksClick(Sender: TObject);
 begin
-  FSeamarkslayer.Visible := tbMapsSeamarks.Down;
+  FSeamarkslayer.Visible := tbMapSeamarks.Down;
 end;
 
 procedure TfrmMain.tbMapDepthClick(Sender: TObject);
@@ -1006,8 +1079,8 @@ procedure TfrmMain.PopulateLayers();
 begin
   RegisterMapProvider('OpenSeaMap Seamarks', ptEPSG3857,
     'https://tiles.openseamap.org/seamark/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
-  RegisterMapProvider('OpenSeaMap Sports', ptEPSG3857,
-    'https://tiles.openseamap.org/sports/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
+  RegisterMapProvider('OpenSeaMap Habour', ptEPSG3857,
+    'https://t1.openseamap.org/habour/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
   RegisterMapProvider('OpenSeaMap Gebco', ptEPSG3857,
     'http://localhost:8580/gebco/tms/%z%/%x%/%y%.png', 0, 19, 3, @GetSvrLetter);
 
@@ -1021,10 +1094,10 @@ begin
   FSeamarkslayer.MapProvider := 'OpenSeaMap Seamarks';
   FSeamarkslayer.DrawMode := idmUseSourceAlpha;
 
-  FSportslayer := MapView1.Layers.Add as TMapLayer;
-  FSportslayer.Visible := False;
-  FSportslayer.MapProvider := 'OpenSeaMap Sports';
-  FSportslayer.DrawMode := idmUseSourceAlpha;
+  FHabourlayer := MapView1.Layers.Add as TMapLayer;
+  FHabourlayer.Visible := False;
+  FHabourlayer.MapProvider := 'OpenSeaMap Habour';
+  FHabourlayer.DrawMode := idmUseSourceAlpha;
 
   FTrackLayer := MapView1.Layers.Add as TMapLayer;
   FTrackLayer.Visible := False;
