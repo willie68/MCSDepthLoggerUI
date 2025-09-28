@@ -1,6 +1,6 @@
 # MCS Depth Logger UI
 
-![Hauptfenster](C:\e-platte\daten\git-sourcen\MCSDepthLoggerUI\documentation\sc01.png)
+![](sc01.png)
 
 Hallo, 
 
@@ -62,6 +62,8 @@ Zunächst aber einmal eine kurze knappe Auflistung von dem, was das Tool so kann
 - ![plus3_ico](plus3_ico.png)**neuer Track:** Alle aktuell markierten Datendateien werden zu einem neuen Track zusammen gefasst.  Siehe: [Track erstellen](#Erstellen)
 
 - ![inbox2_ico](inbox2_ico.png)**zu Track hinzufügen:** fügt die aktuell markierte Datendatei dem Track hinzu und aktualisiert den Gesamttrack. Siehe: [Track hinzufügen](#Daten hinzufügen)
+
+- ![big45_ico](big45_ico.png)**Track anzeigen:** Zeigt den aktuell selektierten Track an.
 
 - ![bin3_ico](bin3_ico.png)**Track löschen:** Löscht, nach Nachfrage, den aktuell markierten Track.
 
@@ -145,11 +147,11 @@ Du kannst mit Hilfe dieses Programm, deine Fahrten als Tracks verwalten. Da der 
 
 Um einen neuen Track zu erzeugen, markiere die Datendateien, die du gerne zusammenfassen möchtest und drücke auf `neuen Track erzeugen`![plus3_ico](plus3_ico.png)Keine Sorge, wenn du mal eine Datei vergessen hast. Diese kannst du später immer noch hinzufügen.
 
-![new Track](sc04_newtrack.png)
+![](sc04_newtrack.png)
 
 Gib jetzt die erforderlichen Daten ein. 
 
-Die **Gruppe** ist dabei das Verzeichnis (ab dem Trackdatenverzeichniss), wo die Datei abgelegt werden soll. Möchtest du eine neue Gruppe anlegen, gibt einfach in dem Feld Gruppe den neuen Namen an. Für die hierarchische Unterteilung verwende bitte / oder \. 
+Die **Gruppe** ist dabei das Verzeichnis (ab dem Trackdatenverzeichnis), wo die Datei abgelegt werden soll. Möchtest du eine neue Gruppe anlegen, gibt einfach in dem Feld Gruppe den neuen Namen an. Für die hierarchische Unterteilung verwende bitte / oder \. 
 
 **Name** gibt den Tracknamen an, und ist auch gleichzeitig der Dateiname. 
 
