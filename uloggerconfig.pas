@@ -128,7 +128,7 @@ begin
   cbGyro.Checked := True;
   cbSupply.Checked := False;
   sedVesselID.Value := FLoggerConfig.VesselID;
-  edLabel.Text := '';
+  edLabel.Text := 'OSML_00001';
   cbFormat.Checked := False;
 end;
 
@@ -141,6 +141,7 @@ begin
       cbFormat.Checked:= false;
     end;
   end;
+  edLabel.Enabled:=cbFormat.Checked;
 end;
 
 procedure TFrmLoggerConfig.FormShow(Sender: TObject);
@@ -151,7 +152,7 @@ begin
   cbGyro.Checked := FLoggerConfig.Gyro;
   cbSupply.Checked := FLoggerConfig.Supply;
   sedVesselID.Value := FLoggerConfig.VesselID;
-  edLabel.Text := '';
+  edLabel.Text := 'OSML_00001';
   cbFormat.Checked := False;
 end;
 

@@ -7442,32 +7442,34 @@ object frmLoggerConfig: TfrmLoggerConfig
       ClientWidth = 331
       TabOrder = 5
       object cbFormat: TCheckBox
-        Left = 13
+        Left = 9
         Height = 24
         Hint = 'formatiert die SD Karte mit FAT32 neu. ACHTUNG: Datenverlust'
-        Top = 32
+        Top = 0
         Width = 161
         Caption = 'SD Karte formatieren'
         TabOrder = 1
         OnChange = cbFormatChange
       end
       object Label9: TLabel
-        Left = 13
+        Left = 9
         Height = 20
-        Top = 2
+        Top = 34
         Width = 76
         Caption = 'Kartenlabel'
       end
       object edLabel: TEdit
-        Left = 96
+        Left = 92
         Height = 28
         Hint = 'neues Label für die SD Karte'
-        Top = 0
+        Top = 32
         Width = 224
         Anchors = [akTop, akLeft, akRight]
         CharCase = ecUppercase
+        Enabled = False
         MaxLength = 11
         TabOrder = 0
+        Text = 'OSML_00001'
       end
     end
   end

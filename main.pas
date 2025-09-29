@@ -638,12 +638,16 @@ begin
   begin
     frmWait.Show();
     Application.ProcessMessages;
+    if frmLoggerConfig.Format then
+    begin
+      HWLogger.InitCard(frmLoggerConfig.SDLabel);
+    end;
     try
       HWLogger.SetLoggerCFG(frmLoggerConfig.LoggerCFG());
-      HWLogger.Write(frmLoggerConfig.Format, frmLoggerConfig.SDLabel);
+      HWLogger.Write();
       MessageDlg('Konfiguration',
-        'Die neue Konfiguration wurde auf die Karte geschrieben.', mtInformation,
-        [mbOK], '');
+        'Die neue Konfiguration wurde auf die Karte geschrieben.',
+        mtInformation, [mbOK], '');
     finally
       frmWait.Hide;
     end;
