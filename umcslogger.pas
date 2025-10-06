@@ -90,15 +90,16 @@ type
     FLastError: string;
     FHasError: boolean;
     function GetLastError: string;
-    procedure InitCard(root: string);
+    procedure Init(root: string);
     procedure ScanFolder();
     procedure HasCfg();
   public
     constructor Create();
     destructor Destroy(); override;
     function Version(): string;
+    procedure InitCard(sdlabel: string);
     procedure Read();
-    procedure Write(Format: boolean; SDLabel: string);
+    procedure Write();
     function LoggerCFG(): TLoggerConfig;
     procedure SetLoggerCFG(newcfg: TLoggerConfig);
     function Check(filename: string): TLoggerCheckResult;
@@ -113,7 +114,7 @@ type
     function ListTrack(track: string): TLoggerTrackInfo;
   published
     property IsLoggerCard: boolean read FLoggerCard;
-    property SDRoot: string read FRootpath write InitCard;
+    property SDRoot: string read FRootpath write Init;
     property DataFileCount: integer read FDataFileCount;
     property DataFiles: TLoggerDataFileArray read FDataFiles;
     property LastError: string read GetLastError;
@@ -212,7 +213,7 @@ begin
 end;
 
 {Writing the actual configuration to the sd card }
-procedure TMCSLogger.Write(Format: boolean; SDLabel: string);
+procedure TMCSLogger.Write();
 var
   Output: string;
   Data: TJSONData;
@@ -236,15 +237,6 @@ begin
   begin
     AddParam(params, '--vesselid');
     AddParam(params, IntToStr(FCfg.VesselID));
-  end;
-  if SDLabel <> '' then
-  begin
-    AddParam(params, '--sdlabel');
-    AddParam(params, SDLabel);
-  end;
-  if Format then
-  begin
-    AddParam(params, '--sdformat');
   end;
 
   if RunCommand('osml', params, Output, [poNoConsole]) then
@@ -271,7 +263,50 @@ begin
       mtError, [mbOK], 0);
 end;
 
-procedure TMCSLogger.InitCard(root: string);
+procedure TMCSLogger.InitCard(sdlabel: string);
+var
+  Output: string;
+  Data: TJSONData;
+  Obj: TJSONObject;
+  params: TProcessStringArray;
+begin
+  SetLength(params, 5);
+  params[0] := 'logger';
+  params[1] := 'init';
+  params[2] := '-s';
+  params[3] := FRootpath;
+  params[4] := '--json';
+  if SDLabel <> '' then
+  begin
+    AddParam(params, '--sdlabel');
+    AddParam(params, SDLabel);
+  end;
+
+  if RunCommand('osml', params, Output, [poNoConsole]) then
+  begin
+    DebugWriteJsonOutput(Output);
+    Data := GetJSON(Output);
+    try
+      if Data.JSONType = jtObject then
+      begin
+        Obj := TJSONObject(Data);
+        FCfg.baudA := Obj.Get('baudA', 0);
+        FCfg.baudB := Obj.Get('baudB', 0);
+        FCfg.SeaTalk := Obj.Get('seatalk', False);
+        FCfg.Gyro := Obj.Get('gyro', False);
+        FCfg.Supply := Obj.Get('supply', False);
+        FCfg.VesselID := Obj.Get('vesselID', 0);
+      end;
+    finally
+      Data.Free;
+    end;
+  end
+  else
+    MessageDlg('Bitte überprüfe die SD Karte!' + sLineBreak + sLineBreak + Output,
+      mtError, [mbOK], 0);
+end;
+
+procedure TMCSLogger.Init(root: string);
 begin
   FRootpath := root;
   HasCfg();
