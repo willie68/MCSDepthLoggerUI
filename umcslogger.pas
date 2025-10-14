@@ -10,6 +10,12 @@ uses
 type
   TProcessStringArray = array of TProcessString;
 
+  TOSMLVersion = record
+    Version: string;
+    Commit: string;
+    Date: TDateTime;
+  end;
+
   TLoggerConfig = record
     BaudA: integer;
     BaudB: integer;
@@ -156,7 +162,8 @@ implementation
 
 { TMCSLogger }
 uses
-  LCLProc, Dialogs, FileUtil, DateUtils, LazFileUtils, MCSIO, uconst;
+  LCLProc, Dialogs, FileUtil, DateUtils, LazFileUtils, MCSIO, uconst,
+  fpjson.helper, fpjsonrtti;
 
 procedure CreateMCSLogger();
 begin
@@ -167,9 +174,27 @@ end;
 function TMCSLogger.Version(): string;
 var
   Output: string;
+  Data: TJSONData;
+  ver: TOSMLVersion;
+  Obj: TJSONObject;
 begin
   if RunCommand('osml', ['version', '--json'], Output, [poNoConsole]) then
-    Result := Output
+  begin
+    DebugWriteJsonOutput(Output);
+    Data := GetJSON(Output);
+    try
+      if Data.JSONType = jtObject then
+      begin
+        Obj := TJSONObject(Data);
+        ver.Version := Obj.Get('version', '');
+        ver.Commit := Obj.Get('commit', '');
+        ver.Date := Obj.Get('date', Now);
+      end;
+    finally
+      Data.Free;
+    end;
+    Result := ver.Version; // + ' (' + FormatDateTime('dd.mm.yy hh:mm', ver.Date) + ')';
+  end
   else
     Result := '';
 end;
@@ -937,7 +962,8 @@ begin
                 FileObj := FilesArray.Objects[i];
                 Result.Files[i].Filename := FileObj.Get('file_name', '');
                 Result.Files[i].Size := FileObj.Get('size', -1);
-                Result.Files[i].Date := ISO8601ToDate(FileObj.Get('modified', '1970-01-01T00:00:00+00:00'));
+                Result.Files[i].Date :=
+                  ISO8601ToDate(FileObj.Get('modified', '1970-01-01T00:00:00+00:00'));
               end;
             end;
           except

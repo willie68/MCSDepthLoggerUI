@@ -12,7 +12,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, lazcontrols, tachartlazaruspkg, main, uPreferences, uloggerconfig,
   MCSAbout, ufsinfo, umcslogger, uconst, usdcardimages, uwait, ugomapproxy,
-  utilecacheutils, utrackedit, uEditor, ufrmexport;
+  utilecacheutils, utrackedit, uEditor, ufrmexport, fpjson.helper;
 
 {$R *.res}
 

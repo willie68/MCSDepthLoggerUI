@@ -718,6 +718,8 @@ end;
 
 procedure TfrmMain.actAboutExecute(Sender: TObject);
 begin
+  Infobox.Label7.Caption := 'osmltools version: ' + HWLogger.Version();
+  Infobox.Label7.Visible := true;
   Infobox.ShowModal;
 end;
 
